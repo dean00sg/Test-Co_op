@@ -68,10 +68,34 @@ async def get_latest_user_login_logout(
         LogUserLogin.action_name == "Logout"
     ).order_by(LogUserLogin.login_datetime.desc()).first()
 
-    # Prepare the response dictionary
-    response = {
-        "latest_login": latest_login,
-        "latest_logout": latest_logout
-    }
+    # Prepare the response dictionary based on the ID ordering
+    response = {}
+    
+    if latest_login and latest_logout:
+        if latest_login.id < latest_logout.id:
+            response = {
+                "latest_login": latest_login,
+                "latest_logout": latest_logout
+            }
+        else:
+            response = {
+                "latest_logout": latest_logout,
+                "latest_login": latest_login
+            }
+    elif latest_login:
+        response = {
+            "latest_login": latest_login,
+            "latest_logout": None
+        }
+    elif latest_logout:
+        response = {
+            "latest_logout": latest_logout,
+            "latest_login": None
+        }
+    else:
+        response = {
+            "latest_login": None,
+            "latest_logout": None
+        }
 
     return response
