@@ -67,7 +67,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     
     return username
 
-async def get_current_user_role(token: str = Depends(oauth2_scheme)) -> str:
+async def get_current_user_admin(token: str = Depends(oauth2_scheme)) -> str:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -82,6 +82,26 @@ async def get_current_user_role(token: str = Depends(oauth2_scheme)) -> str:
         raise credentials_exception
     
     if role != "admin":
+        raise HTTPException(status_code=403, detail="Insufficient permissions")
+    
+    return role
+
+
+async def get_current_user_developer(token: str = Depends(oauth2_scheme)) -> str:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = auth_handler.decode_access_token(token)
+        role: str = payload.get("role")
+        if role is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    
+    if role != "developer":
         raise HTTPException(status_code=403, detail="Insufficient permissions")
     
     return role

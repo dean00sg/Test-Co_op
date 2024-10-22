@@ -1,6 +1,7 @@
+
 from datetime import datetime
 from pydantic import BaseModel, EmailStr, Field
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, LargeBinary, String
 from sqlalchemy.orm import relationship
 from deps import Base
 from typing import List, Optional
@@ -9,17 +10,41 @@ class UserProfile(Base):
     __tablename__ = 'Userprofiles'
 
     user_id = Column(Integer, primary_key=True, index=True)
+    image_profile = Column(LargeBinary, nullable=True)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
     contact_number = Column(String, nullable=False)
     password = Column(String, nullable=False)
-    role = Column(String, default="userpets")  
-    
-    # Relationship to Pet model
-    # pets = relationship("Pet", back_populates="owner")
+    role = Column(String, default="user")  
 
 
+class LogUserProfile(Base):
+    __tablename__ = 'log_Userprofiles'
+
+    id = Column(Integer, primary_key=True, index=True)
+    action_name = Column(String, nullable=False)
+    action_datetime = Column(DateTime, default=lambda: datetime.now().replace(microsecond=0)) 
+    user_id = Column(Integer, nullable=False)
+    image_profile = Column(LargeBinary, nullable=True)
+    to_image_profile = Column(LargeBinary, nullable=True)
+
+    first_name = Column(String, nullable=True)
+    to_first_name = Column(String, nullable=True)
+
+    last_name = Column(String, nullable=True)
+    to_last_name = Column(String, nullable=True)
+
+    email = Column(String, nullable=True)
+    to_email = Column(String, nullable=True)
+
+    contact_number = Column(String, nullable=True)
+    to_contact_number = Column(String, nullable=True)
+
+    password = Column(String, nullable=True)
+    to_password = Column(String, nullable=True)
+
+    role = Column(String, default="user")
 
 
 class LogUserLogin(Base):
@@ -37,68 +62,48 @@ class LogUserLogin(Base):
     role = Column(String, nullable=False)
 
 
-class LogUserProfile(Base):
-    __tablename__ = 'log_Userprofiles'
 
-    id = Column(Integer, primary_key=True, index=True)
-    action_name = Column(String, nullable=False)
-    action_datetime =Column(DateTime, default=lambda: datetime.now().replace(microsecond=0)) 
-    user_id = Column(Integer, nullable=False)
 
-    first_name = Column(String, nullable=True)
-    to_first_name = Column(String, nullable=True)
+class UserLogin(BaseModel):
+    id:int
+    action_name: str
+    login_datetime: datetime
+    first_name: str
+    last_name: str
+    email: str
+    role: str
 
-    last_name = Column(String, nullable=True)
-    to_last_name = Column(String, nullable=True)
-
-    email = Column(String, nullable=True)
-    to_email = Column(String, nullable=True)
-
-    contact_number = Column(String, nullable=True)
-    to_contact_number = Column(String, nullable=True)
-
-    password = Column(String, nullable=True)
-    to_password = Column(String, nullable=True)
-
-    role = Column(String, default="userpets")
-   
+    class Config:
+        orm_mode = True
 
 
 class UserCreate(BaseModel):
+    image_profile: bytes
     first_name: str
     last_name: str
     email: EmailStr
     contact_number: str
     password: str
-    role: str = Field(default="userpets")
+    role: str = Field(default="user")
+
 
 class UserUpdatePassword(BaseModel):
     password: Optional[str] = None
- 
 
 
 class UserUpdateProfile(BaseModel):
+    image_profile: Optional[bytes] = None
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     contact_number: Optional[str] = None
 
 
-
-
-class DeleteResponse(BaseModel):
-    status: str
-    id: int
-    first_name: str
-    last_name: str
-    email: EmailStr
-    contact_number: str
-    role: str
-
 class Login(BaseModel):
     email: str
     password: str
 
-class UpdateUserResponse(BaseModel):
+
+class UserResponse(BaseModel):
     status: str
     user_id: int
     first_name: str
@@ -108,7 +113,7 @@ class UpdateUserResponse(BaseModel):
     role: str
 
     class Config:
-        orm_mode = True 
+        orm_mode = True
 
 
 class GetUserProfile(BaseModel):
@@ -120,8 +125,8 @@ class GetUserProfile(BaseModel):
     role: str
 
     class Config:
-        orm_mode = True 
-        
+        orm_mode = True
+
 
 class UserAuthen(BaseModel):
     user_id: int
@@ -129,6 +134,6 @@ class UserAuthen(BaseModel):
     last_name: str
     email: EmailStr
     contact_number: str
-    
+
     class Config:
-        orm_mode = True  
+        orm_mode = True
