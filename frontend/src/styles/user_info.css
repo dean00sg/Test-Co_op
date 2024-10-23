@@ -1,0 +1,40 @@
+/* UserInfo.css */
+.user-info {
+    background-color: #37AEE2; /* สีพื้นหลัง */
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center; /* จัดให้อยู่ตรงกลางในแนวนอน */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+  }
+  
+  .user-details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px; /* เว้นระยะห่างจากรูป */
+  }
+  
+  .user-details img {
+    width: 80px; /* ขนาดไอคอนรูปโปรไฟล์ */
+    height: 80px;
+    border-radius: 50%; /* ทำให้รูปเป็นวงกลม */
+  }
+  
+  .user-details p {
+    margin: 5px 0;
+    font-size: 16px; /* ขนาดของข้อความ */
+  }
+  
+  .user-details p:first-child {
+    font-weight: bold; /* ชื่อเป็นตัวหนา */
+    font-size: 18px; /* ขนาดใหญ่กว่าข้อความอื่นเล็กน้อย */
+  }
+  
+  .user-details p:last-child {
+    font-size: 14px; /* ข้อความอีเมลขนาดเล็กกว่า */
+  }
+  

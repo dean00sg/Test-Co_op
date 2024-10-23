@@ -1,0 +1,63 @@
+/* General styles */
+
+  
+   .rightHome-section, .leftHome-section {
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px; /* Moved this here to avoid duplication */
+    box-shadow: 0 4px 8px rgba(0, 0, 1, 0.1);
+  }
+  
+
+  
+  .leftHome-section {
+    width: 60%;
+    margin: 30px 15px 10px; /* Combine margin properties for clarity */
+    background-color: rgb(232, 245, 245);
+  }
+  
+  .rightHome-section {
+    width: 30%;
+    margin: 30px 15px 10px; /* Combine margin properties for clarity */
+    background-color: rgb(232, 245, 245);
+  }
+  
+  /* Menu item styles */
+  .menu-item img {
+    width: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .menu-item p {
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 55px;
+    margin-bottom: 5px;
+    margin-left: 20px;
+  }
+  
+  /* Responsive styles for mobile */
+  @media (max-width: 768px) {
+    .app {
+      display: flex; /* Ensure .app uses flexbox */
+      flex-direction: column; /* Stack sections vertically on mobile */
+      align-items: center; /* Center items horizontally */
+      text-align: center; /* Optional: center text */
+    }
+  
+  
+    .leftHome-section, .rightHome-section {
+      width: 80%; /* Full width on mobile */
+      margin-left: 0; /* Remove left margin */
+      margin-right: 0; /* Remove right margin */
+      margin-bottom: 10px; /* Add bottom margin for spacing */
+    }
+  
+    /* Optional: Adjust header size for mobile */
+    h1 {
+      font-size: 40px; /* Example adjustment */
+    }
+  }
+  

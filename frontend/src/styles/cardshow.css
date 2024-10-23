@@ -1,0 +1,130 @@
+/* General styles */
+.card-carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.card-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    max-width: 90vw;
+    overflow-x: auto;
+}
+
+.card {
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 340px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+/* Change image to a square */
+.card-image {
+    width: 100%; /* Ensure it takes full width */
+    height: 150px; /* Set a fixed height for the image container */
+    overflow: hidden; /* Hide overflow to maintain shape */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center image vertically */
+    margin-bottom: 15px; /* Space between image and content */
+}
+
+.card-image img {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Cover the entire area of the container */
+    border-radius: 10px; /* Optional: Round corners slightly */
+}
+
+.card-content h3 {
+    font-size: 1.2rem;
+    margin: 10px 0; /* Adjusted margin for spacing */
+    color: #333;
+}
+
+.card-content p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.view-more-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.view-more-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Carousel controls */
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.prev-btn, .next-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #007bff;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;
+    }
+
+    .prev-btn, .next-btn {
+        display: none;
+    }
+}
+
+.open-link-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem; /* ปรับขนาดไอคอน */
+    color: #007bff;
+    padding: 5px;
+    transition: color 0.3s ease;
+}
+
+.open-link-btn:hover {
+    color: #0056b3; /* เปลี่ยนสีเมื่อ hover */
+}
+
+/* Container สำหรับไอคอน */
+.link-container {
+    display: flex;              /* ใช้ flexbox ในการจัดการ */
+    justify-content: flex-end;  /* จัดชิดขอบขวา */
+    margin-top: auto;          /* ดันให้ไปอยู่ด้านล่างสุด */
+}
+
+/* ทำให้แน่ใจว่าไอคอนจัดตำแหน่งได้ดี */
+.open-link-btn i {
+    vertical-align: middle; /* จัดไอคอนให้แนวตั้ง */
+}

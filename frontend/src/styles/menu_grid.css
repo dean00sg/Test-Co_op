@@ -1,0 +1,84 @@
+/* MenuGrid.css */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* สร้างกริด 3 คอลัมน์ */
+  gap: 18px;
+  padding: 20px;
+}
+.fa-2x {
+  font-size: 4em;
+}
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(1, 1, 1, 0.1);
+  padding: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* สีแต่ละการ์ดตามรูป */
+.menu-item:nth-child(1) {
+  background-color: rgb(69, 178, 221); /* สีน้ำเงินเข้ม */
+}
+
+.menu-item:nth-child(2) {
+  background-color: #b300b0; /* สีฟ้าสด */
+}
+
+.menu-item:nth-child(3) {
+  background-color: #28B78D; /* สีเขียวเข้ม */
+}
+
+.menu-item:nth-child(4) {
+  background-color: #1796C5; /* สีฟ้าอ่อน */
+}
+
+.menu-item:nth-child(5) {
+  background-color: #28B78D; /* สีเขียวเข้ม */
+}
+
+.menu-item:nth-child(6) {
+  background-color: #007FB3; /* สีฟ้าสด */
+}
+
+.menu-item:nth-child(7) {
+  background-color: #28B78D; /* สีเขียวเข้ม */
+}
+
+.menu-item:nth-child(8) {
+  background-color: #28B78D; /* สีเขียวเข้ม */
+}
+
+.menu-item:hover {
+  filter: brightness(1.1); /* ทำให้สว่างขึ้นเมื่อ hover */
+}
+
+.menu-item svg {
+  color: #ffffff; /* สีของไอคอนเป็นสีขาว */
+  margin-bottom: 10px;
+}
+
+.menu-item p {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff; /* สีข้อความเป็นสีขาว */
+  margin: 0;
+  text-align: center;
+}
+
+/* การจัดการสำหรับขนาดจอเล็ก */
+@media (max-width: 768px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr); /* แสดงเป็น 2 คอลัมน์เมื่อจอเล็กลง */
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-grid {
+    grid-template-columns: 1fr; /* แสดงเป็น 1 คอลัมน์เมื่อจอเล็กสุด */
+  }
+}

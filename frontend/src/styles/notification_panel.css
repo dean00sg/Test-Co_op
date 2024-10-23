@@ -1,0 +1,44 @@
+/* NotificationPanel.css */
+.notification-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: white; /* สีพื้นหลังขาวอมเทา */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เงา */
+  }
+  
+  .notification-item {
+    display: flex;
+    align-items: center;
+    background-color: #28B78D; /* สีพื้นหลังเขียว */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เงา */
+    color: white;
+  }
+  
+  .notification-item img {
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+  }
+  
+  .notification-item p {
+    font-size: 12px;
+    margin: 0;
+  }
+  
+  .ad-panel {
+    margin-top: 20px;
+  }
+  
+  .ad-panel img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  p {
+    
+    color: white;
+  }

@@ -1,0 +1,173 @@
+/* Header styles */
+.header {
+    display: grid;
+    grid-template-columns: 0.8fr 1.1fr; /* Two equal columns */
+    align-items: center; /* Align items vertically */
+    background-color: rgb(21, 131, 209); /* Set background color (light gray or any color you prefer) */
+    box-shadow: 0 px 4px rgba(0, 0, 1, 0.1); /* Optional: add a shadow for depth */
+
+}
+
+
+
+h1 {
+    font-size: 55px; /* ขนาดฟอนต์ */
+    margin-left: 20px; /* ระยะห่างจากด้านซ้าย */
+    font-weight: bold; /* หนักของฟอนต์ */
+    color: white; /* สีฟอนต์ (สามารถปรับได้ตามที่ต้องการ) */
+}
+h11 {
+    font-size: 55px; /* ขนาดฟอนต์ */
+    margin-left: 20px; /* ระยะห่างจากด้านซ้าย */
+    font-weight: bold; /* หนักของฟอนต์ */
+    color:rgb(9, 104, 171); /* สีฟอนต์ (สามารถปรับได้ตามที่ต้องการ) */
+}
+  
+  .row {
+    margin-bottom: 10px; /* Space between rows */
+  }
+  .search-container {
+    box-shadow: 0 4px 8px rgba(0, 0, 1, 0.1); /* Shadow around the search container */
+    border-radius: 4px; /* Rounded corners */
+    padding: 15px; /* Padding inside the container */
+    display: flex; /* Align items horizontally */
+    align-items: center; /* Center items vertically */
+    margin-right: 10px;
+    margin-left: 10px;
+    background-color: white; /* Set a background color to make the shadow visible */
+  }
+  
+
+
+  .search-bar {
+    display: flex;
+    justify-content: flex-end; /* Align search bar to the right */
+    align-items: center;
+    width: 100%; /* Full width */
+  }
+  
+  .search-bar input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 5px;
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Include padding and border in the width */
+  }
+  
+  .search-bar button {
+    padding: 10px; /* Increased padding for better appearance */
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Added shadow for button */
+    display: flex; /* Center the icon */
+    align-items: center;
+    margin-right: 10px;
+  }
+  
+  .search-bar button:hover {
+    background-color: #0056b3;
+    flex-shrink: 0; /* Prevent button from shrinking */
+    
+  }
+  
+  /* Icon styles */
+  .search-bar .icon {
+    margin-left: 5px; /* Space between text and icon */
+    font-size: 18px; /* Size of the icon */
+  }
+  
+  /* Responsive for smaller screens */
+  @media (max-width: 768px) {
+    .header {
+      grid-template-columns: 1fr; /* Stack elements vertically */
+      text-align: center; /* Center align for mobile */
+    }
+  
+    .search-bar {
+      justify-content: center; /* Center search bar */
+    }
+  }
+  
+  /* Content styles */
+  .content {
+    display: grid;
+    grid-template-columns: 1fr; /* Display content in columns */
+    padding: 20px;
+  }
+  
+  .slideShowText {
+    font-size: 16px;
+    overflow: hidden; /* Ensure text stays within container */
+    white-space: nowrap; /* Prevent text wrapping */
+  
+    padding: 10px; /* Add some padding for better presentation */
+    display: flex; /* Use flex to keep text flowing continuously */
+    align-items: center; /* Vertically align text */
+    box-shadow: 0 8px 16px rgba(1, 1, 1, 0.2); /* Enhanced shadow for slideShowText */
+  }
+  
+  .slideShowText span {
+    display: inline-block;
+    white-space: nowrap; /* Keep text in one line */
+    padding-left: 100%; /* Initial padding before text starts sliding */
+    animation: slide 40s linear infinite; /* Slow sliding animation */
+  }
+
+
+  .navbar {
+    background-color:  rgb(107, 165, 206);/* Dark background for navbar */
+    padding: 5px;
+  }
+
+  .navbarup {
+    background-color:  rgb(107, 165, 206);/* Dark background for navbar */
+    padding: 5px;
+  }
+  .navbardown {
+    background-color:  rgb(107, 165, 206);/* Dark background for navbar */
+    padding: 5px;
+  }
+  
+  .navbar-list {
+    list-style: none;
+    display: flex; /* Arrange items in a row */
+    justify-content: flex-end; /* Align items to the right */
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar-list li {
+    margin: 0 3px; /* Horizontal margin for list items */
+    border: 2px solid white; /* White border around each list item */
+    padding: 5px 10px; /* Padding inside the list item */
+  }
+  
+  .navbar-list a {
+    color: white; /* White text for links */
+    text-decoration: none;
+    display: block; /* Make the link fill the entire li */
+    font-size: 12px;
+  }
+  
+  .navbar-list a:hover {
+    text-decoration: underline; /* Underline links on hover */
+    background-color: rgba(255, 255, 255, 0.1); /* Light background on hover */
+  }
+  
+  
+  /* Adjust sliding animation */
+  @keyframes slide {
+    0% {
+      transform: translateX(0); /* Start from the right */
+    }
+    100% {
+      transform: translateX(-100%); /* Slide to the left, no gap */
+    }
+  }
+  

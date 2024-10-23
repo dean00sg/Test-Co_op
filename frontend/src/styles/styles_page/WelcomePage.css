@@ -1,0 +1,221 @@
+
+  
+   .rightWelcome-section, .leftWelcome-section {
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px; /* Moved this here to avoid duplication */
+    box-shadow: 0 4px 8px rgba(0, 0, 1, 0.1);
+  }
+  
+  
+  .leftWelcome-section {
+    width: 70%;
+    margin: 30px 15px 10px; /* Combine margin properties for clarity */
+    background-color: rgb(232, 245, 245);
+  }
+  
+  .rightWelcome-section {
+    width: 20%;
+    margin: 30px 15px 10px; /* Combine margin properties for clarity */
+    background-color: rgb(107, 165, 206);
+  }
+  
+  /* Menu item styles */
+  .menu-item img {
+    width: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .menu-item p {
+    font-size: 14px;
+  }
+  .image-text-container {
+    display: flex;
+    align-items: center; /* จัดให้อยู่ตรงกลางในแนวตั้ง */
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: rgb(21, 131, 209);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(20, 10, 1, 0.1);
+ 
+  }
+  .text-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px; /* เพิ่ม padding เพื่อให้ข้อความไม่ติดขอบ */
+    background:linear-gradient(135deg, #edf0f3, #3099c3);;
+    border-radius: 10px; /* ทำให้มีมุมโค้งมน */
+    box-shadow: 0px 10px 20px rgba(0, 0, 1, 0.2); /* เพิ่มเงาให้ดูเด่นขึ้น */
+    color: white;
+    transition: transform 0.3s ease; /* เพิ่ม effect hover */
+  }
+  
+  .text-container:hover {
+    transform: scale(1.05); /* ขยายขนาดเล็กน้อยเมื่อ hover */
+  }
+  
+  h {
+    font-size: 28px;
+    font-weight: bold;
+    color: rgb(21, 131, 209);
+    margin-bottom: 10px; /* เพิ่มช่องว่างด้านล่างหัวข้อ */
+    /* text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);  */
+  }
+  
+  ha {
+    font-size: 18px;
+    line-height: 1.5; /* เพิ่มระยะห่างระหว่างบรรทัดเพื่อให้อ่านง่ายขึ้น */
+    color: #9a9da1; /* ใช้สีข้อความที่อ่อนกว่าเพื่อความคมชัด */
+    margin: 0;
+  }
+  
+
+  .logo-image {
+    width: 150px; /* ปรับขนาดรูปภาพ */
+    height: auto;
+    margin-right: 20px; /* เพิ่มช่องว่างระหว่างรูปและข้อความ */
+    margin-left: 15px;
+  }
+  
+
+  
+  
+  /* Responsive styles for mobile */
+  @media (max-width: 768px) {
+    .app {
+      display: flex; /* Ensure .app uses flexbox */
+      flex-direction: column; /* Stack sections vertically on mobile */
+      align-items: center; /* Center items horizontally */
+      text-align: center; /* Optional: center text */
+    }
+  
+  
+    .leftWelcome-section,  .rightWelcome-section {
+      width: 80%; /* Full width on mobile */
+      margin-left: 0; /* Remove left margin */
+      margin-right: 0; /* Remove right margin */
+      margin-bottom: 10px; /* Add bottom margin for spacing */
+    }
+  
+    /* Optional: Adjust header size for mobile */
+    h1 {
+      font-size: 40px; /* Example adjustment */
+    }
+  }
+  
+
+  .rightWelcome-section, .leftWelcome-section {
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px; /* Avoid duplication */
+    box-shadow: 0 4px 8px rgba(0, 0, 1, 0.1);
+  }
+  
+  .leftWelcome-section {
+    width: 70%;
+    margin: 30px 15px 10px; /* Combine margin properties for clarity */
+    background-color: rgb(232, 245, 245);
+  }
+  
+  .rightWelcome-section {
+    width: 20%;
+    margin: 30px 15px 10px; /* Combine margin properties for clarity */
+    background-color: rgb(107, 165, 206);
+  }
+  
+  /* Menu item styles */
+  .menu-item img {
+    width: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .menu-item p {
+    font-size: 14px;
+  }
+  
+  .image-text-container {
+    display: flex;
+    align-items: center; /* Center vertically */
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: rgb(21, 131, 209);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(20, 10, 1, 0.1);
+  }
+  
+  .text-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px; /* Add padding for better spacing */
+    background: linear-gradient(135deg, #edf0f3, #a3cede);
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 10px 20px rgba(0, 0, 1, 0.2); /* Enhanced shadow */
+    color: white;
+    transition: transform 0.3s ease; /* Hover effect */
+  }
+  
+  .text-container:hover {
+    transform: scale(1.05); /* Slightly scale on hover */
+  }
+  
+  h {
+    font-size: 28px;
+    font-weight: bold;
+    color: rgb(21, 131, 209);
+    margin-bottom: 10px; /* Space below heading */
+  }
+  
+  ha {
+    font-size: 18px;
+    line-height: 1.5; /* Improved line spacing */
+    color: #9a9da1; /* Softer text color for contrast */
+    margin: 0;
+  }
+  
+  .logo-image {
+    width: 150px; /* Logo size */
+    height: auto;
+    margin-right: 20px; /* Space between image and text */
+    margin-left: 15px;
+  }
+  
+  /* Video container styles */
+  .video-container {
+    margin-top: 20px; /* Space above the video */
+    display: flex; /* Center video horizontally */
+    justify-content: center; /* Center video */
+  }
+  
+  iframe {
+    width: 100%; /* Responsive width */
+    max-width: 560px; /* Maximum width */
+    height: 315px; /* Fixed height for consistency */
+    border: none; /* Remove default border */
+  }
+  
+  /* Responsive styles for mobile */
+  @media (max-width: 768px) {
+    .app {
+      display: flex; /* Flexbox for layout */
+      flex-direction: column; /* Stack vertically */
+      align-items: center; /* Center items horizontally */
+      text-align: center; /* Center text */
+    }
+  
+    .leftWelcome-section, .rightWelcome-section {
+      width: 80%; /* Full width on mobile */
+      margin-left: 0; /* Remove left margin */
+      margin-right: 0; /* Remove right margin */
+      margin-bottom: 10px; /* Bottom margin for spacing */
+    }
+  
+    /* Adjust header size for mobile */
+    h1 {
+      font-size: 40px; /* Adjust heading size */
+    }
+  
+    h2 {
+      font-size: 16px; /* Adjust subheading size */
+    }
+  }
+  

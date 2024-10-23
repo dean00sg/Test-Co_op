@@ -1,0 +1,48 @@
+.TapBar-panel {
+    background-color: #eaeaea; /* Light grey background */
+    text-align: center;
+  }
+  
+  .panel-title {
+    font-size: 24px;
+    color: #1666a5; /* Dark blue color */
+    margin-bottom: 20px;
+  }
+  
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .TapBar-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  .TapBar-item .icon {
+    margin-right: 10px;
+    font-size: 16px;
+  }
+  .TapBar-item img {
+    margin-right: 10px;
+  }
+  
+  .dark-blue {
+    background-color: #0d3b66; /* Dark blue button */
+  }
+  
+  .light-blue {
+    background-color: #4a90e2; /* Light blue button */
+  }
+  
+  .green {
+    background-color: #21a674; /* Green button */
+  }
+  
