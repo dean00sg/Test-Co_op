@@ -51,7 +51,7 @@
 .user-card {
     display: flex; /* Use flexbox to arrange items in a row */
     align-items: center; /* Center items vertically */
-    background-color: #28B78D; /* Background color for the card */
+    background-color: #37AEE2; /* Background color for the card */
     border-radius: 8px; /* Rounded corners */
     padding: 20px; /* Padding inside the card */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */

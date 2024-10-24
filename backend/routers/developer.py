@@ -1,12 +1,13 @@
 from datetime import datetime
 from io import BytesIO
 from typing import Dict, List, Optional
-from fastapi import APIRouter, File, HTTPException, Depends, Form, UploadFile
+from fastapi import APIRouter, File, HTTPException, Depends, Form, UploadFile,status
 from fastapi.responses import StreamingResponse
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
+from models.news import LogNewsUpdate, News, NewsResponse, NewsStatus, NewsStatusUpdate, NewsUpdate
 from deps import get_session
-from security import AuthHandler, get_current_user_developer
+from security import AuthHandler, get_current_user, get_current_user_developer
 from models.user import  LogUserLogin, LogUserProfile, UserLogin, UserProfile, UserResponse
 
 router = APIRouter(tags=["Developer"])
@@ -124,3 +125,54 @@ async def get_latest_user_login_logout(
         }
 
     return response
+
+
+from fastapi import HTTPException, status
+
+@router.put("/news/{news_id}", response_model=NewsResponse)
+def update_news(
+    news_id: int,
+    status_approve: str,
+    session: Session = Depends(get_session),
+    current_user_role: str = Depends(get_current_user_developer),
+    username: str = Depends(get_current_user)
+):
+    news = session.query(News).filter(News.news_id == news_id).first()
+    log_news = session.query(LogNewsUpdate).filter(LogNewsUpdate.news_id == news_id, LogNewsUpdate.action_name == "create").first()
+    user_profile_request = session.query(UserProfile).filter(LogNewsUpdate.user_id == UserProfile.user_id).first()
+    user_profile = session.query(UserProfile).filter(UserProfile.email == username).first()
+
+    if not news:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="News not found")
+
+    # Check if log_news exists
+    if not log_news:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Log entry for news not found")
+
+    # Log the update action in LogNews
+    log_news_status = NewsStatus(
+        news_id=news.news_id,
+        header=news.header,
+        detail=news.detail,
+        link=news.link,
+        image_news=news.image_news,
+        status_approve=news.status_approve,
+        request_datetime=news.datetime,
+        request_byid=log_news.user_id,  # This is now safe to access
+        request_byname=f"{user_profile_request.first_name} {user_profile_request.last_name}" if user_profile_request else "Unknown",
+        request_byrole=log_news.role,
+        to_status_approve=status_approve,
+        approve_datetime=datetime.now().replace(microsecond=0),
+        approve_byid=user_profile.user_id,
+        approve_byname=f"{user_profile.first_name} {user_profile.last_name}",
+        approve_byrole=user_profile.role
+    )
+    
+    session.add(log_news_status)
+    session.commit()
+
+    # Update News entry
+    news.status_approve = status_approve if status_approve else news.status_approve
+    session.commit()
+
+    return news

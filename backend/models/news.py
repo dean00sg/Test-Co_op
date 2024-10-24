@@ -15,12 +15,13 @@ class News(Base):
     header = Column(String, nullable=False)
     detail = Column(String, nullable=False)
     link = Column(String, nullable=True)
+    status_approve = Column(String,nullable=True )
   
     
 
 
-class LogNews(Base):
-    __tablename__ = 'log_News'
+class LogNewsUpdate(Base):
+    __tablename__ = 'log_NewsUpadate'
 
     id = Column(Integer, primary_key=True, index=True)
     action_name = Column(String, nullable=False)
@@ -39,6 +40,35 @@ class LogNews(Base):
     link = Column(String, nullable=True)
     to_link = Column(String, nullable=True)
 
+    
+
+class NewsStatus(Base):
+    __tablename__ = 'log_NewsStatus'
+
+    status_id = Column(Integer, primary_key=True, index=True)
+    news_id = Column(Integer, nullable=True)
+    image_news = Column(LargeBinary, nullable=True)
+    header = Column(String, nullable=True)
+    detail = Column(String, nullable=True)
+    link = Column(String, nullable=True)
+    status_approve = Column(String, nullable=True)
+
+    request_datetime = Column(DateTime,nullable=True ) 
+    request_byid = Column(String, nullable=True)
+    request_byname = Column(String, nullable=True)
+    request_byrole = Column(String, nullable=True)
+    
+    to_status_approve = Column(String, nullable=True)
+    approve_datetime = Column(DateTime,nullable=True ) 
+    approve_byid = Column(String, nullable=True)
+    approve_byname = Column(String, nullable=True)
+    approve_byrole = Column(String, nullable=True)
+    
+
+
+class NewsStatusUpdate(BaseModel):
+
+    status_approve : Optional[str] = None
 
 
 
@@ -62,6 +92,7 @@ class NewsResponse(BaseModel):
     header: str
     detail: str
     link: Optional[str] = None
+    status_approve:str
 
     class Config:
         orm_mode = True

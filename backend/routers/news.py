@@ -5,7 +5,7 @@ from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from models.user import LogUserProfile, UserProfile
-from models.news import NewsResponse, NewsUpdate, News, LogNews
+from models.news import LogNewsUpdate, NewsResponse, NewsStatus, NewsUpdate, News
 from security import get_current_user, get_current_user_developer
 from deps import get_session
 
@@ -21,7 +21,6 @@ def create_news(
     image_news: Optional[UploadFile] = File(None),
     link: Optional[str] = Form(None),
     session: Session = Depends(get_session),
-    role: tuple = Depends(get_current_user_developer), 
     username: str = Depends(get_current_user)
 ):
     image_data = image_news.file.read() if image_news else None
@@ -35,19 +34,37 @@ def create_news(
         header=header,
         detail=detail,
         image_news=image_data,
-        link=link
+        link=link,
+        status_approve="request"
     )
     session.add(new_news)
     session.commit()
     session.refresh(new_news)
 
-    # Log the creation action in LogNews
-    log_news = LogNews(
+
+    log_news_status = NewsStatus(
+        news_id=new_news.news_id,
+        header=new_news.header,
+        detail=new_news.detail,
+        link=new_news.link,
+        image_news=new_news.image_news,
+        status_approve =new_news.status_approve,
+
+        request_datetime = datetime.now().replace(microsecond=0),
+        request_byid = user_profile.user_id,
+        request_byname=f"{user_profile.first_name} {user_profile.last_name}",
+        request_byrole = user_profile.role
+
+    )
+    session.add(log_news_status)
+    session.commit()
+    
+    log_news = LogNewsUpdate(
         action_name="create",
         action_datetime=datetime.now().replace(microsecond=0),
         note_by=username,
         user_id=user_profile.user_id,
-        role=role, 
+        role=user_profile.role, 
         news_id=new_news.news_id,
         header=new_news.header,
         detail=new_news.detail,
@@ -90,7 +107,7 @@ def get_news(news_id: int, session: Session = Depends(get_session)):
 # GET: Fetch all News entries
 @router.get("/news", response_model=List[NewsResponse])
 def get_all_news(session: Session = Depends(get_session)):
-    news_list = session.query(News).all()
+    news_list = session.query(News).filter(News.status_approve == "approve").all()
     return news_list
 
 
@@ -112,7 +129,7 @@ def update_news(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="News not found")
 
     # Log the update action in LogNews
-    log_news = LogNews(
+    log_news = LogNewsUpdate(
         action_name="update",
         action_datetime=datetime.now().replace(microsecond=0),
         note_by=username,
@@ -155,7 +172,7 @@ def delete_news(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="News not found")
 
     # Log the deletion action in LogNews
-    log_news = LogNews(
+    log_news = LogNewsUpdate(
         action_name="delete",
         action_datetime=datetime.now().replace(microsecond=0),
         note_by=username,
