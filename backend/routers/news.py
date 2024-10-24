@@ -78,21 +78,24 @@ def create_news(
     return new_news
 
 
-@router.get("/news/{news_id}/image", response_class=StreamingResponse)
-def get_news_image(news_id: int, session: Session = Depends(get_session)):
+@router.get("/news_image/{news_id}")
+async def get_news_image_by_id(
+    news_id: int, 
+    session: Session = Depends(get_session), 
+    
+):
     news = session.query(News).filter(News.news_id == news_id).first()
-
+    
     if not news:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="News not found")
-
-    if not news.image_news:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Image not found")
+        raise HTTPException(status_code=404, detail="News not found")
+    
+    if news.image_news is None:
+        raise HTTPException(status_code=404, detail="Image not found")
 
     # Create a BytesIO stream to send the image data
     image_stream = BytesIO(news.image_news)
-    
-    # Assuming the image is in JPEG format, you can change this based on the actual format (e.g., 'image/png' for PNG images)
-    return StreamingResponse(image_stream, media_type="image/jpeg")
+    return StreamingResponse(image_stream, media_type="image/jpeg")  # You can adjust the media type as needed
+
 
 # GET: Fetch single News by ID
 @router.get("/news/{news_id}", response_model=NewsResponse)
@@ -156,6 +159,8 @@ def update_news(
     session.commit()
 
     return news
+
+
 
 # DELETE: Delete News and log the deletion
 @router.delete("/news/{news_id}", status_code=status.HTTP_204_NO_CONTENT)

@@ -11,7 +11,7 @@ const AddNewsRequest = () => {
       <Header /> 
       <div className="app">
       <div className="leftpage-section">
-          <h>Log Action All</h> 
+          <h>Status News</h> 
          
         </div>
         <div className="rightpage-section">

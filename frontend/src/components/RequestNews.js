@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/requestnews.css';
 
-const API_BASE_URL = 'http://127.0.0.1:8000';  
+const API_BASE_URL = 'http://127.0.0.1:8000';
 
 const RequestNews = () => {
   const [formData, setFormData] = useState({
@@ -11,11 +11,12 @@ const RequestNews = () => {
     image_news: null,
     link: ''
   });
-  const [newsList, setNewsList] = useState([]);  // State to store all news
-  const [filteredNews, setFilteredNews] = useState([]);  // State to store filtered news
-  const [user, setUser] = useState(null);  // State to store the logged-in user
+  const [newsList, setNewsList] = useState([]);
+  const [filteredNews, setFilteredNews] = useState([]);
+  const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [images, setImages] = useState({}); // Store image URLs
   const token = localStorage.getItem('token');
 
   const handleChange = (e) => {
@@ -35,7 +36,7 @@ const RequestNews = () => {
     form.append('link', formData.link);
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/news/news`, form, {
+      await axios.post(`${API_BASE_URL}/news/news`, form, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -44,14 +45,13 @@ const RequestNews = () => {
       setSuccessMessage('News submitted successfully!');
       setError(null);
       setFormData({ header: '', detail: '', image_news: null, link: '' });
-      fetchAllNews();  // Refresh news after submission
+      fetchAllNews();
     } catch (error) {
       setError('Failed to submit news. Please try again.');
       setSuccessMessage(null);
     }
   };
 
-  // Function to fetch all news
   const fetchAllNews = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/news/news`, {
@@ -59,14 +59,12 @@ const RequestNews = () => {
           'Authorization': `Bearer ${token}`
         }
       });
-      setNewsList(response.data);  // Store all news in state
+      setNewsList(response.data);
     } catch (error) {
-      console.error(error);
       setError('Failed to fetch news.');
     }
   };
 
-  // Function to fetch logged-in user's profile
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/profile/profile`, {
@@ -74,31 +72,49 @@ const RequestNews = () => {
           'Authorization': `Bearer ${token}`
         }
       });
-      setUser(response.data);  // Store user data
+      setUser(response.data);
     } catch (error) {
-      console.error(error);
       setError('Failed to fetch user profile.');
     }
   };
 
+  // Fetch image for each news item
+  const fetchImageForNews = async (news_id) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/news/news_image/${news_id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        responseType: 'blob', // Ensure we get binary data (image)
+      });
+      const imageURL = URL.createObjectURL(response.data);
+      setImages((prevImages) => ({ ...prevImages, [news_id]: imageURL }));
+    } catch (error) {
+      console.error(`Failed to fetch image for news_id: ${news_id}`);
+    }
+  };
+
   useEffect(() => {
-    fetchAllNews();  // Fetch all news when component loads
-    fetchUserProfile();  // Fetch user profile when component loads
+    fetchAllNews();
+    fetchUserProfile();
   }, []);
 
-  // Filter news by the logged-in user's user_id
   useEffect(() => {
     if (user && newsList.length > 0) {
       const userNews = newsList.filter((news) => news.request_By === user.user_id);
-      setFilteredNews(userNews);  // Update filtered news
+      setFilteredNews(userNews);
+
+      // Fetch images for all filtered news items
+      userNews.forEach((news) => {
+        fetchImageForNews(news.news_id);
+      });
     }
   }, [user, newsList]);
 
   return (
     <div className="form-container">
-      <div className="form-card"> 
+      <div className="form-card">
         <form onSubmit={handleSubmit} className="news-form">
-          {/* Form inputs */}
           <div className="form-row">
             <label>Header :</label>
             <input type="text" name="header" onChange={handleChange} value={formData.header} />
@@ -106,10 +122,10 @@ const RequestNews = () => {
 
           <div className="formdetail-row">
             <label>Details :</label>
-            <textarea 
-              name="detail" 
-              onChange={handleChange} 
-              value={formData.detail} 
+            <textarea
+              name="detail"
+              onChange={handleChange}
+              value={formData.detail}
               placeholder="Enter details here..."
             />
           </div>
@@ -128,7 +144,7 @@ const RequestNews = () => {
         </form>
       </div>
 
-      <div className="form-card"> 
+      <div className="form-card">
         <h3>Your Submitted News</h3>
         <div className="news-table">
           {filteredNews.length > 0 ? (
@@ -136,15 +152,22 @@ const RequestNews = () => {
               <thead>
                 <tr>
                   <th>Header</th>
+                  <th>Image</th>
                   <th>Details</th>
                   <th>Link</th>
-                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredNews.map((news) => (
                   <tr key={news.news_id}>
                     <td>{news.header}</td>
+                    <td>
+                      {images[news.news_id] ? (
+                        <img src={images[news.news_id]} alt={news.header} width="100" />
+                      ) : (
+                        'No image available'
+                      )}
+                    </td>
                     <td>{news.detail}</td>
                     <td>
                       {news.link ? (
@@ -153,7 +176,6 @@ const RequestNews = () => {
                         </a>
                       ) : 'N/A'}
                     </td>
-                    <td>{news.status_approve}</td>
                   </tr>
                 ))}
               </tbody>
