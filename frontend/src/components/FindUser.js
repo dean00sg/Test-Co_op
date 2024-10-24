@@ -60,7 +60,7 @@ const FindUser = () => {
 
   return (
     <div className="FindUser">
-      <h1>Find User</h1>
+      <h1 className="header_find">Find User</h1>
       
       {/* Form for user ID input */}
       <form onSubmit={handleSearch}>

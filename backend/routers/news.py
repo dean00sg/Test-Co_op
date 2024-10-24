@@ -35,7 +35,8 @@ def create_news(
         detail=detail,
         image_news=image_data,
         link=link,
-        status_approve="request"
+        status_approve="request",
+        request_By=user_profile.user_id
     )
     session.add(new_news)
     session.commit()
@@ -107,7 +108,7 @@ def get_news(news_id: int, session: Session = Depends(get_session)):
 # GET: Fetch all News entries
 @router.get("/news", response_model=List[NewsResponse])
 def get_all_news(session: Session = Depends(get_session)):
-    news_list = session.query(News).filter(News.status_approve == "approve").all()
+    news_list = session.query(News).all()
     return news_list
 
 

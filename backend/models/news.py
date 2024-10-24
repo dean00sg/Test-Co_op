@@ -16,6 +16,7 @@ class News(Base):
     detail = Column(String, nullable=False)
     link = Column(String, nullable=True)
     status_approve = Column(String,nullable=True )
+    request_By=Column(Integer,nullable=True )
   
     
 
@@ -93,6 +94,7 @@ class NewsResponse(BaseModel):
     detail: str
     link: Optional[str] = None
     status_approve:str
+    request_By:int
 
     class Config:
         orm_mode = True

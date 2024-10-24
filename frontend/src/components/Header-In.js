@@ -33,7 +33,7 @@ const Header = () => {
         {/* Optionally, add content to the top navbar here */}
       </div>
       <header className="header">
-        <h1>Tester System</h1>
+        <h1 className='header_logo'>Tester System</h1>
         <div className="search-bar">
           <input type="text" placeholder="ค้นหา..." />
           <button type="submit">

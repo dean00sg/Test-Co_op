@@ -8,7 +8,7 @@
   padding: 10px; /* Add padding for better spacing */
 }
 
-h1 {
+.header_logo{
   font-size: 55px; /* Font size */
   margin-left: 20px; /* Left margin */
   font-weight: bold; /* Font weight */

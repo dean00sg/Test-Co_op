@@ -1,0 +1,71 @@
+.form-card {
+    background-color: #fff; /* Background color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    padding: 20px; /* Internal spacing */
+    margin-top: 20px; /* Top margin */
+    border: 1px solid #ddd; /* Light border */
+}
+  
+.news-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+  
+.form-row, .formdetail-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Full width */
+}
+  
+label {
+    margin-right: auto; /* Align label to the left */
+    font-weight: bold;
+    min-width: 150px; /* Minimum width to prevent overlap */
+}
+  
+input, select, textarea {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+
+}
+  
+textarea {
+    height: 100px; /* Height for the textarea */
+    resize: vertical; /* Allow vertical resizing */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+  
+input[type="file"] {
+    padding: 5px;
+}
+  
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+  
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+  
+
+  
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+  
+    button.search-button {
+        margin-top: 10px;
+    }
+}

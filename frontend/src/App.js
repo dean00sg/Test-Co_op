@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import WelcomePage from './pages/WelcomePage';
 import CheckInfoUser from './pages/CheckInfoUser';
 import CheckLogin from './pages/CheckLogin';
+import AddNewsRequest from './pages/AddNews';
 import './styles.css';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/Home" element={<HomePage />} />
         <Route path="/Home/CheckInfoUser" element={<CheckInfoUser />} />
         <Route path="/Home/CheckLogin" element={<CheckLogin />} />
+        <Route path="/Home/AddNewsRequest" element={<AddNewsRequest />} />
         
       </Routes>
     </Router>

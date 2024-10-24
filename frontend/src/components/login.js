@@ -51,6 +51,7 @@ const LoginPanel = () => {
       <div className="input-group">
         <input
           type="text"
+           className="formlogin"
           placeholder="User Name"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -61,6 +62,7 @@ const LoginPanel = () => {
         <input
           type={showPassword ? "text" : "password"}
           placeholder="Password"
+          className="formlogin"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
