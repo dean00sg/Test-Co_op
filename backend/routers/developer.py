@@ -7,10 +7,35 @@ from sqlalchemy import desc
 from sqlalchemy.orm import Session
 from deps import get_session
 from security import AuthHandler, get_current_user_developer
-from models.user import  LogUserLogin, LogUserProfile, UserLogin, UserProfile
+from models.user import  LogUserLogin, LogUserProfile, UserLogin, UserProfile, UserResponse
 
 router = APIRouter(tags=["Developer"])
 auth_handler = AuthHandler()
+
+
+
+@router.get("/profile/{user_id}", response_model=UserResponse)
+async def get_user_profile_by_id(
+    user_id: int,
+    session: Session = Depends(get_session),
+    role: str = Depends(get_current_user_developer)
+):
+    # Fetch the user profile from the database using the provided user_id
+    user = session.query(UserProfile).filter(UserProfile.user_id == user_id).first()
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Return user profile details
+    return UserResponse(
+        status="User profile retrieved successfully",
+        user_id=user.user_id,
+        first_name=user.first_name,
+        last_name=user.last_name,
+        email=user.email,
+        contact_number=user.contact_number,
+        role=user.role
+    )
 
 
 @router.get("/image_profile/{user_id}")

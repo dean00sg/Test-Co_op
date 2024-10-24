@@ -62,7 +62,23 @@ class LogUserLogin(Base):
     role = Column(String, nullable=False)
 
 
+class LogCheckUserProfile(BaseModel):
+    id:int
+    action_name: str
+    action_datetime: datetime
+    user_id: int
 
+    first_name: Optional[str] = None  # Make this optional
+    to_first_name: Optional[str] = None  # Make this optional
+    last_name: Optional[str] = None  # Make this optional
+    to_last_name: Optional[str] = None  # Make this optional
+    email: Optional[str] = None  # Make this optional
+    contact_number: Optional[str] = None  # Make this optional
+    to_contact_number: Optional[str] = None  # Make this optional
+    role: Optional[str] = "user"  # Make this optional with a default value
+
+    class Config:
+        orm_mode = True
 
 class UserLogin(BaseModel):
     id:int

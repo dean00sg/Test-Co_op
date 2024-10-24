@@ -4,12 +4,15 @@ from fastapi import APIRouter, Depends, Form, HTTPException, status, UploadFile,
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from typing import List, Optional
-from models.user import UserProfile
+from models.user import LogUserProfile, UserProfile
 from models.news import NewsResponse, NewsUpdate, News, LogNews
 from security import get_current_user, get_current_user_developer
 from deps import get_session
 
 router = APIRouter(tags=["News"])
+
+
+
 
 @router.post("/news", response_model=NewsResponse)
 def create_news(
@@ -41,7 +44,7 @@ def create_news(
     # Log the creation action in LogNews
     log_news = LogNews(
         action_name="create",
-        action_datetime=datetime.now(),
+        action_datetime=datetime.now().replace(microsecond=0),
         note_by=username,
         user_id=user_profile.user_id,
         role=role, 
@@ -111,7 +114,7 @@ def update_news(
     # Log the update action in LogNews
     log_news = LogNews(
         action_name="update",
-        action_datetime=datetime.now(),
+        action_datetime=datetime.now().replace(microsecond=0),
         note_by=username,
         user_id=user_profile.user_id,
         role=role, 
@@ -154,7 +157,7 @@ def delete_news(
     # Log the deletion action in LogNews
     log_news = LogNews(
         action_name="delete",
-        action_datetime=datetime.now(),
+        action_datetime=datetime.now().replace(microsecond=0),
         note_by=username,
         user_id=user_profile.user_id,
         role=role, 

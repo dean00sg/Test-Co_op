@@ -1,0 +1,119 @@
+/* UserInfoss.css */
+.user-info.alternative{
+    background-color:#28B78D; /* สีพื้นหลัง */
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center; /* จัดให้อยู่ตรงกลางในแนวนอน */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+  }
+  .user-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+    object-fit: cover;
+    border: 5px solid white;     /* ขอบสีขาว */
+    padding: 5px;                /* ระยะห่างระหว่างขอบกับรูปภาพ */
+    box-sizing: border-box; 
+}
+  .user-details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px; /* เว้นระยะห่างจากรูป */
+  }
+  
+  .user-details img {
+    width: 80px; /* ขนาดไอคอนรูปโปรไฟล์ */
+    height: 80px;
+    border-radius: 50%; /* ทำให้รูปเป็นวงกลม */
+  }
+  
+  .user-details p {
+    margin: 5px 0;
+    font-size: 16px; /* ขนาดของข้อความ */
+  }
+  
+  .user-details p:first-child {
+    font-weight: bold; /* ชื่อเป็นตัวหนา */
+    font-size: 18px; /* ขนาดใหญ่กว่าข้อความอื่นเล็กน้อย */
+  }
+  
+  .user-details p:last-child {
+    font-size: 14px; /* ข้อความอีเมลขนาดเล็กกว่า */
+  }
+  
+
+
+
+
+
+
+  
+
+  .rightpage-section {
+    width: 70%;
+    margin: 30px 15px 10px; /* Combine margin properties for clarity */
+    background-color: rgb(232, 245, 245);
+  }
+  .leftpage-section {
+    width: 30%;
+    margin: 30px 15px 10px; /* Combine margin properties for clarity */
+    background-color: rgb(232, 245, 245);
+  }
+  .rightfll-section {
+    width: 100%;
+    margin: 30px 15px 10px; /* Combine margin properties for clarity */
+    background-color: rgb(232, 245, 245);
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+
+  .rightpage-section, .leftpage-section {
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 1, 0.1);
+  }
+  .rightfull-section, .leftpage-section {
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 1, 0.1);
+}
+
+
+
+
+table {
+  width: 100%;
+  border-collapse: collapse; /* Merges borders between cells */
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px; /* Space inside cells */
+  text-align: left; /* Align text to the left */
+  border: 1px solid #ddd; /* Light gray border */
+}
+
+th {
+  background-color: #28B78D;; /* Green background for the header */
+  color: white; /* White text color */
+  position: sticky; /* Keeps the header visible on scroll */
+  top: 0; /* Keeps the header at the top */
+}
+
+tr:hover {
+  background-color: #f1f1f1; /* Light gray background on row hover */
+}
+
+@media (max-width: 600px) {
+  th, td {
+    font-size: 14px; /* Smaller font size for smaller screens */
+  }
+}

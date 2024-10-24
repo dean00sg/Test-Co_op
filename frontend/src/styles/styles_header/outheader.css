@@ -126,7 +126,7 @@ h11 {
   }
 
   .navbarup {
-    background-color:  rgb(107, 165, 206);/* Dark background for navbar */
+    background-color: rgb(21, 131, 209);/* Dark background for navbar */
     padding: 5px;
   }
   .navbardown {
@@ -134,7 +134,8 @@ h11 {
     padding: 5px;
   }
   
-  .navbar-list {
+
+  .navbardown-list {
     list-style: none;
     display: flex; /* Arrange items in a row */
     justify-content: flex-end; /* Align items to the right */
@@ -142,25 +143,85 @@ h11 {
     padding: 0;
   }
   
-  .navbar-list li {
-    margin: 0 3px; /* Horizontal margin for list items */
-    border: 2px solid white; /* White border around each list item */
-    padding: 5px 10px; /* Padding inside the list item */
-  }
+ 
   
-  .navbar-list a {
+
+.navbardown-list li {
+  margin: 0 3px; /* Horizontal margin for list items */
+  padding: 5px 10px; /* Padding inside the list item */
+  border-radius: 5px;
+  border: 2px solid white;
+}
+
+/* .navbardown-list li:nth-child(1) { background-color: rgb(69, 178, 221); }
+.navbardown-list li:nth-child(2) { background-color: #b300b0; }
+.navbardown-list li:nth-child(3) { background-color: #28B78D; }
+.navbardown-list li:nth-child(4) { background-color: #1796C5; }
+.navbardown-list li:nth-child(5) { background-color: #ff33a1; }
+.navbardown-list li:nth-child(6) { background-color: #ffcc33; }
+.navbardown-list li:nth-child(7) { background-color: #33ccff; }
+.navbardown-list li:nth-child(8) { background-color: #ff33cc; }
+.navbardown-list li:nth-child(9) { background-color: #ff3333; }
+.navbardown-list li:nth-child(10) { background-color: #33ff33; } */
+
+.navbardown-list a {
     color: white; /* White text for links */
     text-decoration: none;
     display: block; /* Make the link fill the entire li */
     font-size: 12px;
-  }
-  
-  .navbar-list a:hover {
+}
+
+.navbardown-list a:hover {
     text-decoration: underline; /* Underline links on hover */
-    background-color: rgba(255, 255, 255, 0.1); /* Light background on hover */
-  }
+    background-color: rgba(76, 15, 151, 0.1); /* Light background on hover */
+}
+
   
-  
+
+
+
+
+
+
+/* .navbarup-list {
+  list-style: none;
+  display: flex; 
+  justify-content: flex-start; 
+  margin: 0;
+  padding: 0;
+}
+
+
+.navbarup-list li {
+margin: 0 3px; 
+padding: 5px 10px; 
+border-radius: 5px;
+border: 2px solid white;
+} */
+
+/* .navbardown-list li:nth-child(1) { background-color: rgb(69, 178, 221); }
+.navbardown-list li:nth-child(2) { background-color: #b300b0; }
+.navbardown-list li:nth-child(3) { background-color: #28B78D; }
+.navbardown-list li:nth-child(4) { background-color: #1796C5; }
+.navbardown-list li:nth-child(5) { background-color: #ff33a1; }
+.navbardown-list li:nth-child(6) { background-color: #ffcc33; }
+.navbardown-list li:nth-child(7) { background-color: #33ccff; }
+.navbardown-list li:nth-child(8) { background-color: #ff33cc; }
+.navbardown-list li:nth-child(9) { background-color: #ff3333; }
+.navbardown-list li:nth-child(10) { background-color: #33ff33; } */
+
+/* .navbarup-list a {
+  color: white; 
+  text-decoration: none;
+  display: block; 
+  font-size: 12px;
+} */
+
+/* .navbarup-list a:hover {
+  text-decoration: underline;
+  background-color: rgba(76, 15, 151, 0.1); 
+}
+   */
   /* Adjust sliding animation */
   @keyframes slide {
     0% {

@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../components/Header-Out'; // นำเข้า Header
-import MenuGrid from '../components/MenuGrid';
+
 import UserInfo from '../components/UserInfo';
 import LoginPanel from '../components/login';
 import CardShowNews from '../components/CardShow';
@@ -14,13 +14,13 @@ const WelcomePage = () => {
       <div className="app">
         <div className="leftWelcome-section">
           <div className="image-text-container">
-            {/* แสดงรูปภาพ */}
-            <img src={logo} alt="Logo" className="logo-image" />
-            {/* แสดงข้อความด้านข้าง */}
+          
+            {/* <img src={logo} alt="Logo" className="logo-image" />
             <div className="text-container">
               <h>Testing System by Burhanurdin (Dean)</h>
               <ha>Designed by Burhanurdin (Dean), this system is a testing platform for experimenting with front-end and back-end code. It helps study various programming languages, enhancing coding skills and self-development across multiple technologies.</ha>
-            </div>
+            </div> */}
+
           </div>
           <CardShowNews />
           <div className="video-container" >
