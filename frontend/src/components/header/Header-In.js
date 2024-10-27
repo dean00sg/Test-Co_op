@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/styles_header/inheader.css';
+import './inheader.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faHome } from '@fortawesome/free-solid-svg-icons'; // Import the home icon
 import { useLocation } from 'react-router-dom'; // Import useLocation

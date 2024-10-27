@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'; // นำเข้าไอคอนที่ต้องการ
-import '../styles/cardshow.css';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'; // Importing the icon
+import './cardshow.css';
 
 const CardShowNews = () => {
   const [newsData, setNewsData] = useState([]);
@@ -13,9 +13,13 @@ const CardShowNews = () => {
     try {
       const response = await fetch('http://localhost:8000/news/news');
       const data = await response.json();
+
+      // Filter to include only approved news
+      const approvedNews = data.filter(news => news.status_approve === "approve");
+
       const newsWithImages = await Promise.all(
-        data.map(async (news) => {
-          const imageResponse = await fetch(`http://localhost:8000/news/news/${news.news_id}/image`);
+        approvedNews.map(async (news) => {
+          const imageResponse = await fetch(`http://localhost:8000/news/news_image/${news.news_id}`);
           const imageBlob = await imageResponse.blob();
           const imageObjectURL = URL.createObjectURL(imageBlob);
           return { ...news, imageURL: imageObjectURL };
@@ -75,7 +79,7 @@ const CardShowNews = () => {
               >
                 {expandedCards[news.news_id] ? 'Read Less' : 'Read More'}
               </button>
-              {/* ปุ่มเปิดลิงก์ด้วยไอคอนลิงก์ */}
+              {/* Button to open link with an icon */}
               <button
                 className="open-link-btn"
                 onClick={() => openLink(news.link)}

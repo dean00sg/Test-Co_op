@@ -50,7 +50,19 @@ async def get_user_logs(
 
 
 
+@router.get("/image/{user_id}")
+async def get_user_imagebyid(user_id: int, session: Session = Depends(get_session)):
+    user = session.query(UserProfile).filter(UserProfile.user_id == user_id).first()
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if user.image_profile is None:
+        raise HTTPException(status_code=404, detail="Image not found")
 
+    # Create a BytesIO stream to send the image data
+    image_stream = BytesIO(user.image_profile)
+    return StreamingResponse(image_stream, media_type="image/jpeg") 
 
 
 

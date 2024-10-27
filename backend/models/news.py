@@ -53,7 +53,6 @@ class NewsStatus(Base):
     detail = Column(String, nullable=True)
     link = Column(String, nullable=True)
     status_approve = Column(String, nullable=True)
-
     request_datetime = Column(DateTime,nullable=True ) 
     request_byid = Column(String, nullable=True)
     request_byname = Column(String, nullable=True)
@@ -64,7 +63,42 @@ class NewsStatus(Base):
     approve_byid = Column(String, nullable=True)
     approve_byname = Column(String, nullable=True)
     approve_byrole = Column(String, nullable=True)
+
+class LogNewsUpdateResponse(BaseModel):
+
+    id : int
+    action_name : str
+    action_datetime :datetime
+    note_by: str
+    user_id : int
+    role: str
+    news_id : int
+    header: str
+    to_header : Optional[str] = None 
+    detail : str
+    to_detail:Optional[str] = None 
+    link: str
+    to_link : Optional[str] = None 
+
+class NewsStatusResponse(BaseModel):
+    status_id: int
+    news_id: int
+    header: str
+    detail: str
+    link: str
+    status_approve: str
+
+    request_datetime: datetime
+    request_byid: Optional[str] = None  # Optional field
+    request_byname: Optional[str] = None  # Optional field
+    request_byrole: Optional[str] = None  # Optional field
     
+    to_status_approve: Optional[str] = None  # Optional field
+    approve_datetime: Optional[datetime] = None  # Optional field
+    approve_byid: Optional[str] = None  # Optional field
+    approve_byname: Optional[str] = None  # Optional field
+    approve_byrole: Optional[str] = None  # Optional field
+
 
 
 class NewsStatusUpdate(BaseModel):

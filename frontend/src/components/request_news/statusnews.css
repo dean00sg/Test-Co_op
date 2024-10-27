@@ -1,0 +1,274 @@
+/* General styles for the container */
+.status-news-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for individual news status */
+.news-status {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+    transition: box-shadow 0.3s;
+}
+
+.news-status:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Heading styles */
+.news-status h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Paragraph styles */
+.news-status p {
+    font-size: 1em;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Link styles */
+.news-status a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.news-status a:hover {
+    text-decoration: underline;
+}
+
+/* Error message styles */
+.error-message {
+    color: #d9534f; /* Bootstrap's danger color */
+    font-weight: bold;
+}
+
+/* No news status message styles */
+.no-status-message {
+    font-size: 1.2em;
+    color: #777;
+}
+
+
+
+.table_status_news {
+    width: 100%;
+    /* border-collapse: collapse; */
+    margin-top: 20px;
+    
+  }
+  
+  .table_status_news th, .table_status_newse td {
+    padding: 5px; /* Space inside cells */
+    text-align: left; /* Align text to the left */
+    border: 1px solid #ddd; /* Light gray border */
+  }
+  
+  .table_status_news th {
+    background-color: #f342c1;; /* Green background for the header */
+    color: white; /* White text color */
+    top: 0; /* Keeps the header at the top */
+    
+  }
+  
+  tr:hover {
+    background-color: #f1f1f1; /* Light gray background on row hover */
+  }
+  
+
+
+  .intable_box {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #f5f2f2; /* Light background color */
+    font-size: 14px;
+    color: #333; /* Text color */
+    font-weight: bold;
+}
+
+.deleted {
+    background-color: #ffcccc; /* Light red background for deleted news */
+}
+
+  
+  
+  .intable_box td {
+    
+    font-size: 14px;
+    color: #333; /* สีข้อความ */
+    font-weight: bold;
+  }
+
+
+
+
+
+
+  .lognews-table {
+    width: 100%; /* Width of the table */
+    table-layout: fixed; /* Use fixed layout for consistent column widths */
+    margin-top: 20px; /* Space above the table */
+    overflow: hidden; /* Prevent overflow */
+}
+
+.lognews-table th,
+.lognews-table td {
+    padding: 5px; /* Space inside cells */
+    text-align: left; /* Align text to the left */
+    border: 1px solid #ddd; /* Light gray border */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.lognews-table th {
+    background-color: #42cdf3; /* Header background color */
+    color: white; /* White text color */
+    top: 0; /* Keeps the header at the top */
+}
+
+
+
+/* Style for approved status */
+.intable_box .faCheckCircle {
+    padding: 5px 10px;
+    color: rgb(43, 202, 62); /* Icon color for approved */
+}
+.intable_box .faHourglassHalf {
+    padding: 5px 10px;
+    color: rgb(202, 181, 43); /* Icon color for approved */
+}
+.intable_box .faTrash {
+    padding: 5px 10px;
+    color: rgb(193, 32, 7); /* Icon color for approved */
+}
+/* Style for request status */
+.intable_box .faPenToSquare    {
+    padding: 5px 10px;
+    color: rgb(215, 168, 27); /* Icon color for request */
+}
+.intable_box .faFilePen    {
+    padding: 5px 10px;
+    color: rgb(23, 190, 98); /* Icon color for request */
+}
+.status-approve.approve {
+    color: green; /* สีสำหรับคำว่า approve */
+}
+
+.status-approve.request {
+    color: rgb(215, 168, 27); /* สีสำหรับคำว่า request */
+}
+
+.status-approved.approve {
+    color: rgb(23, 190, 98); /* สีสำหรับคำว่า approve ใน Status Approved */
+}
+
+.status-approved.request {
+    color: rgb(215, 168, 27); /* สีสำหรับคำว่า request ใน Status Approved */
+}
+
+
+
+
+
+@media (max-width: 600px) {
+    th, td {
+      font-size: 14px; /* Smaller font size for smaller screens */
+    }
+  }
+  
+  
+
+
+  .table-switch {
+    background-color: #389bcd;
+    padding: 3px;
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: flex-start; /* Align buttons to the start */
+    align-items: center; /* Center align vertically */
+    
+}
+
+.table-switch button {
+    margin-right: 5px; /* Space between buttons */
+    padding: 10px 15px; /* Add padding for better touch targets */
+    border: 2px solid white;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    background-color: #4fbbd9;
+}
+
+.table-switch button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+.pages {
+    margin: 0; /* Remove default margin */
+    font-weight: bold; /* Optional: make it bold */
+    font-size: 20px;
+    color: white;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+
+
+
+
+
+.form-fixcard {
+    height: 500px; /* Fixed height for the card */
+    overflow-y: auto; /* Allow vertical scrolling */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    margin: 20px; /* Space around the card */
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: space-between; /* Space between children */
+    padding: 10px; /* Padding inside the card */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+
+
+.profiletable-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* ใช้ gap แทน margin */
+}
+
+.profiletable-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: cover;
+}
+
+
+
+
+.card-p {
+  
+    color: #333; /* สีของข้อความ */
+    margin-bottom: 10px; /* ระยะห่างด้านล่าง */
+    padding: 8px; /* ระยะห่างภายใน */
+    background-color: #f0f0f0; /* สีพื้นหลัง */
+    border-left: 4px solid #4CAF50; /* เส้นข้างซ้าย */
+    border-radius: 1px; /* ขอบมน */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* เงา */
+}

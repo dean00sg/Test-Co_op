@@ -1,9 +1,9 @@
 import React from 'react';
-import Header from '../components/Header-Out'; // นำเข้า Header
+import Header from '../components/header/Header-Out'; // นำเข้า Header
 
-import UserInfo from '../components/UserInfo';
-import LoginPanel from '../components/login';
-import CardShowNews from '../components/CardShow';
+import UserInfo from '../components/checkIn_fo_user/UserInfo';
+import LoginPanel from '../components/login/login';
+import CardShowNews from '../components/card_news/CardShow';
 import logo from '../assets/logo.png'; // อ้างถึงรูปภาพจากโฟลเดอร์ assets
 import '../styles/styles_page/WelcomePage.css';
 
@@ -13,7 +13,8 @@ const WelcomePage = () => {
       <Header />
       <div className="app">
         <div className="leftWelcome-section">
-          <div className="image-text-container">
+          <div> 
+            {/* className="image-text-container" */}
           
             {/* <img src={logo} alt="Logo" className="logo-image" />
             <div className="text-container">

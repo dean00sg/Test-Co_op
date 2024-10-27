@@ -5,7 +5,7 @@ from fastapi import APIRouter, File, HTTPException, Depends, Form, UploadFile,st
 from fastapi.responses import StreamingResponse
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
-from models.news import LogNewsUpdate, News, NewsResponse, NewsStatus, NewsStatusUpdate, NewsUpdate
+from models.news import LogNewsUpdate, News, NewsResponse, NewsStatus, NewsStatusResponse, NewsStatusUpdate, NewsUpdate
 from deps import get_session
 from security import AuthHandler, get_current_user, get_current_user_developer
 from models.user import  LogUserLogin, LogUserProfile, UserLogin, UserProfile, UserResponse
@@ -127,7 +127,8 @@ async def get_latest_user_login_logout(
     return response
 
 
-from fastapi import HTTPException, status
+
+
 
 @router.put("/news/{news_id}", response_model=NewsResponse)
 def update_news(
@@ -137,42 +138,100 @@ def update_news(
     current_user_role: str = Depends(get_current_user_developer),
     username: str = Depends(get_current_user)
 ):
+    # Query the news record
     news = session.query(News).filter(News.news_id == news_id).first()
-    log_news = session.query(LogNewsUpdate).filter(LogNewsUpdate.news_id == news_id, LogNewsUpdate.action_name == "create").first()
-    user_profile_request = session.query(UserProfile).filter(LogNewsUpdate.user_id == UserProfile.user_id).first()
-    user_profile = session.query(UserProfile).filter(UserProfile.email == username).first()
-
     if not news:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="News not found")
 
-    # Check if log_news exists
+    # Query the log entry for the news
+    log_news = session.query(LogNewsUpdate).filter(LogNewsUpdate.news_id == news_id, LogNewsUpdate.action_name == "create").first()
     if not log_news:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Log entry for news not found")
 
-    # Log the update action in LogNews
-    log_news_status = NewsStatus(
-        news_id=news.news_id,
-        header=news.header,
-        detail=news.detail,
-        link=news.link,
-        image_news=news.image_news,
-        status_approve=news.status_approve,
-        request_datetime=news.datetime,
-        request_byid=log_news.user_id,  # This is now safe to access
-        request_byname=f"{user_profile_request.first_name} {user_profile_request.last_name}" if user_profile_request else "Unknown",
-        request_byrole=log_news.role,
-        to_status_approve=status_approve,
-        approve_datetime=datetime.now().replace(microsecond=0),
-        approve_byid=user_profile.user_id,
-        approve_byname=f"{user_profile.first_name} {user_profile.last_name}",
-        approve_byrole=user_profile.role
-    )
+    # Query the user profile based on username
+    user_profile = session.query(UserProfile).filter(UserProfile.email == username).first()
+    if not user_profile:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User profile not found")
+
+    # Query the existing NewsStatus record
+    news_status = session.query(NewsStatus).filter(NewsStatus.news_id == news_id).first()
+    if not news_status:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="News status not found")
+
+    # Update the fields in the existing NewsStatus record
+    news_status.to_status_approve = status_approve
+    news_status.approve_datetime = datetime.now().replace(microsecond=0)
+    news_status.approve_byid = user_profile.user_id
+    news_status.approve_byname = f"{user_profile.first_name} {user_profile.last_name}"
+    news_status.approve_byrole = user_profile.role
     
-    session.add(log_news_status)
+    # Commit the changes to NewsStatus
     session.commit()
 
-    # Update News entry
+    # Update the status_approve field in the News record
     news.status_approve = status_approve if status_approve else news.status_approve
+    
+    # Commit the changes to News
     session.commit()
 
     return news
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@router.get("/log_image_status/{status_id}")
+async def getlog_image_status_by_id(
+    status_id: int, 
+    session: Session = Depends(get_session), 
+    current_user_role: str = Depends(get_current_user_developer),
+    
+):
+    news = session.query(NewsStatus).filter(NewsStatus.status_id == status_id).first()
+    
+    if not news:
+        raise HTTPException(status_code=404, detail="News not found")
+    
+    if news.image_news is None:
+        raise HTTPException(status_code=404, detail="Image not found")
+
+    # Create a BytesIO stream to send the image data
+    image_stream = BytesIO(news.image_news)
+    return StreamingResponse(image_stream, media_type="image/jpeg")  # You can adjust the media type as needed
+

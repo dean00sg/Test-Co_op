@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../components/Header-In'; // Import Header
-import UserInfo from '../components/UserInfo';
-import FindUser from '../components/FindUser';
+import Header from '../components/header/Header-In'; // Import Header
+import UserInfo from '../components/checkIn_fo_user/UserInfo';
+import FindUser from '../components/checkIn_fo_user/FindUser';
 import '../styles/styles_page/CheckInfoUser.css';
 
 const CheckInfoUser = () => {
@@ -76,7 +76,7 @@ const CheckInfoUser = () => {
       <div className="app">
         <div className="leftpage-section">
           <h>Log Action All</h> 
-          <table>
+          <table className=''>
             <thead>
               <tr>
                 <th>Log Id</th>
@@ -84,12 +84,11 @@ const CheckInfoUser = () => {
                 <th>Action Name</th>
                 <th>Role</th>
                 <th>User ID</th>
-                
               </tr>
             </thead>
             <tbody>
               {logs.length > 0 ? (
-                logs.map((log) => (
+                logs.slice(-15).map((log) => ( // ตัดให้แสดงแค่ 7 ตัวสุดท้าย
                   <tr key={log.user_id}>
                     <td>{log.id}</td>
                     <td>{log.action_datetime}</td>
@@ -100,17 +99,18 @@ const CheckInfoUser = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="3">No logs available.</td>
+                  <td colSpan="5">No logs available.</td>
                 </tr>
               )}
             </tbody>
           </table>
+
         </div>
         <div className="rightpage-section">
-          <UserInfo isAlternative={true} />
+          <UserInfo isAlternative={false} theme="theme-green" />
           <h11>Check Info User</h11> 
           <div className="rightfull-section">
-            <table>
+            <table className="user-profile-table">
               <thead>
                 <tr>
                   <th>User ID</th>
@@ -122,24 +122,19 @@ const CheckInfoUser = () => {
                 </tr>
               </thead>
               <tbody>
-                {userProfiles.length > 0 ? (
-                  userProfiles.map((user) => (
-                    <tr key={user.user_id}>
-                      <td>{user.user_id}</td>
-                      <td>{user.first_name}</td>
-                      <td>{user.last_name}</td>
-                      <td>{user.email}</td>
-                      <td>{user.contact_number}</td>
-                      <td>{user.role}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="6">No user profiles available.</td>
+                {userProfiles.map((user) => (
+                  <tr key={user.user_id}>
+                    <td>{user.user_id}</td>
+                    <td>{user.first_name}</td>
+                    <td>{user.last_name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.contact_number}</td>
+                    <td>{user.role}</td>
                   </tr>
-                )}
+                ))}
               </tbody>
             </table>
+
             <FindUser/> 
           </div>
         </div>

@@ -1,0 +1,13 @@
+.profiletable-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* ใช้ gap แทน margin */
+}
+
+.profiletable-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: cover;
+}

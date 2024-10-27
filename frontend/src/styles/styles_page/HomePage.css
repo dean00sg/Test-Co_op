@@ -9,7 +9,12 @@
   }
   
 
-  
+   
+  .leftHome-section {
+    width: 60%;
+    margin: 30px 15px 10px; /* Combine margin properties for clarity */
+    background-color: rgb(232, 245, 245);
+  }
   .leftHome-section {
     width: 60%;
     margin: 30px 15px 10px; /* Combine margin properties for clarity */

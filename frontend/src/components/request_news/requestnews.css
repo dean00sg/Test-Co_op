@@ -1,0 +1,216 @@
+.form-card {
+    background-color: #fff; /* Background color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    padding: 20px; /* Internal spacing */
+    margin-top: 20px; /* Top margin */
+    margin-bottom: 20px;
+    border: 1px solid #ddd; /* Light border */
+}
+ 
+
+.theme-pink {
+    background-color: #f36b42;
+  }
+.news-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formnews-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+}
+.form-row, .formdetail-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Full width */
+}
+  
+label {
+    margin-right: auto; /* Align label to the left */
+    font-weight: bold;
+    min-width: 150px; /* Minimum width to prevent overlap */
+}
+  
+input, select, textarea {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+
+}
+  
+textarea {
+    height: 100px; /* Height for the textarea */
+    resize: vertical; /* Allow vertical resizing */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+  
+input[type="file"] {
+    padding: 5px;
+}
+  
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    /* border-radius: 5px; */
+    cursor: pointer;
+}
+  
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+  
+
+
+
+
+.news-profile-table {
+   
+    
+    border-spacing: 0px; /* ระยะห่างระหว่างเซลล์ */
+
+}
+
+.intable_box_table {
+    padding: 5px;
+    
+    background-color: #ededed; /* Light background color */
+    font-size: 14px;
+    color: #333; /* Text color */
+    font-weight: bold;
+}
+
+.deleted {
+    background-color: #ffcccc; /* Light red background for deleted news */
+}
+.news-profile-table th, .news-profile-table td {
+    padding: 5px; /* Space inside cells */
+    text-align: left; /* Align text to the left */
+    border: 1px solid #ddd; /* Light gray border */
+  }
+  
+  .news-profile-table th {
+    padding: 10px;
+    background-color: #28B78D; /* Green background for the header */
+    color: white; /* White text color */
+    top: 0; /* Keeps the header at the top */
+  }
+
+.intable_box_table td {
+    padding: 10px; /* เพิ่ม padding ให้กับเซลล์ */
+    font-size: 14px;
+    color: #333; /* สีข้อความ */
+    font-weight: bold;
+}
+
+.icon-actions {
+    display: flex; /* ใช้ flex เพื่อจัดเรียงไอคอนในแนวนอน */
+    gap: 10px; /* เพิ่มระยะห่างระหว่างไอคอน */
+}
+
+.fa-icon.edit {
+    color: green; /* สีแดงสำหรับไอคอนแก้ไข */
+}
+
+.fa-icon.delete {
+    color: red; /* สีเขียวสำหรับไอคอนลบ */
+}
+.faCheckCircle {
+    padding: 5px 10px;
+    color: rgb(43, 202, 62); /* Icon color for approved */
+}
+.faHourglassHalf {
+    padding: 5px 10px;
+    color: rgb(202, 181, 43); /* Icon color for approved */
+}
+.faCheckToSlot {
+    color: rgb(43, 202, 62);
+    font-size: 24px;
+
+}
+.centered-intable-box {
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+  
+    button.search-button {
+        margin-top: 10px;
+    }
+}
+
+
+
+
+
+
+
+
+
+.card-approve {
+    display: flex;              /* ใช้ flexbox สำหรับการจัดเรียง */
+    flex-direction: column;     /* วางองค์ประกอบในแนวตั้ง */
+    justify-content: space-between; /* จัดเรียงให้มีระยะห่างระหว่างส่วนต่างๆ */
+    height: 100%;               /* ทำให้การ์ดเต็มความสูง */
+    padding: 15px;              /* เพิ่มระยะห่างภายในการ์ด */
+    border: 1px solid #ccc;    /* เส้นขอบของการ์ด */
+    border-radius: 5px;        /* มุมการ์ดโค้งมน */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* เงาของการ์ด */
+    margin-bottom: 20px;        /* เว้นระยะห่างด้านล่างของการ์ด */
+}
+
+.card-content {
+    flex-grow: 1;               /* ทำให้เนื้อหาภายในการ์ดขยายเต็มพื้นที่ */
+}
+
+.approve-btn,
+.cancel-btn {
+    width: 100%;
+    padding: 10px 15px;         /* เพิ่มระยะห่างภายในปุ่ม */
+    border: none;               /* ไม่ให้มีเส้นขอบ */
+    border-radius: 5px;        /* มุมปุ่มโค้งมน */
+    font-size: 16px;           /* ขนาดฟอนต์ */
+    cursor: pointer;            /* เปลี่ยนเคอร์เซอร์เมื่อชี้ไปที่ปุ่ม */
+    transition: background-color 0.3s; /* การเปลี่ยนแปลงสีพื้นหลัง */
+}
+
+/* สไตล์สำหรับปุ่ม Approve */
+.approve-btn {
+    background-color: #4CAF50; /* สีพื้นหลังของปุ่ม Approve */
+    color: white;              /* สีตัวอักษร */
+    margin-top: 10px;         /* เว้นระยะห่างด้านบน */
+}
+
+/* สไตล์สำหรับปุ่ม Cancel */
+.cancel-btn {
+    background-color: #f44336; /* สีพื้นหลังของปุ่ม Cancel */
+    color: white;              /* สีตัวอักษร */
+    margin-top: 10px;         /* เว้นระยะห่างด้านบน */
+}
+
+/* เอฟเฟกต์เมื่อชี้ไปที่ปุ่ม Approve */
+.approve-btn:hover {
+    background-color: #45a049; /* สีพื้นหลังเมื่อชี้ */
+}
+
+/* เอฟเฟกต์เมื่อชี้ไปที่ปุ่ม Cancel */
+.cancel-btn:hover {
+    background-color: #e53935; /* สีพื้นหลังเมื่อชี้ */
+}

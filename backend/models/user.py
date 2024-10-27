@@ -16,7 +16,7 @@ class UserProfile(Base):
     email = Column(String, unique=True, nullable=False)
     contact_number = Column(String, nullable=False)
     password = Column(String, nullable=False)
-    role = Column(String, default="user")  
+    role = Column(String, nullable=False)  
 
 
 class LogUserProfile(Base):
@@ -44,7 +44,7 @@ class LogUserProfile(Base):
     password = Column(String, nullable=True)
     to_password = Column(String, nullable=True)
 
-    role = Column(String, default="user")
+    role = Column(String, nullable=False)
 
 
 class LogUserLogin(Base):
@@ -100,7 +100,7 @@ class UserCreate(BaseModel):
     email: EmailStr
     contact_number: str
     password: str
-    role: str = Field(default="user")
+    role: str 
 
 
 class UserUpdatePassword(BaseModel):

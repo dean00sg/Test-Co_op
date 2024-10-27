@@ -1,16 +1,5 @@
 /* UserInfoss.css */
-.user-info.alternative{
-    background-color:#28B78D; /* สีพื้นหลัง */
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center; /* จัดให้อยู่ตรงกลางในแนวนอน */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
-    color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  
-  }
+
   .user-image {
     width: 100px;
     height: 100px;
@@ -20,6 +9,11 @@
     border: 5px solid white;     /* ขอบสีขาว */
     padding: 5px;                /* ระยะห่างระหว่างขอบกับรูปภาพ */
     box-sizing: border-box; 
+}
+
+
+.theme-green {
+  background-color: #28B78D;
 }
   .user-details {
     display: flex;
@@ -54,55 +48,58 @@
 
 
   
-
-  .rightpage-section {
-    width: 70%;
-    margin: 30px 15px 10px; /* Combine margin properties for clarity */
-    background-color: rgb(232, 245, 245);
+  .app {
+    display: flex; /* Use flexbox for the main layout */
   }
+  
   .leftpage-section {
     width: 30%;
     margin: 30px 15px 10px; /* Combine margin properties for clarity */
     background-color: rgb(232, 245, 245);
   }
-  .rightfll-section {
-    width: 100%;
+  
+  .rightpage-section {
+    width: 70%;
     margin: 30px 15px 10px; /* Combine margin properties for clarity */
     background-color: rgb(232, 245, 245);
-    margin: 20px 0;
-    overflow-x: auto;
   }
+  
+  .rightfull-section {
 
-  .rightpage-section, .leftpage-section {
+    margin: 10px 15px; /* Adjust margin to fit below */
+    background-color: rgb(232, 245, 245);
+  }
+  
+  .rightpage-section,
+  .leftpage-section,
+  .rightfull-section {
     padding: 30px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 1, 0.1);
   }
-  .rightfull-section, .leftpage-section {
-    padding: 30px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 1, 0.1);
-}
+  
 
 
 
 
-table {
+.user-profile-table {
+  margin: 10px; 
   width: 100%;
   border-collapse: collapse; /* Merges borders between cells */
   margin-top: 20px;
+  border-spacing: 10px;
 }
 
-th, td {
+.user-profile-table th, .user-profile-table td {
   padding: 12px; /* Space inside cells */
   text-align: left; /* Align text to the left */
   border: 1px solid #ddd; /* Light gray border */
 }
 
-th {
-  background-color: #28B78D;; /* Green background for the header */
+.user-profile-table th {
+  padding: 10px;
+  background-color: #28B78D; /* Green background for the header */
   color: white; /* White text color */
   position: sticky; /* Keeps the header visible on scroll */
   top: 0; /* Keeps the header at the top */
@@ -111,6 +108,56 @@ th {
 tr:hover {
   background-color: #f1f1f1; /* Light gray background on row hover */
 }
+
+
+
+td .icon-actions {
+  display: inline-flex; /* จัดให้ไอคอนอยู่ในแนวนอน */
+  gap: 10px; /* ระยะห่างระหว่างไอคอน */
+}
+
+.icon-actions .fa-icon {
+  font-size: 18px; /* ปรับขนาดไอคอน */
+  cursor: pointer; /* เปลี่ยนเม้าส์เป็นมือชี้เมื่อ hover */
+}
+
+.icon-actions .fa-icon:hover {
+  color: #007bff; /* เปลี่ยนสีเมื่อ hover */
+}
+
+
+
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+  margin-top: 20px; /* เว้นระยะจากส่วนบน */
+}
+
+.button-group button {
+  padding: 12px 25px; /* ขนาด padding ของปุ่ม */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px; /* ขนาดตัวอักษร */
+  width: 100%; /* กำหนดความกว้างของปุ่มเป็น 150px */
+}
+
+.button-group button:hover {
+  background-color: #0056b3;
+}
+
+.button-group button[type="button"] {
+  background-color: #6c757d; /* สีปุ่ม Cancel */
+}
+
+.button-group button[type="button"]:hover {
+  background-color: #5a6268;
+}
+
 
 @media (max-width: 600px) {
   th, td {

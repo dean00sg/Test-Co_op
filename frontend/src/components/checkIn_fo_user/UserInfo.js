@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const UserInfo = ({ isAlternative }) => { // รับ isAlternative เป็น prop
+const UserInfo = ({ isAlternative,theme  }) => { // รับ isAlternative เป็น prop
     const [user, setUser] = useState(null);
     const [userImage, setUserImage] = useState(null);
     const [error, setError] = useState(null);
@@ -60,7 +60,7 @@ const UserInfo = ({ isAlternative }) => { // รับ isAlternative เป็�
     }
 
     return (
-        <div className={`user-info ${isAlternative ? 'alternative' : ''}`}>
+        <div className={`user-info ${isAlternative ? 'alternative' : ''} ${theme}`}>
             <img src={userImage} alt="User Profile" className="user-image" />
             <div className="user-details">
                 <p>Name: {user.first_name} {user.last_name}</p>

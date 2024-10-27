@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNewspaper, faCheckSquare, faUserShield, faBell, faUsers, faUserCheck, faTools } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom'; 
-import '../styles/menu_grid.css';
+import './menu_grid.css';
 
 const MenuGrid = () => {
   const navigate = useNavigate();

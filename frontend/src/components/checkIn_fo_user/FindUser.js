@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolder, faCheckSquare, faUserShield, faBell, faUsers, faUserCheck, faTools } from '@fortawesome/free-solid-svg-icons';
-import '../styles/finduser.css';
+import './finduser.css';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';  
 

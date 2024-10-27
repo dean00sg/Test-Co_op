@@ -17,17 +17,17 @@ async def register_user(
     email: str = Form(...),
     contact_number: str = Form(...),
     password: str = Form(...),
-    role: str = Form(None),  # Optional
+    role: str = Form(...),  # Optional
     image_profile: UploadFile = File(None),  # Accept file upload
     session: Session = Depends(get_session)
 ):
-    role = role or "user"
-    if role not in ["admin", "user"]:
-        raise HTTPException(status_code=400, detail="Invalid role")
+    # role = role or "user"
+    # if role not in ["admin", "user"]:
+    #     raise HTTPException(status_code=400, detail="Invalid role")
 
     hashed_password = auth_handler.get_password_hash(password)
 
-    image_profile_bytes = None
+  
     if image_profile:
         # Read the image as bytes
         image_profile_bytes = await image_profile.read() 
@@ -57,7 +57,7 @@ async def register_user(
         contact_number=db_user.contact_number,
         password=db_user.password,
         role=db_user.role,
-        image_profile=image_profile_bytes  # Log the binary image
+        image_profile=image_profile_bytes 
     )
 
     session.add(log_entry)

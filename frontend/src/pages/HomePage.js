@@ -1,11 +1,12 @@
 import React from 'react';
-import Header from '../components/Header-In'; // นำเข้า Header
-import MenuGrid from '../components/Requesting';
-import Checking from '../components/Checking';
-import UserInfo from '../components/UserInfo';
+import Header from '../components/header/Header-In'; // นำเข้า Header
+import MenuGrid from '../components/requasting_main/Requesting';
+import Checking from '../components/requasting_main/Checking';
+import UserInfo from '../components/checkIn_fo_user/UserInfo';
 import NotificationPanel from '../components/NotificationPanel';
 import '../styles/styles_page/HomePage.css';
-import '../styles/user_info.css';
+import '../components/checkIn_fo_user/user_info.css';
+
 
 const HomePage = () => {
   return (

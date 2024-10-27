@@ -1,6 +1,7 @@
 /* Header styles */
 .header {
   display: grid;
+
   grid-template-columns: 0.8fr 1.1fr; /* Two columns */
   align-items: center; /* Vertically align items */
   background-color: rgb(21, 131, 209); /* Header background color */

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';  // นำเข้า useNavigate
-import '../styles/login.css';
+import './login.css';
 
 const LoginPanel = () => {
   const [username, setUsername] = useState('');

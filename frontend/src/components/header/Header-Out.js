@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
-import '../styles/styles_header/outheader.css';
+import './outheader.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'; // Import the search icon
 
