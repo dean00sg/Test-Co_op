@@ -22,39 +22,6 @@ const LogNews = () => {
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem('token');
 
-    const handleChange = (e) => {
-        const { name, value, files } = e.target;
-        setFormData({
-            ...formData,
-            [name]: files ? files[0] : value
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const form = new FormData();
-        form.append('header', formData.header);
-        form.append('detail', formData.detail);
-        form.append('image_news', formData.image_news);
-        form.append('link', formData.link);
-
-        try {
-            await axios.post(`${API_BASE_URL}/news/news`, form, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            setSuccessMessage('News submitted successfully!');
-            setError(null);
-            setFormData({ header: '', detail: '', image_news: null, link: '' });
-            fetchAllNews();
-        } catch (error) {
-            console.error(error);
-            setError('Failed to submit news. Please try again.');
-            setSuccessMessage(null);
-        }
-    };
 
     const fetchAllNews = async () => {
         try {
@@ -88,7 +55,7 @@ const LogNews = () => {
 
     const fetchImageForNews = async (id) => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/news/Log_tonews_image/${id}`, {
+            const response = await axios.get(`${API_BASE_URL}/news/Log_tonews_image/{news_id}?log_id=${id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },

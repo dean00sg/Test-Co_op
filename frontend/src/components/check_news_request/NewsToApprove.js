@@ -158,6 +158,7 @@ const NewsApprove = ({ currentTable }) => { // Accept currentTable as a prop
                         </tbody>
                     </table>
                 ) : currentTable === 'Log' ? ( // Check for the Log condition
+                    
                     <LogActionNews />
                 ) : (
                     <div>

@@ -1,76 +1,83 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilePen, faPenToSquare, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faFilePen, faPenToSquare, faTrashAlt, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import PropTypes from 'prop-types'; // Import PropTypes
 import '../request_news/statusnews.css';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
 const LogActionNews = () => {
+    const [formData, setFormData] = useState({
+        header: '',
+        detail: '',
+        image_news: null,
+        link: ''
+    });
     const [newsList, setNewsList] = useState([]);
-    const [images, setImages] = useState({});
-    const [users, setUsers] = useState({});
+    const [filteredNews, setFilteredNews] = useState([]);
+    const [searchTerm, setSearchTerm] = useState({ actionName: '', newsId: '', header: '' }); // Search input state
+    const [userDetails, setUserDetails] = useState({});
     const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [images, setImages] = useState({});
+    const [loading, setLoading] = useState(true);
     const token = localStorage.getItem('token');
+
+    // State for column widths
+    const [columnWidths, setColumnWidths] = useState({});
 
     const fetchAllNews = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/news/log_news`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+                headers: { 'Authorization': `Bearer ${token}` }
             });
             setNewsList(response.data);
+            setFilteredNews(response.data); // Set filtered news to all news initially
         } catch (error) {
-            console.error('Failed to fetch news:', error);
-            setError('Failed to fetch news, please try again later.');
+            console.error(error);
+            setError('Failed to fetch news.');
+        } finally {
+            setLoading(false);
         }
     };
 
-    const fetchUserProfile = async (userId) => {
+    const fetchUserProfile = async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/profile/${userId}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+            const response = await axios.get(`${API_BASE_URL}/profile/profile`, {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
-            setUsers((prevUsers) => ({ ...prevUsers, [userId]: response.data }));
+            setUserDetails(response.data);
         } catch (error) {
-            console.error('Failed to fetch user profile:', error);
+            console.error(error);
             setError('Failed to fetch user profile.');
         }
     };
 
-    const fetchImageForNews = async (newsId) => {
+    const fetchImageForNews = async (id) => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/news/Log_tonews_image/${newsId}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
+            const response = await axios.get(`${API_BASE_URL}/news/Log_tonews_image/{news_id}?log_id=${id}`, {
+                headers: { 'Authorization': `Bearer ${token}` },
                 responseType: 'blob',
             });
             const imageURL = URL.createObjectURL(response.data);
-            setImages((prevImages) => ({ ...prevImages, [newsId]: imageURL }));
+            setImages((prevImages) => ({ ...prevImages, [id]: imageURL }));
         } catch (error) {
-            console.error(`Failed to fetch image for news_id: ${newsId}`, error);
+            console.error(`Failed to fetch image for news_id: ${id}`, error);
         }
     };
 
-    useEffect(() => {
-        fetchAllNews();
-    }, []);
-
-    useEffect(() => {
-        if (newsList.length > 0) {
-            newsList.forEach((news) => {
-                fetchImageForNews(news.news_id);  // Updated to use news.news_id
-                fetchUserProfile(news.user_id);
+    const fetchUserById = async (userId) => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/profile/${userId}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
+            return response.data;
+        } catch (error) {
+            console.error(`Failed to fetch user by ID: ${userId}`, error);
+            return null;
         }
-        return () => {
-            Object.values(images).forEach(image => URL.revokeObjectURL(image));
-        };
-    }, [newsList]);
+    };
 
     const formatDateTime = (dateTime) => {
         if (!dateTime) return '';
@@ -85,91 +92,217 @@ const LogActionNews = () => {
         });
     };
 
+    const handleMouseDown = (e, columnKey) => {
+        e.preventDefault();
+        const startX = e.clientX;
+        const startWidth = columnWidths[columnKey] || 100; // Default width
+
+        const handleMouseMove = (moveEvent) => {
+            const newWidth = Math.max(50, startWidth + moveEvent.clientX - startX);
+            setColumnWidths((prevWidths) => ({ ...prevWidths, [columnKey]: newWidth }));
+        };
+
+        const handleMouseUp = () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+    };
+
+    const handleSearch = () => {
+        const { actionName, newsId, header } = searchTerm;
+        const filtered = newsList.filter(news =>
+            (actionName ? news.action_name.toLowerCase().includes(actionName.toLowerCase()) : true) &&
+            (newsId ? news.news_id.toString().includes(newsId) : true) &&
+            (header ? news.header.toLowerCase().includes(header.toLowerCase()) : true)
+        );
+        setFilteredNews(filtered);
+    };
+
+    const handleResetSearch = () => {
+        setSearchTerm({ actionName: '', newsId: '', header: '' });
+        setFilteredNews(newsList); // Show all news again
+    };
+
+    useEffect(() => {
+        fetchUserProfile();
+        fetchAllNews();
+    }, []);
+
+    useEffect(() => {
+        if (newsList.length > 0) {
+            setFilteredNews(newsList);
+            newsList.forEach((news) => {
+                fetchImageForNews(news.id);
+                fetchUserById(news.user_id).then(userData => {
+                    if (userData) {
+                        setUserDetails(prevState => ({
+                            ...prevState,
+                            [news.user_id]: userData
+                        }));
+                    }
+                });
+            });
+        }
+    }, [newsList]);
+
+    useEffect(() => {
+        return () => {
+            Object.values(images).forEach(url => URL.revokeObjectURL(url));
+        };
+    }, [images]);
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
     return (
         <div className="form-container">
-            {error && <p className="error-message">{error}</p>}
+            <h2>Check Actioner Of Data</h2>
+            <h className='advice-red'>
+                <FontAwesomeIcon icon={faTriangleExclamation} /> 
+                You can adjust the table width by dragging the resize handle at the top of the table header.
+            </h>
+            {/* Search Inputs */}
+            <div className="search-container">
+                <select
+                    value={searchTerm.actionName}
+                    onChange={(e) => setSearchTerm({ ...searchTerm, actionName: e.target.value })}
+                >
+                    <option value="" disabled>Select Action Name</option>
+                    <option value="create">create</option>
+                    <option value="update">update</option>
+                    <option value="delete">delete</option>
+                    {/* Add more options as needed */}
+                </select>
+                
+                <input
+                    type="text"
+                    placeholder="Search by News ID"
+                    value={searchTerm.newsId}
+                    onChange={(e) => setSearchTerm({ ...searchTerm, newsId: e.target.value })}
+                />
+                
+                <input
+                    type="text"
+                    placeholder="Search by Header"
+                    value={searchTerm.header}
+                    onChange={(e) => setSearchTerm({ ...searchTerm, header: e.target.value })}
+                />
+                <button className='Search' onClick={handleSearch}>Search</button>
+                <button className='resetSearch' onClick={handleResetSearch}>Reset Search</button> {/* Reset Search Button */}
+            </div>
+
+
             <div className="news-table">
-                <table className='news-profile-table'>
-                    <thead>
-                        <tr>
-                            <th>News ID</th>
-                            <th>Action Name</th>
-                            <th>Action DateTime</th>
-                            <th>Action By</th>
-                            <th>Action Role</th>
-                            <th>Image</th>
-                            <th>To Image</th>
-                            <th>Header</th>
-                            <th>To Header</th>
-                            <th>Detail</th>
-                            <th>To Detail</th>
-                            <th>Link</th>
-                            <th>To Link</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {newsList.map((news) => (
-                            <tr key={news.news_id}>
-                                <td className='intable_box_table'>{news.news_id}</td>
-                                <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>
-                                    {news.action_name === 'update' ? (
-                                        <FontAwesomeIcon icon={faPenToSquare} className="faPenToSquare" />
-                                    ) : news.action_name === 'create' ? (
-                                        <FontAwesomeIcon icon={faFilePen} className="faFilePen" />
-                                    ) : news.action_name === 'delete' ? (
-                                        <FontAwesomeIcon icon={faTrashAlt} className="faTrash" />
-                                    ) : null}
-                                    {news.action_name}
-                                </td>
-                                <td className='intable_box_table'>{formatDateTime(news.action_datetime)}</td>
-                                <td className='intable_box_table'>
-                                    {users[news.user_id] && users[news.user_id].first_name ? (
-                                        <div className="profiletable-container">
-                                            <img
-                                                src={`${API_BASE_URL}/profile/image/${news.user_id}`}
-                                                alt="User Profile"
-                                                className="profiletable-image"
-                                            />
-                                            {`${users[news.user_id].first_name} ${users[news.user_id].last_name}`}
-                                        </div>
-                                    ) : 'Loading...'}
-                                </td>
-                                <td className='intable_box_table'>{users[news.user_id] ? users[news.user_id].role : 'Loading...'}</td>
-                                <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>
-                                    {images[news.news_id] ? (
-                                        <img 
-                                            src={images[news.news_id]} 
-                                            alt={`Image for ${news.header}`} 
-                                            style={{ width: '50px', height: 'auto' }} 
-                                        />
-                                    ) : (
-                                        <p>No Image</p>
-                                    )}
-                                </td>
-                                <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>
-                                    {images[news.news_id] ? (
-                                        <img 
-                                            src={images[news.news_id]} 
-                                            alt={`Image for ${news.to_header}`} 
-                                            style={{ width: '50px', height: 'auto' }} 
-                                        />
-                                    ) : (
-                                        <p>No Image</p>
-                                    )}
-                                </td>
-                                <td className='intable_box_table'>{news.header}</td>
-                                <td className='intable_box_table'>{news.to_header}</td>
-                                <td className='intable_box_table'>{news.detail}</td>
-                                <td className='intable_box_table'>{news.to_detail}</td>
-                                <td className='intable_box_table'>{news.link}</td>
-                                <td className='intable_box_table'>{news.to_link}</td>
+                {filteredNews.length > 0 ? (
+                    <table className="lognews-table">
+                        <thead>
+                            <tr>
+                                <th style={{ width: columnWidths.news_id || 100 }}>News ID</th>
+                                <th style={{ width: columnWidths.action_name || 100 }} onMouseDown={(e) => handleMouseDown(e, 'action_name')}>
+                                    Action Name
+                                </th>
+                                <th style={{ width: columnWidths.action_datetime || 150 }} onMouseDown={(e) => handleMouseDown(e, 'action_datetime')}>
+                                    Action DateTime
+                                </th>
+                                <th style={{ width: columnWidths.action_by || 150 }} onMouseDown={(e) => handleMouseDown(e, 'action_by')}>
+                                    Action By
+                                </th>
+                                <th style={{ width: columnWidths.action_role || 150 }} onMouseDown={(e) => handleMouseDown(e, 'action_role')}>
+                                    Action Role
+                                </th>
+                                <th style={{ width: columnWidths.image || 100 }}>Image</th>
+                                <th style={{ width: columnWidths.to_image || 100 }}>To Image</th>
+                                <th style={{ width: columnWidths.header || 150 }} onMouseDown={(e) => handleMouseDown(e, 'header')}>Header</th>
+                                <th style={{ width: columnWidths.to_header || 150 }} onMouseDown={(e) => handleMouseDown(e, 'to_header')}>To Header</th>
+                                <th style={{ width: columnWidths.detail || 150 }} onMouseDown={(e) => handleMouseDown(e, 'detail')}>Detail</th>
+                                <th style={{ width: columnWidths.to_detail || 150 }} onMouseDown={(e) => handleMouseDown(e, 'to_detail')}>To Detail</th>
+                                <th style={{ width: columnWidths.link || 100 }} onMouseDown={(e) => handleMouseDown(e, 'link')}>Link</th>
+                                <th style={{ width: columnWidths.to_link || 100 }} onMouseDown={(e) => handleMouseDown(e, 'to_link')}>To Link</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredNews.map(news => (
+                                <tr key={news.id}>
+                                    <td >{news.news_id}</td>
+                                    <td className={`intable_box 
+                                        ${news.action_name === 'delete' ? 'deleted' : ''} `}>
+                                        {news.action_name === 'update' && (
+                                            <>
+                                                <FontAwesomeIcon icon={faPenToSquare} className="faPenToSquare" />
+                                                {news.action_name}
+                                            </>
+                                        )}
+                                        {news.action_name === 'create' && (
+                                            <>
+                                                <FontAwesomeIcon icon={faFilePen} className="faFilePen" />
+                                                {news.action_name}
+                                            </>
+                                        )}
+                                        {news.action_name === 'delete' && (
+                                            <>
+                                                <FontAwesomeIcon icon={faTrashAlt} className="faTrash" />
+                                                {news.action_name}
+                                            </>
+                                        )}
+                                    </td>
+
+                                    <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`} >{formatDateTime(news.action_datetime)}</td>
+                                    <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`} >
+                                        {userDetails[news.user_id] ? (
+                                            <div className="profiletable-container">
+                                                <img
+                                                    src={`${API_BASE_URL}/profile/image/${news.user_id}`}
+                                                    alt="User Profile"
+                                                    className="profiletable-image"
+                                                />
+                                                {`${userDetails[news.user_id].first_name} ${userDetails[news.user_id].last_name}`}
+                                            </div>
+                                        ) : (
+                                            <p>Loading user details...</p> 
+                                        )}
+                                    </td>
+                                    <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{userDetails[news.user_id]?.role || 'Loading...'}</td>
+
+
+                                    <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>
+                                        {news.action_name !== 'create' && (
+                                            <img
+                                            src={`${API_BASE_URL}/news/Log_news_image/{news_id}?log_id=${news.id}`}  // Replace {news_id} with the actual value if needed
+                                            alt="News Image"
+                                            style={{ width: '100%', height: 'auto' }}  
+                                            />
+                                        )}
+                                    </td>
+
+                                    <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>
+                                        {images[news.id] ? <img src={images[news.id]} alt={`News ${news.id}`} style={{ width: '100%' }} /> : 'No Image'}
+                                    </td>
+
+                                    
+                                    
+                                    
+                                    <td  className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.header}</td>
+                                    <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.to_header}</td>
+                                    <td  className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.detail}</td>
+                                    <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.to_detail}</td>
+                                    <td  className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.link}</td>
+                                    <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.to_link}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <p>No news found.</p>
+                )}
             </div>
         </div>
     );
 };
+
+
 
 export default LogActionNews;

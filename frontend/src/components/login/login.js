@@ -46,8 +46,7 @@ const LoginPanel = () => {
   return (
     <div className="login-panel">
       <h2>Sign in</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-
+     
       <div className="input-group">
         <input
           type="text"

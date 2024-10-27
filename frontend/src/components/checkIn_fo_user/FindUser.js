@@ -83,14 +83,14 @@ const FindUser = () => {
             {userImage && <img src={userImage} alt="User Profile" />}
           </div>
           <div className="user-details">
-            <h2>User Profile</h2>
-            <p><strong>ID:</strong> {userData.user_id}</p>
-            <p><strong>Name:</strong> {userData.first_name} {userData.last_name}</p>
-            <p><strong>Email:</strong> {userData.email}</p>
+            <h>User Profile</h>
+            <p className='text-data'><strong>ID:</strong> {userData.user_id}</p>
+            <p className='text-data'><strong>Name:</strong> {userData.first_name} {userData.last_name}</p>
+            <p className='text-data'><strong>Email:</strong> {userData.email}</p>
           </div>
           <div className="user-details">
-            <p><strong>Contact:</strong> {userData.contact_number}</p>
-            <p><strong>Role:</strong> {userData.role}</p>
+            <p className='text-data'><strong>Contact:</strong> {userData.contact_number}</p>
+            <p className='text-data'><strong>Role:</strong> {userData.role}</p>
           </div>
         </div>
       )}

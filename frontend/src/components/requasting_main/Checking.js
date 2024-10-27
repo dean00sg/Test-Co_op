@@ -31,13 +31,14 @@ const Checking = () => {
   }, []);
 
   const menuItems = [
-    { label: 'Check Profile User', icon: faUserCheck, path: '/Home/CheckInfoUser' },
+    
     { label: 'Check User Login-Logout', icon: faSignInAlt, path: '/Home/CheckLogin' },
   ];
 
   // Add the "Check News Request" menu item only if the user role is developer
   if (user && user.role === 'developer') {
     menuItems.push({ label: 'Check News Request', icon: faFileCircleCheck, path: '/Home/CheckNewsRequest' });
+    menuItems.push({ label: 'Check Profile User', icon: faUserCheck, path: '/Home/CheckInfoUser' });
   }
 
 

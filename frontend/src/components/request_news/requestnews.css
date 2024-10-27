@@ -44,6 +44,7 @@ input, select, textarea {
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 16px;
+    border-right: 6px solid #28B78D;
 
 }
   
@@ -76,7 +77,8 @@ button:hover {
 
 .news-profile-table {
    
-    
+    position: relative;
+    cursor: ew-resize;
     border-spacing: 0px; /* ระยะห่างระหว่างเซลล์ */
 
 }
@@ -119,7 +121,7 @@ button:hover {
 }
 
 .fa-icon.edit {
-    color: green; /* สีแดงสำหรับไอคอนแก้ไข */
+    color: rgb(43, 202, 62); /* สีแดงสำหรับไอคอนแก้ไข */
 }
 
 .fa-icon.delete {
@@ -137,6 +139,10 @@ button:hover {
     color: rgb(43, 202, 62);
     font-size: 24px;
 
+}
+.success-message {
+    color: green;
+    font-weight: bold; /* Optional: Makes the text bold */
 }
 .centered-intable-box {
     text-align: center;

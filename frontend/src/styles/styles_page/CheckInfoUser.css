@@ -151,11 +151,11 @@ td .icon-actions {
 }
 
 .button-group button[type="button"] {
-  background-color: #6c757d; /* สีปุ่ม Cancel */
+  background-color: rgb(213, 33, 33); /* สีปุ่ม Cancel */
 }
 
 .button-group button[type="button"]:hover {
-  background-color: #5a6268;
+  background-color: #9b214c;
 }
 
 

@@ -40,5 +40,11 @@
   }
   p {
     
-    color: white;
+    color: red;
+  }
+
+ .text-data {
+    
+    color:white;
+    font-size: 20px;
   }

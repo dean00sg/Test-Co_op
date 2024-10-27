@@ -128,12 +128,12 @@ async def get_news_image_by_id(
 
 @router.get("/Log_tonews_image/{news_id}")
 async def get_news_image_by_id(
-    news_id: int, 
+    log_id: int, 
     session: Session = Depends(get_session)
 ):
     # Query for the news item with the specific news_id
     news = session.query(LogNewsUpdate).filter(
-        LogNewsUpdate.id == news_id  # Use news_id here
+        LogNewsUpdate.id == log_id  # Use news_id here
     ).first()  # Ensure you fetch the first record
 
     # Check if the news item exists
@@ -146,6 +146,30 @@ async def get_news_image_by_id(
 
     # Create a BytesIO stream to send the image data
     image_stream = BytesIO(news.to_image_news)
+    
+    return StreamingResponse(image_stream, media_type="image/jpeg")
+
+
+@router.get("/Log_news_image/{news_id}")
+async def get_news_image_by_id(
+    log_id: int, 
+    session: Session = Depends(get_session)
+):
+    # Query for the news item with the specific news_id
+    news = session.query(LogNewsUpdate).filter(
+        LogNewsUpdate.id == log_id  # Use news_id here
+    ).first()  # Ensure you fetch the first record
+
+    # Check if the news item exists
+    if not news:
+        raise HTTPException(status_code=404, detail="News not found")
+
+    # Check if the image data is present
+    if news.image_news is None:
+        raise HTTPException(status_code=404, detail="Image not found")
+
+    # Create a BytesIO stream to send the image data
+    image_stream = BytesIO(news.image_news)
     
     return StreamingResponse(image_stream, media_type="image/jpeg")
 

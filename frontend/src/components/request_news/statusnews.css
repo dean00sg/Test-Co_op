@@ -92,8 +92,6 @@
 
   .intable_box {
     padding: 5px;
-    border-radius: 5px;
-    background-color: #f5f2f2; /* Light background color */
     font-size: 14px;
     color: #333; /* Text color */
     font-weight: bold;
@@ -101,6 +99,12 @@
 
 .deleted {
     background-color: #ffcccc; /* Light red background for deleted news */
+}
+.update{
+    background-color: #fffccc; /* Light red background for deleted news */
+}
+.create{
+    background-color: #d1ffcc; /* Light red background for deleted news */
 }
 
   
@@ -261,6 +265,40 @@
 
 
 
+.lognews-table th {
+    background-color: #d9534f;
+    position: sticky;
+    top: 0; /* This property keeps the header at the top */
+    z-index: 1; /* Ensures the header stays above other content */
+    cursor: ew-resize;
+}
+
+
+
+.advice-red {
+    font-size: 15px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    color: rgb(255, 174, 0);
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Align items vertically centered */
+    gap: 8px; /* Adjust this value for desired space between icon and text */
+}
+
+
+.advice-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .advice-icon {
+    color: yellow;
+    margin-right: 8px;
+  }
+  
+
+
+
 
 .card-p {
   
@@ -272,3 +310,45 @@
     border-radius: 1px; /* ขอบมน */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* เงา */
 }
+
+
+
+
+
+
+.search-container {
+    margin-top: 20px;
+    background-color: #faf8f8;
+    display: flex; /* ใช้ flexbox */
+    align-items: center; /* จัดแนวในแนวเดียวกัน */
+    gap: 10px; /* เพิ่มระยะห่างระหว่างช่องค้นหาและปุ่ม */
+}
+
+.search-container input {
+    padding: 8px; /* เพิ่ม padding ให้ช่องค้นหา */
+    border: 1px solid #ccc; /* ขอบช่องค้นหา */
+    border-radius: 4px; /* มุมกลม */
+}
+
+.search-container button {
+    padding: 10px 15px; /* เพิ่ม padding ให้ปุ่ม */
+    border: none; /* ไม่มีขอบ */
+    border-radius: 4px; /* มุมกลม */
+    cursor: pointer; /* แสดงว่าเป็นปุ่มคลิกได้ */
+}
+
+.search-container .Search {
+    background-color: rgb(0, 145, 255); /* สีพื้นหลังของปุ่ม Search */
+    color: white; /* สีของตัวอักษรในปุ่ม */
+}
+
+.search-container .resetSearch {
+    background-color: red; /* สีพื้นหลังของปุ่ม Reset */
+    color: white; /* สีของตัวอักษรในปุ่ม */
+}
+
+
+.search-container button:hover {
+    background-color: #e3e13b; /* สีของปุ่มเมื่อเลื่อนเมาส์ไปทับ */
+}
+

@@ -76,7 +76,7 @@ const CheckInfoUser = () => {
       <div className="app">
         <div className="leftpage-section">
           <h>Log Action All</h> 
-          <table className=''>
+          <table className="lognews-table">
             <thead>
               <tr>
                 <th>Log Id</th>

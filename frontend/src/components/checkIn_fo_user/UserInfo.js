@@ -63,10 +63,10 @@ const UserInfo = ({ isAlternative,theme  }) => { // รับ isAlternative เ�
         <div className={`user-info ${isAlternative ? 'alternative' : ''} ${theme}`}>
             <img src={userImage} alt="User Profile" className="user-image" />
             <div className="user-details">
-                <p>Name: {user.first_name} {user.last_name}</p>
-                <p>Role: {user.role}</p>
-                <p>Email: {user.email}</p>
-                <p>Phone: {user.contact_number}</p>
+                <p className='text-data'>Name: {user.first_name} {user.last_name}</p>
+                <p className='text-data'>Role: {user.role}</p>
+                <p className='text-data'>Email: {user.email}</p>
+                <p className='text-data'>Phone: {user.contact_number}</p>
             </div>
         </div>
     );

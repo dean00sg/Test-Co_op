@@ -140,7 +140,7 @@ const StatusNews = () => {
                         </tbody>
                     </table>
                 ) : (
-                    <p>No news submitted yet.</p>
+                    <p>No news submitted yet</p>
                 )}
             </div>
 
