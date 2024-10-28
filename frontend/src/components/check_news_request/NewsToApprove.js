@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../request_news/statusnews.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faHourglassHalf, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faHourglassHalf, faTrashAlt, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import NewsApproveBy from './CheckApproveBy';
 import LogActionNews from './LogActionNews';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
-const NewsApprove = ({ currentTable }) => { // Accept currentTable as a prop
+const NewsApprove = ({ currentTable }) => {
     const [formData, setFormData] = useState({
         header: '',
         detail: '',
@@ -21,6 +21,7 @@ const NewsApprove = ({ currentTable }) => { // Accept currentTable as a prop
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
     const [images, setImages] = useState({});
+    const [searchTerm, setSearchTerm] = useState({ newsId: '', header: '', status_approve: '' });
     const token = localStorage.getItem('token');
 
     const handleChange = (e) => {
@@ -55,6 +56,7 @@ const NewsApprove = ({ currentTable }) => { // Accept currentTable as a prop
                 }
             });
             setNewsList(response.data);
+            setFilteredNews(response.data); // Initialize filtered news with all news
         } catch (error) {
             setError('Failed to fetch news.');
         }
@@ -88,6 +90,21 @@ const NewsApprove = ({ currentTable }) => { // Accept currentTable as a prop
         }
     };
 
+    const handleSearch = () => {
+        const { newsId, header, status_approve } = searchTerm;
+        const filtered = newsList.filter(news =>
+            (newsId ? news.news_id.toString().includes(newsId) : true) &&
+            (header ? news.header.toLowerCase().includes(header.toLowerCase()) : true) &&
+            (status_approve ? news.status_approve.toLowerCase() === status_approve.toLowerCase() : true)
+        );
+        setFilteredNews(filtered);
+    };
+
+    const handleResetSearch = () => {
+        setSearchTerm({ newsId: '', header: '', status_approve: '' });
+        setFilteredNews(newsList); // Show all news again
+    };
+
     useEffect(() => {
         fetchAllNews();
         fetchUserProfile();
@@ -95,10 +112,8 @@ const NewsApprove = ({ currentTable }) => { // Accept currentTable as a prop
 
     useEffect(() => {
         if (user && newsList.length > 0) {
-            const userNews = newsList;
-            setFilteredNews(userNews);
-
-            userNews.forEach((news) => {
+            setFilteredNews(newsList); // Initialize filtered news with all news
+            newsList.forEach((news) => {
                 fetchImageForNews(news.news_id);
             });
         }
@@ -106,13 +121,50 @@ const NewsApprove = ({ currentTable }) => { // Accept currentTable as a prop
 
     return (
         <div className="form-container">
+            {/* Check if currentTable is 'all' to render the header and table */}
+            {currentTable === 'all' && (
+                <div className="flex-header">
+                    <h2>All The News And Status Show</h2>
+                    <h className='advice-red'>
+                        <FontAwesomeIcon icon={faTriangleExclamation} />
+                        You can adjust the table width by dragging the resize handle at the top of the table header.
+                    </h>
+                    {/* Search Inputs */}
+                    <div className="searchtable-container">
+                        <input
+                            type="text"
+                            placeholder="Search by News ID"
+                            value={searchTerm.newsId}
+                            onChange={(e) => setSearchTerm({ ...searchTerm, newsId: e.target.value })}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Search by Header"
+                            value={searchTerm.header}
+                            onChange={(e) => setSearchTerm({ ...searchTerm, header: e.target.value })}
+                        />
+                        <select
+                            value={searchTerm.status_approve}
+                            onChange={(e) => setSearchTerm({ ...searchTerm, status_approve: e.target.value })}
+                        >
+                            <option value="" disabled>Status Show</option>
+                            <option value="approve">Approve</option>
+                            <option value="request">Request</option>
+                        </select>
+                        
+                        <button className='Search' onClick={handleSearch}>Search</button>
+                        <button className='resetSearch' onClick={handleResetSearch}>Reset Search</button>
+                    </div>
+                </div>
+            )}
+
             <div className="news-table">
-                {currentTable === 'approved' ? (
+                {currentTable === 'all' ? (
                     <table className='news-profile-table'>
                         <thead>
                             <tr>
                                 <th>News ID</th>
-                                <th>DeteTime Request</th>
+                                <th>DateTime Request</th>
                                 <th>News Image</th>
                                 <th>Header</th>
                                 <th>Detail</th>
@@ -146,10 +198,10 @@ const NewsApprove = ({ currentTable }) => { // Accept currentTable as a prop
                                     </td>
                                     <td style={{ textAlign: 'center' }}>
                                         <div className="icon-actions">
-                                            <FontAwesomeIcon 
-                                                icon={faTrashAlt} 
-                                                className="fa-icon delete" 
-                                                onClick={() => handleDelete(news.news_id)} 
+                                            <FontAwesomeIcon
+                                                icon={faTrashAlt}
+                                                className="fa-icon delete"
+                                                onClick={() => handleDelete(news.news_id)}
                                             />
                                         </div>
                                     </td>
@@ -157,12 +209,10 @@ const NewsApprove = ({ currentTable }) => { // Accept currentTable as a prop
                             ))}
                         </tbody>
                     </table>
-                ) : currentTable === 'Log' ? ( // Check for the Log condition
-                    
+                ) : currentTable === 'Log' ? (
                     <LogActionNews />
                 ) : (
                     <div>
-                        <h2>Check the approver for the News Request</h2>
                         <NewsApproveBy />
                     </div>
                 )}

@@ -84,10 +84,9 @@ button:hover {
 
 
 
-.news-profile-table {
-   
+.news-profile-table {  
+    margin-top: 20px;
     position: relative;
-    cursor: ew-resize;
     border-spacing: 0px; /* ระยะห่างระหว่างเซลล์ */
 
 }
@@ -121,6 +120,10 @@ button:hover {
     
   }
 
+
+
+
+  
 .intable_box_table td {
     padding: 10px; /* เพิ่ม padding ให้กับเซลล์ */
     font-size: 14px;
@@ -246,7 +249,8 @@ button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 1, 0.1);
   }
   .flex-row {
-    width: 100%;
-    margin-top: 15px;
-
-  }
+    display: flex;  /* ทำให้ container เป็น flex */
+    flex-direction: row;  /* จัดเรียง items ในแนวนอน */
+    justify-content: space-between;  /* จัดเรียงให้มีพื้นที่ว่างระหว่าง items */
+    align-items: flex-start;  /* จัดแนว items ให้เริ่มต้นที่ด้านบน */
+}

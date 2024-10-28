@@ -4,6 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePen, faPenToSquare, faTrashAlt, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types'; // Import PropTypes
 import '../request_news/statusnews.css';
+import CardShowNews from '../card_news/CardShow';
+import ApproveStatusNews from './ApproveStatusNews';
+import UserInfo from '../checkIn_fo_user/UserInfo';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
@@ -92,39 +95,6 @@ const ApproveCard = () => {
         });
     };
 
-    const handleMouseDown = (e, columnKey) => {
-        e.preventDefault();
-        const startX = e.clientX;
-        const startWidth = columnWidths[columnKey] || 100; // Default width
-
-        const handleMouseMove = (moveEvent) => {
-            const newWidth = Math.max(50, startWidth + moveEvent.clientX - startX);
-            setColumnWidths((prevWidths) => ({ ...prevWidths, [columnKey]: newWidth }));
-        };
-
-        const handleMouseUp = () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-        };
-
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
-    };
-
-    const handleSearch = () => {
-        const { actionName, newsId, header } = searchTerm;
-        const filtered = newsList.filter(news =>
-            (actionName ? news.action_name.toLowerCase().includes(actionName.toLowerCase()) : true) &&
-            (newsId ? news.news_id.toString().includes(newsId) : true) &&
-            (header ? news.header.toLowerCase().includes(header.toLowerCase()) : true)
-        );
-        setFilteredNews(filtered);
-    };
-
-    const handleResetSearch = () => {
-        setSearchTerm({ actionName: '', newsId: '', header: '' });
-        setFilteredNews(newsList); // Show all news again
-    };
 
     useEffect(() => {
         fetchUserProfile();
@@ -160,7 +130,42 @@ const ApproveCard = () => {
 
     return (
         <div className="form-container">
-            
+
+            <div className='flex-row'>
+                <div className="leftpage-section">
+                    <h>Waiting For Approval</h>
+                    <ApproveStatusNews />
+                </div>
+                <div className="rightpage-section">
+                    <UserInfo isAlternative={false} theme="theme-green" />
+                    <h>News Card On Welcome</h>
+                    <div className="form-card">
+                    <CardShowNews />
+                    <div className="video-container">
+                        <iframe
+                        width="480"
+                        height="270"
+                        src="https://www.youtube.com/embed/AuVHftBiDVw"
+                        title="YouTube Video 1"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        ></iframe>
+
+                        <iframe
+                        width="480"
+                        height="270"
+                        src="https://www.youtube.com/embed/SzMiJFOa6w8"
+                        title="YouTube Video 2"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        ></iframe>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     );
 };
