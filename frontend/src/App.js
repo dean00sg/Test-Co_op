@@ -10,7 +10,7 @@ import './styles.css';
 
 function App() {
   return (
-    <Router>
+    <Router> {/* Wrap Routes inside Router */}
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/Home" element={<HomePage />} />
@@ -18,7 +18,6 @@ function App() {
         <Route path="/Home/CheckLogin" element={<CheckLogin />} />
         <Route path="/Home/AddNewsRequest" element={<AddNewsRequest />} />
         <Route path="/Home/CheckNewsRequest" element={<CheckNewsRequest />} />
-        
       </Routes>
     </Router>
   );

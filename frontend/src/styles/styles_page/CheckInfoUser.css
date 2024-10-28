@@ -47,11 +47,7 @@
 
 
 
-  
-  .app {
-    display: flex; /* Use flexbox for the main layout */
-  }
-  
+
   .leftpage-section {
     width: 30%;
     margin: 30px 15px 10px; /* Combine margin properties for clarity */

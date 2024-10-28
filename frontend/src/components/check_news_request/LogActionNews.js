@@ -160,70 +160,72 @@ const LogActionNews = () => {
 
     return (
         <div className="form-container">
-            <h2>Check Actioner Of Data</h2>
-            <h className='advice-red'>
-                <FontAwesomeIcon icon={faTriangleExclamation} /> 
-                You can adjust the table width by dragging the resize handle at the top of the table header.
-            </h>
-            {/* Search Inputs */}
-            <div className="search-container">
-                <select
-                    value={searchTerm.actionName}
-                    onChange={(e) => setSearchTerm({ ...searchTerm, actionName: e.target.value })}
-                >
-                    <option value="" disabled>Select Action Name</option>
-                    <option value="create">create</option>
-                    <option value="update">update</option>
-                    <option value="delete">delete</option>
-                    {/* Add more options as needed */}
-                </select>
-                
-                <input
-                    type="text"
-                    placeholder="Search by News ID"
-                    value={searchTerm.newsId}
-                    onChange={(e) => setSearchTerm({ ...searchTerm, newsId: e.target.value })}
-                />
-                
-                <input
-                    type="text"
-                    placeholder="Search by Header"
-                    value={searchTerm.header}
-                    onChange={(e) => setSearchTerm({ ...searchTerm, header: e.target.value })}
-                />
-                <button className='Search' onClick={handleSearch}>Search</button>
-                <button className='resetSearch' onClick={handleResetSearch}>Reset Search</button> {/* Reset Search Button */}
+            <div className="flex-header">
+                <h2>Check Actioner Of Data</h2>
+                <h className='advice-red'>
+                    <FontAwesomeIcon icon={faTriangleExclamation} /> 
+                    You can adjust the table width by dragging the resize handle at the top of the table header.
+                </h>
+                {/* Search Inputs */}
+                <div className="searchtable-container">
+                    <select
+                        value={searchTerm.actionName}
+                        onChange={(e) => setSearchTerm({ ...searchTerm, actionName: e.target.value })}
+                    >
+                        <option value="" disabled>Select Action Name</option>
+                        <option value="create">create</option>
+                        <option value="update">update</option>
+                        <option value="delete">delete</option>
+                        {/* Add more options as needed */}
+                    </select>
+                    
+                    <input
+                        type="text"
+                        placeholder="Search by News ID"
+                        value={searchTerm.newsId}
+                        onChange={(e) => setSearchTerm({ ...searchTerm, newsId: e.target.value })}
+                    />
+                    
+                    <input
+                        type="text"
+                        placeholder="Search by Header"
+                        value={searchTerm.header}
+                        onChange={(e) => setSearchTerm({ ...searchTerm, header: e.target.value })}
+                    />
+                    <button className='Search' onClick={handleSearch}>Search</button>
+                    <button className='resetSearch' onClick={handleResetSearch}>Reset Search</button> {/* Reset Search Button */}
+                </div>
             </div>
-
 
             <div className="news-table">
                 {filteredNews.length > 0 ? (
                     <table className="lognews-table">
                         <thead>
                             <tr>
-                                <th style={{ width: columnWidths.news_id || 100 }}>News ID</th>
-                                <th style={{ width: columnWidths.action_name || 100 }} onMouseDown={(e) => handleMouseDown(e, 'action_name')}>
+                                <th style={{ width: columnWidths.news_id }}>News ID</th>
+                                <th onMouseDown={(e) => handleMouseDown(e, 'action_name')}>
                                     Action Name
                                 </th>
-                                <th style={{ width: columnWidths.action_datetime || 150 }} onMouseDown={(e) => handleMouseDown(e, 'action_datetime')}>
+                                <th style={{ width: columnWidths.action_datetime  }} onMouseDown={(e) => handleMouseDown(e, 'action_datetime')}>
                                     Action DateTime
                                 </th>
-                                <th style={{ width: columnWidths.action_by || 150 }} onMouseDown={(e) => handleMouseDown(e, 'action_by')}>
+                                <th style={{ width: columnWidths.action_by  }} onMouseDown={(e) => handleMouseDown(e, 'action_by')}>
                                     Action By
                                 </th>
-                                <th style={{ width: columnWidths.action_role || 150 }} onMouseDown={(e) => handleMouseDown(e, 'action_role')}>
+                                <th style={{ width: columnWidths.action_role }} onMouseDown={(e) => handleMouseDown(e, 'action_role')}>
                                     Action Role
                                 </th>
-                                <th style={{ width: columnWidths.image || 100 }}>Image</th>
-                                <th style={{ width: columnWidths.to_image || 100 }}>To Image</th>
-                                <th style={{ width: columnWidths.header || 150 }} onMouseDown={(e) => handleMouseDown(e, 'header')}>Header</th>
-                                <th style={{ width: columnWidths.to_header || 150 }} onMouseDown={(e) => handleMouseDown(e, 'to_header')}>To Header</th>
-                                <th style={{ width: columnWidths.detail || 150 }} onMouseDown={(e) => handleMouseDown(e, 'detail')}>Detail</th>
-                                <th style={{ width: columnWidths.to_detail || 150 }} onMouseDown={(e) => handleMouseDown(e, 'to_detail')}>To Detail</th>
-                                <th style={{ width: columnWidths.link || 100 }} onMouseDown={(e) => handleMouseDown(e, 'link')}>Link</th>
-                                <th style={{ width: columnWidths.to_link || 100 }} onMouseDown={(e) => handleMouseDown(e, 'to_link')}>To Link</th>
+                                <th style={{ width: columnWidths.image  }}>Image</th>
+                                <th style={{ width: columnWidths.to_image  }}>To Image</th>
+                                <th style={{ width: columnWidths.header }} onMouseDown={(e) => handleMouseDown(e, 'header')}>Header</th>
+                                <th style={{ width: columnWidths.to_header  }} onMouseDown={(e) => handleMouseDown(e, 'to_header')}>To Header</th>
+                                <th style={{ width: columnWidths.detail  }} onMouseDown={(e) => handleMouseDown(e, 'detail')}>Detail</th>
+                                <th style={{ width: columnWidths.to_detail }} onMouseDown={(e) => handleMouseDown(e, 'to_detail')}>To Detail</th>
+                                <th style={{ width: columnWidths.link }} onMouseDown={(e) => handleMouseDown(e, 'link')}>Link</th>
+                                <th style={{ width: columnWidths.to_link  }} onMouseDown={(e) => handleMouseDown(e, 'to_link')}>To Link</th>
                             </tr>
                         </thead>
+                        
                         <tbody>
                             {filteredNews.map(news => (
                                 <tr key={news.id}>
@@ -250,8 +252,8 @@ const LogActionNews = () => {
                                         )}
                                     </td>
 
-                                    <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`} >{formatDateTime(news.action_datetime)}</td>
-                                    <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`} >
+                                    <td  style={{ width: columnWidths.action_datetime  }} onMouseDown={(e) => handleMouseDown(e, 'action_datetime')} className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`} >{formatDateTime(news.action_datetime)}</td>
+                                    <td style={{ width: columnWidths.action_by  }} onMouseDown={(e) => handleMouseDown(e, 'action_by')} className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`} >
                                         {userDetails[news.user_id] ? (
                                             <div className="profiletable-container">
                                                 <img
@@ -285,12 +287,12 @@ const LogActionNews = () => {
                                     
                                     
                                     
-                                    <td  className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.header}</td>
-                                    <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.to_header}</td>
-                                    <td  className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.detail}</td>
-                                    <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.to_detail}</td>
-                                    <td  className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.link}</td>
-                                    <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.to_link}</td>
+                                    <td style={{ width: columnWidths.header }} onMouseDown={(e) => handleMouseDown(e, 'header')} className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.header}</td>
+                                    <td style={{ width: columnWidths.to_header }} onMouseDown={(e) => handleMouseDown(e, 'to_header')} className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.to_header}</td>
+                                    <td style={{ width: columnWidths.detail }} onMouseDown={(e) => handleMouseDown(e, 'detail')} className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.detail}</td>
+                                    <td style={{ width: columnWidths.to_detail }} onMouseDown={(e) => handleMouseDown(e, 'to_detail')} className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.to_detail}</td>
+                                    <td style={{ width: columnWidths.link }} onMouseDown={(e) => handleMouseDown(e, 'link')} className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.link}</td>
+                                    <td style={{ width: columnWidths.to_link }} onMouseDown={(e) => handleMouseDown(e, 'to_link')} className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>{news.to_link}</td>
                                 </tr>
                             ))}
                         </tbody>

@@ -47,6 +47,15 @@ input, select, textarea {
     border-right: 6px solid #28B78D;
 
 }
+select  {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  
+
+}
   
 textarea {
     height: 100px; /* Height for the textarea */
@@ -86,10 +95,10 @@ button:hover {
 .intable_box_table {
     padding: 5px;
     
-    background-color: #ededed; /* Light background color */
+    background-color:white; /* Light background color */
     font-size: 14px;
     color: #333; /* Text color */
-    font-weight: bold;
+   
 }
 
 .deleted {
@@ -99,6 +108,9 @@ button:hover {
     padding: 5px; /* Space inside cells */
     text-align: left; /* Align text to the left */
     border: 1px solid #ddd; /* Light gray border */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
   }
   
   .news-profile-table th {
@@ -106,6 +118,7 @@ button:hover {
     background-color: #28B78D; /* Green background for the header */
     color: white; /* White text color */
     top: 0; /* Keeps the header at the top */
+    
   }
 
 .intable_box_table td {
@@ -220,3 +233,20 @@ button:hover {
 .cancel-btn:hover {
     background-color: #e53935; /* สีพื้นหลังเมื่อชี้ */
 }
+
+
+
+
+
+.fullpage {
+    width: 100%;
+    margin-top: 15px;
+    
+    background-color:#f0f0f0;
+    box-shadow: 0 4px 8px rgba(0, 0, 1, 0.1);
+  }
+  .flex-row {
+    width: 100%;
+    margin-top: 15px;
+
+  }

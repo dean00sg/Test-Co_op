@@ -68,34 +68,29 @@
     width: 100%;
     /* border-collapse: collapse; */
     margin-top: 20px;
-    
+
   }
-  
+
   .table_status_news th, .table_status_newse td {
     padding: 5px; /* Space inside cells */
     text-align: left; /* Align text to the left */
     border: 1px solid #ddd; /* Light gray border */
   }
-  
+
   .table_status_news th {
     background-color: #f342c1;; /* Green background for the header */
     color: white; /* White text color */
     top: 0; /* Keeps the header at the top */
-    
+
   }
-  
+
   tr:hover {
     background-color: #f1f1f1; /* Light gray background on row hover */
   }
-  
 
 
-  .intable_box {
-    padding: 5px;
-    font-size: 14px;
-    color: #333; /* Text color */
-    font-weight: bold;
-}
+
+
 
 .deleted {
     background-color: #ffcccc; /* Light red background for deleted news */
@@ -107,25 +102,32 @@
     background-color: #d1ffcc; /* Light red background for deleted news */
 }
 
-  
-  
+
+
   .intable_box td {
-    
+
     font-size: 14px;
     color: #333; /* สีข้อความ */
     font-weight: bold;
   }
+  .intable_box {
+    padding: 5px;
+    color: #333; /* Text color */
+    font-size: 14px;
+}
 
 
 
 
 
 
-  .lognews-table {
-    width: 100%; /* Width of the table */
+.lognews-table {
+    cursor: ew-resize;
+    width: 100%; 
     table-layout: fixed; /* Use fixed layout for consistent column widths */
     margin-top: 20px; /* Space above the table */
     overflow: hidden; /* Prevent overflow */
+    background-color: white;
 }
 
 .lognews-table th,
@@ -139,10 +141,18 @@
 }
 
 .lognews-table th {
-    background-color: #42cdf3; /* Header background color */
-    color: white; /* White text color */
-    top: 0; /* Keeps the header at the top */
+    color: white;
+    position: sticky; /* ทำให้หัวข้ออยู่ที่เดิม */
+    top: 0; /* ติดอยู่ที่ด้านบน */
+    background-color: rgb(21, 131, 209); /* สีพื้นหลังของหัวข้อ */
+    z-index: 1; /* ให้แน่ใจว่าหัวข้ออยู่เหนือเนื้อหา */
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #ccc; /* เส้นขอบด้านล่าง */
 }
+
+
+
 
 
 
@@ -193,18 +203,19 @@
       font-size: 14px; /* Smaller font size for smaller screens */
     }
   }
-  
-  
+
+
 
 
   .table-switch {
-    background-color: #389bcd;
+    background-color:rgb(107, 165, 206);
     padding: 3px;
     display: flex;
     margin-bottom: 10px;
     justify-content: flex-start; /* Align buttons to the start */
     align-items: center; /* Center align vertically */
-    
+
+
 }
 
 .table-switch button {
@@ -229,22 +240,13 @@
 }
 
 
-
-
-
-
-
 .form-fixcard {
-    height: 500px; /* Fixed height for the card */
+    height: 600px; /* Fixed height for the card */
     overflow-y: auto; /* Allow vertical scrolling */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
-    margin: 20px; /* Space around the card */
-    display: flex; /* Use flexbox for layout */
-    flex-direction: column; /* Stack children vertically */
+    /* display: flex;  */
+    
     justify-content: space-between; /* Space between children */
-    padding: 10px; /* Padding inside the card */
     border: 1px solid #ddd;
-    border-radius: 10px;
 }
 
 
@@ -265,13 +267,7 @@
 
 
 
-.lognews-table th {
-    background-color: #d9534f;
-    position: sticky;
-    top: 0; /* This property keeps the header at the top */
-    z-index: 1; /* Ensures the header stays above other content */
-    cursor: ew-resize;
-}
+
 
 
 
@@ -290,18 +286,18 @@
     display: flex;
     align-items: center;
   }
-  
+
   .advice-icon {
     color: yellow;
     margin-right: 8px;
   }
-  
+
 
 
 
 
 .card-p {
-  
+
     color: #333; /* สีของข้อความ */
     margin-bottom: 10px; /* ระยะห่างด้านล่าง */
     padding: 8px; /* ระยะห่างภายใน */
@@ -316,39 +312,52 @@
 
 
 
-.search-container {
+.searchtable-container {
     margin-top: 20px;
-    background-color: #faf8f8;
-    display: flex; /* ใช้ flexbox */
+    /* display: flex;  */
     align-items: center; /* จัดแนวในแนวเดียวกัน */
     gap: 10px; /* เพิ่มระยะห่างระหว่างช่องค้นหาและปุ่ม */
+    
 }
 
-.search-container input {
+.searchtable-container input {
     padding: 8px; /* เพิ่ม padding ให้ช่องค้นหา */
     border: 1px solid #ccc; /* ขอบช่องค้นหา */
     border-radius: 4px; /* มุมกลม */
+    margin: 10px;
 }
 
-.search-container button {
+.searchtable-container button {
     padding: 10px 15px; /* เพิ่ม padding ให้ปุ่ม */
     border: none; /* ไม่มีขอบ */
     border-radius: 4px; /* มุมกลม */
     cursor: pointer; /* แสดงว่าเป็นปุ่มคลิกได้ */
+    margin: 5px;
 }
 
-.search-container .Search {
+.searchtable-container .Search {
     background-color: rgb(0, 145, 255); /* สีพื้นหลังของปุ่ม Search */
     color: white; /* สีของตัวอักษรในปุ่ม */
 }
 
-.search-container .resetSearch {
+.searchtable-container .resetSearch {
     background-color: red; /* สีพื้นหลังของปุ่ม Reset */
     color: white; /* สีของตัวอักษรในปุ่ม */
 }
 
 
-.search-container button:hover {
+.searchtabe-container button:hover {
     background-color: #e3e13b; /* สีของปุ่มเมื่อเลื่อนเมาส์ไปทับ */
+}
+
+
+.flex-header {
+   
+    /* width: 100%; */
+    position: sticky;
+    top: 0; /* ระบุตำแหน่งจากด้านบน */
+    z-index: 1000; /* เพื่อให้แถบอยู่ด้านบนของเนื้อหาอื่น */
+    background-color: white;
+    padding: 10px;
 }
 

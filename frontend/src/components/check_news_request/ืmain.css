@@ -1,7 +1,7 @@
-.profiletable-container {
+/* .profiletable-container {
     display: inline-flex;
     align-items: center;
-    gap: 8px; /* ใช้ gap แทน margin */
+    gap: 8px; 
 }
 
 .profiletable-image {
@@ -10,4 +10,4 @@
     border-radius: 50%;
     border: 2px solid white;
     object-fit: cover;
-}
+} */
