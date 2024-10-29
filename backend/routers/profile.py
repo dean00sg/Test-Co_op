@@ -139,43 +139,43 @@ async def get_all_user_profiles(
 
     return user_responses
 
-@router.get("/profile_all_name", response_model=list[UserResponse])
-async def get_all_user_profiles(
-    current_user_email: str = Depends(get_current_user),
-    session: Session = Depends(get_session),
-    full_name: Optional[str] = Query(None)
-):
-    # Check if the current user has the developer role
-    current_user = session.query(UserProfile).filter(UserProfile.email == current_user_email).first()
+# @router.get("/profile_all_name", response_model=list[UserResponse])
+# async def get_all_user_profiles(
+#     current_user_email: str = Depends(get_current_user),
+#     session: Session = Depends(get_session),
+#     full_name: Optional[str] = Query(None)
+# ):
+#     # Check if the current user has the developer role
+#     current_user = session.query(UserProfile).filter(UserProfile.email == current_user_email).first()
   
-    # Fetch all user profiles or filter by full name
-    query = session.query(UserProfile)
-    if full_name:
-        full_name_pattern = f"%{full_name}%"
-        query = query.filter(
-            (UserProfile.first_name + " " + UserProfile.last_name).ilike(full_name_pattern)
-        )
+#     # Fetch all user profiles or filter by full name
+#     query = session.query(UserProfile)
+#     if full_name:
+#         full_name_pattern = f"%{full_name}%"
+#         query = query.filter(
+#             (UserProfile.first_name + " " + UserProfile.last_name).ilike(full_name_pattern)
+#         )
         
-    users = query.all()
+#     users = query.all()
 
-    if not users:
-        raise HTTPException(status_code=404, detail="No users found")
+#     if not users:
+#         raise HTTPException(status_code=404, detail="No users found")
 
-    # Prepare the response
-    user_responses = [
-        UserResponse(
-            status="User profile retrieved successfully",
-            user_id=user.user_id,
-            first_name=user.first_name,
-            last_name=user.last_name,
-            email=user.email,
-            contact_number=user.contact_number,
-            role=user.role
-        )
-        for user in users
-    ]
+#     # Prepare the response
+#     user_responses = [
+#         UserResponse(
+#             status="User profile retrieved successfully",
+#             user_id=user.user_id,
+#             first_name=user.first_name,
+#             last_name=user.last_name,
+#             email=user.email,
+#             contact_number=user.contact_number,
+#             role=user.role
+#         )
+#         for user in users
+#     ]
 
-    return user_responses
+#     return user_responses
 
 
 @router.put("/update_image", response_model=UserResponse)

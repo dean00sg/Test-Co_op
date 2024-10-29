@@ -11,7 +11,7 @@ const FormMeeting = () => {
     room: '',
     start_datetime_meet: '', 
     end_datetime_meet: '', 
-    to_user_id: [], // Changed to array for multiple selection
+    to_user_id: [], // Store selected user IDs
     remark: '', 
     file_insert: null, 
   });
@@ -44,8 +44,15 @@ const FormMeeting = () => {
     form.append('header', formData.header);
     form.append('description', formData.description); 
     form.append('room', formData.room);
-    form.append('start_datetime_meet', formData.start_datetime_meet); 
-    form.append('end_datetime_meet', formData.end_datetime_meet); 
+    
+    // Convert to 24-hour format before appending
+    const formatTo24Hour = (dateTime) => {
+      const date = new Date(dateTime);
+      return date.toISOString().slice(0, 19); // Format to 'YYYY-MM-DDTHH:mm'
+    };
+
+    form.append('start_datetime_meet', formatTo24Hour(formData.start_datetime_meet)); 
+    form.append('end_datetime_meet', formatTo24Hour(formData.end_datetime_meet)); 
     form.append('to_user_id', formData.to_user_id.join(',')); // Join user IDs as comma-separated string
     form.append('remark', formData.remark); 
     if (formData.file_insert) {
@@ -86,17 +93,8 @@ const FormMeeting = () => {
           }
         });
         const userOptions = response.data.map(user => ({
-          value: user.user_id,
-          label: (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img 
-                src={`${API_BASE_URL}/profile/image/${user.user_id}`}
-                alt="User Profile"
-                style={{ width: 30, height: 30, borderRadius: '50%', marginRight: 8,objectFit: 'cover' }}
-              />
-              {`${user.first_name} ${user.last_name}`}
-            </div>
-          )
+          value: user.user_id, // Store user_id for backend submission
+          label: `${user.first_name} ${user.last_name}` // Display name in dropdown
         }));
         setUsers(userOptions);
       } catch (error) {
@@ -138,31 +136,22 @@ const FormMeeting = () => {
           </div>
           <div className="form-row">
             <label>Members :</label>
-            <div style={{ flex: 1 , display: 'flex' }}>
-                <Select
-                    options={users}
-                    isMulti
-                    onChange={handleSelectChange}
-                    placeholder="Select members..."
-                    styles={{
-                    control: (base) => ({
-                        ...base,
-                        width: '100%', 
-                        minWidth: '800px',
-                        borderRadius: '5px',
-                        border: '1px solid #ccc',
-                        borderRight: '6px solid #28B78D',
-                    }),
-                    option: (provided) => ({
-                        ...provided,
-                        display: 'flex',
-                        alignItems: 'center',
-                    }),
-                    }}
-                />
-                </div>
-
-
+            <Select
+              options={users}
+              isMulti
+              onChange={handleSelectChange}
+              placeholder="Select members by name..."
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  width: '100%', 
+                  minWidth: '800px',
+                  borderRadius: '5px',
+                  border: '1px solid #ccc',
+                  borderRight: '6px solid #28B78D',
+                })
+              }}
+            />
           </div>
           <div className="form-row">
             <label>Remark :</label>
