@@ -40,6 +40,10 @@ const Checking = () => {
     menuItems.push({ label: 'Check News Request', icon: faFileCircleCheck, path: '/Home/CheckNewsRequest' });
     menuItems.push({ label: 'Check Profile User', icon: faUserCheck, path: '/Home/CheckInfoUser' });
   }
+  // if (user && user.role === 'developer'&& 'admin') {
+  //   menuItems.push({ label: 'Check News Request', icon: faFileCircleCheck, path: '/Home/CheckNewsRequest' });
+  //   menuItems.push({ label: 'Check Profile User', icon: faUserCheck, path: '/Home/CheckInfoUser' });
+  // }
 
 
 

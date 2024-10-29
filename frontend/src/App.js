@@ -7,6 +7,7 @@ import CheckLogin from './pages/CheckLogin';
 import AddNewsRequest from './pages/AddNews';
 import CheckNewsRequest from './pages/CheckNewsRequest';
 import './styles.css';
+import CreateMeeting from './pages/CreateMeeting';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
         <Route path="/Home/CheckLogin" element={<CheckLogin />} />
         <Route path="/Home/AddNewsRequest" element={<AddNewsRequest />} />
         <Route path="/Home/CheckNewsRequest" element={<CheckNewsRequest />} />
+
+        <Route path="/Home/CreateMeeting" element={<CreateMeeting />} />
       </Routes>
     </Router>
   );
