@@ -497,12 +497,52 @@
     transition: background 0.3s, color 0.3s;
   }
   
-  .file-link:hover {
-    background: #007bff;
+  /* .file-link:hover {
+    background: #67aef9;
     color: white;
   }
-  
+   */
   .files-container {
     margin-top: 10px;
+  }
+  
+
+
+
+
+
+  .attendees-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Space between each attendee */
+    max-width: 300px; /* Adjust the width as needed */
+    margin: 10px;
+    border-left: 6px solid #28B78D;
+    padding: 20px;
+  }
+  .toggle-view-button {
+    background-color: #37AEE2;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.card-header {
+    display: flex;
+    justify-content: space-between; /* จัดตำแหน่งให้ปุ่มอยู่ที่ซ้ายและขวา */
+    align-items: center; /* จัดแนวปุ่มในแนวตั้ง */
+  }
+  
+  .toggle-view-button {
+    margin-right: auto; /* ให้ปุ่ม toggle อยู่ซ้ายสุด */
+  }
+  
+  .delete-button {
+    margin-left: auto; /* ให้ปุ่ม delete อยู่ขวาสุด */
+    background-color: red;
+    border-radius: 5px;
   }
   

@@ -19,7 +19,7 @@ auth_handler = AuthHandler()
 async def get_user_profile_by_id(
     user_id: int,
     session: Session = Depends(get_session),
-    role: str = Depends(get_current_user_developer)
+    
 ):
     # Fetch the user profile from the database using the provided user_id
     user = session.query(UserProfile).filter(UserProfile.user_id == user_id).first()

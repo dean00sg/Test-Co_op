@@ -62,12 +62,23 @@ async def create_meeting(
         description=db_meeting.description,
         room=db_meeting.room,
         # file=db_meeting.file,
+        to_user_id=db_meeting.to_user_id,
         start_datetime_meet=db_meeting.start_datetime_meet,
         end_datetime_meet=db_meeting.end_datetime_meet,
         remark=db_meeting.remark
     )
     
     return response
+
+
+
+
+@router.get("/meetings/user_all", response_model=List[MeetingResponse])
+def get_meetings_by_user_id( db: Session = Depends(get_session)):
+    meetings = db.query(Meeting).all()
+    if not meetings:
+        raise HTTPException(status_code=404, detail="No meetings found for the given user_id")
+    return meetings
 
 
 # GET endpoint to retrieve meetings by a user_id in to_user_id list
@@ -92,3 +103,22 @@ async def get_meeting_file(meet_id: int, session: Session = Depends(get_session)
     
     # Set the appropriate content type (e.g., application/octet-stream for generic binary files)
     return StreamingResponse(file_stream, media_type='application/octet-stream', headers={"Content-Disposition": f"attachment; filename={meeting.header}.file"})
+
+
+
+@router.delete("/meetings/{meet_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_meeting(meet_id: int, session: Session = Depends(get_session), username: str = Depends(get_current_user)):
+    # Fetch the meeting by meet_id
+    meeting = session.query(Meeting).filter(Meeting.meet_id == meet_id).first()
+
+    if not meeting:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Meeting not found")
+    
+    # Check if the user is allowed to delete this meeting (optional)
+    user_profile = session.query(UserProfile).filter(UserProfile.email == username).first()
+    if meeting.create_byid != user_profile.user_id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You do not have permission to delete this meeting")
+    
+    # Delete the meeting
+    session.delete(meeting)
+    session.commit()

@@ -19,7 +19,20 @@ class Meeting(Base):
     start_datetime_meet =Column(DateTime, default=lambda: datetime.now().replace(microsecond=0)) 
     end_datetime_meet = Column(DateTime, default=lambda: datetime.now().replace(microsecond=0)) 
     to_user_id = Column(String, nullable=True)
-    remark = Column(String, nullable=False)
+    remark = Column(String, nullable=True)
+
+
+class UserCalendar(Base):
+    __tablename__ = 'UserCalendar'
+
+    celendar_id = Column(Integer, primary_key=True, index=True)
+    datetime_create = Column(DateTime, default=lambda: datetime.now().replace(microsecond=0)) 
+    create_byid = Column(Integer, nullable=False)
+    header =  Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    start_datetime_meet =Column(DateTime, default=lambda: datetime.now().replace(microsecond=0)) 
+    end_datetime_meet = Column(DateTime, default=lambda: datetime.now().replace(microsecond=0)) 
+
 
 
 class MeetingCreate(BaseModel):
@@ -38,6 +51,7 @@ class MeetingResponse(BaseModel):
     create_byid: int
     header: str
     description: str
+    to_user_id: str
     room: str
     start_datetime_meet: datetime
     end_datetime_meet: datetime

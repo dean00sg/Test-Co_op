@@ -33,7 +33,7 @@ const MenuGrid = () => {
 
   const menuItems = [
     { label: 'Add News On Welcome', icon: faNewspaper, path: '/Home/AddNewsRequest' }, 
-    { label: 'Approve News', icon: faCheckSquare, path: '/approve-news' },
+    { label: 'Create Meeting', icon: faUsers, path: '/Home/CreateMeeting' },
     { label: 'User Management', icon: faUserShield, path: '/user-management' },
     { label: 'Notifications', icon: faBell, path: '/notifications' },
     { label: 'Team', icon: faUsers, path: '/team' },
@@ -42,7 +42,7 @@ const MenuGrid = () => {
   ];
 
   if (user && user.role === 'developer'&& 'admin') {
-    menuItems.push({ label: 'Create Meeting', icon: faUsers, path: '/Home/CreateMeeting' });
+    // menuItems.push({ label: 'Create Meeting', icon: faUsers, path: '/Home/CreateMeeting' });
    
   }
 
