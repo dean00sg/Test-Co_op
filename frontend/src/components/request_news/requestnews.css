@@ -88,6 +88,8 @@ button:hover {
     margin-top: 20px;
     position: relative;
     border-spacing: 0px; /* ระยะห่างระหว่างเซลล์ */
+    width: 100%;
+    table-layout: fixed;
 
 }
 
@@ -109,6 +111,9 @@ button:hover {
     border: 1px solid #ddd; /* Light gray border */
     overflow: hidden;
     text-overflow: ellipsis;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
     
   }
   

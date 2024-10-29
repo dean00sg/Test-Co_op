@@ -3,9 +3,9 @@ import Header from '../components/header/Header-In'; // นำเข้า Heade
 import MenuGrid from '../components/requasting_main/Requesting';
 import Checking from '../components/requasting_main/Checking';
 import UserInfo from '../components/checkIn_fo_user/UserInfo';
-import NotificationPanel from '../components/NotificationPanel';
 import '../styles/styles_page/HomePage.css';
 import '../components/checkIn_fo_user/user_info.css';
+import Calendar from '../components/calendar/calendar';
 
 
 const HomePage = () => {
@@ -16,15 +16,15 @@ const HomePage = () => {
         <div className="leftHome-section">
           <h11>Requesting</h11>
           <MenuGrid />
+          <div className="form-card">
+            <h11>Checkinf Info</h11>
+            <Checking />
+        </div>
         </div>
         <div className="rightHome-section">
           <UserInfo isAlternative={false} /> {/* ตรวจสอบการส่ง isAlternative */}
-          <NotificationPanel />
+          <Calendar/>
         </div>
-      </div>
-      <div className="leftHome-section">
-        <h11>Checkinf Info</h11>
-        <Checking />
       </div>
     </>
   );

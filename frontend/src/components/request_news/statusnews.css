@@ -135,15 +135,16 @@
     padding: 5px; /* Space inside cells */
     text-align: left; /* Align text to the left */
     border: 1px solid #ddd; /* Light gray border */
-    overflow: hidden; /* Hide overflow */
-    text-overflow: ellipsis; /* Show ellipsis for overflow text */
-    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
 }
 
 .lognews-table th {
     color: white;
-    position: sticky; /* ทำให้หัวข้ออยู่ที่เดิม */
-    top: 0; /* ติดอยู่ที่ด้านบน */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     background-color: rgb(21, 131, 209); /* สีพื้นหลังของหัวข้อ */
     z-index: 1; /* ให้แน่ใจว่าหัวข้ออยู่เหนือเนื้อหา */
     padding: 10px;
@@ -341,7 +342,7 @@
 }
 
 .searchtable-container .resetSearch {
-    background-color: red; /* สีพื้นหลังของปุ่ม Reset */
+    background-color: rgb(213, 34, 6); /* สีพื้นหลังของปุ่ม Reset */
     color: white; /* สีของตัวอักษรในปุ่ม */
 }
 
@@ -361,3 +362,147 @@
     padding: 10px;
 }
 
+
+
+
+
+
+/* Main calendar container */
+.react-calendar {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
+    width: 100%;
+  }
+  .react-calendar__tile--active {
+    background: #006edc;
+    color: white;
+}
+  
+  /* Header styles */
+  .react-calendar__navigation {
+    background-color: #4a90e2; /* Header background color */
+    color: white; /* Header text color */
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .react-calendar__navigation button {
+    color: white;
+    font-weight: bold;
+  }
+  
+  .react-calendar__navigation button:disabled {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  /* Month view styles */
+  .react-calendar__month-view__days {
+    background-color: white; /* Background color for days */
+  }
+  
+  /* Tile styles */
+  .react-calendar__tile {
+    color: #000;
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  
+  /* Tile hover effect */
+  .react-calendar__tile:hover {
+    background-color: #e1f5fe; /* Light blue background on hover */
+    transform: scale(1.05); /* Slightly enlarge tile on hover */
+  }
+  
+  /* Styles for days that are marked with events */
+  .react-calendar__tile.event-marker {
+    background-color: #ffccbc; /* Background color for event days */
+    border-radius: 50%; /* Circular marker */
+  }
+  
+  /* Event marker style */
+  .event-marker {
+    color: #d32f2f; /* Event marker color */
+    font-weight: bold;
+    font-size: 1.5em; /* Adjust size as needed */
+  }
+  
+  /* Today’s date highlight */
+  .react-calendar__tile--now {
+    border: 2px solid #ff9800; /* Border for today's date */
+    border-radius: 4px; /* Rounded corners for today's tile */
+  }
+  
+  /* Other style adjustments */
+  .react-calendar__month-view__weekdays {
+    background-color: #f7f7f7; /* Light background for weekdays */
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .react-calendar__month-view__weekdays__weekday {
+    padding: 10px 0; /* Padding for weekdays */
+  }
+
+
+  .event-item {
+    border-bottom: 1px solid #eaeaea;
+   
+  }
+  .event-date {
+    font-size: 14px; /* Slightly smaller font size for the date */
+    color: white; /* Darker grey for the date */
+    margin-bottom: 8px; /* Space below the date */
+    background-color: #4a90e2;
+    padding: 10px;
+    border-radius: 3px;
+}
+  
+  .event-item:last-child {
+    border-bottom: none;
+  }
+  
+  .event-item h3 {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  
+  .event-item p {
+    margin: 5px 0;
+  }
+
+
+
+  .file-list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .file-item {
+    margin-right: 15px;
+    margin-bottom: 10px;
+  }
+  
+  .file-link {
+    text-decoration: none;
+    color: #007bff;
+    background: #e7f1ff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  .file-link:hover {
+    background: #007bff;
+    color: white;
+  }
+  
+  .files-container {
+    margin-top: 10px;
+  }
+  

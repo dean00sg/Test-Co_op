@@ -22,6 +22,7 @@ const NewsApprove = ({ currentTable }) => {
     const [successMessage, setSuccessMessage] = useState(null);
     const [images, setImages] = useState({});
     const [searchTerm, setSearchTerm] = useState({ newsId: '', header: '', status_approve: '' });
+    const [columnWidths, setColumnWidths] = useState({ datetime: 100 }); // Initialize column widths
     const token = localStorage.getItem('token');
 
     const handleChange = (e) => {
@@ -90,6 +91,25 @@ const NewsApprove = ({ currentTable }) => {
         }
     };
 
+    const handleMouseDown = (e, columnKey) => {
+        e.preventDefault();
+        const startX = e.clientX;
+        const startWidth = columnWidths[columnKey] || 100; // Default width
+
+        const handleMouseMove = (moveEvent) => {
+            const newWidth = Math.max(50, startWidth + moveEvent.clientX - startX);
+            setColumnWidths((prevWidths) => ({ ...prevWidths, [columnKey]: newWidth }));
+        };
+
+        const handleMouseUp = () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+    };
+
     const handleSearch = () => {
         const { newsId, header, status_approve } = searchTerm;
         const filtered = newsList.filter(news =>
@@ -118,6 +138,19 @@ const NewsApprove = ({ currentTable }) => {
             });
         }
     }, [user, newsList]);
+
+    const formatDateTime = (dateTime) => {
+        if (!dateTime) return '';
+        const date = new Date(dateTime);
+        return date.toLocaleString('th-TH', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+    };
 
     return (
         <div className="form-container">
@@ -151,7 +184,7 @@ const NewsApprove = ({ currentTable }) => {
                             <option value="approve">Approve</option>
                             <option value="request">Request</option>
                         </select>
-                        
+
                         <button className='Search' onClick={handleSearch}>Search</button>
                         <button className='resetSearch' onClick={handleResetSearch}>Reset Search</button>
                     </div>
@@ -160,15 +193,15 @@ const NewsApprove = ({ currentTable }) => {
 
             <div className="news-table">
                 {currentTable === 'all' ? (
-                    <table className='news-profile-table'>
+                    <table className='lognews-table'>
                         <thead>
                             <tr>
                                 <th>News ID</th>
-                                <th>DateTime Request</th>
+                                <th style={{ width: columnWidths.datetime  }} onMouseDown={(e) => handleMouseDown(e, 'datetime')}>DateTime Request</th>
                                 <th>News Image</th>
-                                <th>Header</th>
-                                <th>Detail</th>
-                                <th>Link</th>
+                                <th style={{ width: columnWidths.header }} onMouseDown={(e) => handleMouseDown(e, 'header')}>Header</th>
+                                <th style={{ width: columnWidths.detail }} onMouseDown={(e) => handleMouseDown(e, 'detail')}>Detail</th>
+                                <th style={{ width: columnWidths.link }} onMouseDown={(e) => handleMouseDown(e, 'link')}>Link</th>
                                 <th>Status Show</th>
                                 <th>Action</th>
                             </tr>
@@ -177,17 +210,17 @@ const NewsApprove = ({ currentTable }) => {
                             {filteredNews.map((news) => (
                                 <tr key={news.news_id}>
                                     <td className='intable_box_table'>{news.news_id}</td>
-                                    <td className='intable_box_table'>{news.datetime}</td>
-                                    <td className='intable_box_table'>
+                                    <td style={{ width: columnWidths.action_datetime  }} onMouseDown={(e) => handleMouseDown(e, 'action_datetime')} className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`} >{formatDateTime(news.datetime)}</td>
+                                    <td  className='intable_box_table' >
                                         {images[news.news_id] ? (
                                             <img src={images[news.news_id]} alt={news.header} width="100" />
                                         ) : (
                                             'No image available'
                                         )}
                                     </td>
-                                    <td className='intable_box_table'>{news.header}</td>
-                                    <td className='intable_box_table'>{news.detail}</td>
-                                    <td className='intable_box_table'>{news.link}</td>
+                                    <td  style={{ width: columnWidths.header }} onMouseDown={(e) => handleMouseDown(e, 'header')} className='intable_box_table'>{news.header}</td>
+                                    <td  style={{ width: columnWidths.detail }} onMouseDown={(e) => handleMouseDown(e, 'detail')} className='intable_box_table'>{news.detail}</td>
+                                    <td  style={{ width: columnWidths.link}} onMouseDown={(e) => handleMouseDown(e, 'link')} className='intable_box_table'>{news.link}</td>
                                     <td className='intable_box_table'>
                                         {news.status_approve === 'approve' ? (
                                             <FontAwesomeIcon icon={faCheckCircle} className="faCheckCircle" />

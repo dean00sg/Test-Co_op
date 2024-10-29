@@ -110,6 +110,7 @@ const CheckInfoUser = () => {
           <UserInfo isAlternative={false} theme="theme-green" />
           <h11>Check Info User</h11> 
           <div className="rightfull-section">
+            <FindUser/> 
             <table className="user-profile-table">
               <thead>
                 <tr>
@@ -135,7 +136,7 @@ const CheckInfoUser = () => {
               </tbody>
             </table>
 
-            <FindUser/> 
+        
           </div>
         </div>
       </div>

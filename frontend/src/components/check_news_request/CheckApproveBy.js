@@ -11,6 +11,16 @@ const NewsApproveBy = ({ currentTable }) => {
     const [filteredNews, setFilteredNews] = useState([]);
     const [images, setImages] = useState({});
     const [searchTerm, setSearchTerm] = useState({ newsId: '', header: '' });
+    const [columnWidths, setColumnWidths] = useState({
+        news_id: 100,
+        header: 200,
+        status_approve: 150,
+        request_by: 150,
+        request_role: 150,
+        to_status_approve: 150,
+        approve_by: 150,
+        approve_role: 150,
+    });
     const token = localStorage.getItem('token');
 
     const fetchAllNews = async () => {
@@ -67,6 +77,26 @@ const NewsApproveBy = ({ currentTable }) => {
         }
     }, [newsList]);
 
+    const handleMouseDown = (e, columnKey) => {
+        e.preventDefault();
+        const startX = e.clientX;
+        const startWidth = columnWidths[columnKey] || 100; // Default width
+
+        const handleMouseMove = (moveEvent) => {
+            const newWidth = Math.max(50, startWidth + moveEvent.clientX - startX);
+            setColumnWidths((prevWidths) => ({ ...prevWidths, [columnKey]: newWidth }));
+        };
+
+        const handleMouseUp = () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+    };
+
+
     const formatDateTime = (dateTime) => {
         if (!dateTime) return '';
         const date = new Date(dateTime);
@@ -108,18 +138,18 @@ const NewsApproveBy = ({ currentTable }) => {
             </div>
 
             <div className="news-table">
-                <table className='news-profile-table'>
+                <table className='lognews-table'>
                     <thead>
                         <tr>
-                            <th>News ID</th>
-                            <th>News Image</th>
-                            <th>Header</th>
-                            <th>Status Approve</th>
-                            <th>Request By</th>
-                            <th>Request Role</th>
-                            <th>Status Approved</th>
-                            <th>Approved By</th>
-                            <th>Approved Role</th>
+                            <th >News ID</th>
+                            <th >News Image</th>
+                            <th style={{ width: columnWidths.header }} onMouseDown={(e) => handleMouseDown(e, 'header')} >Header</th>
+                            <th style={{ width: columnWidths.status_approve}} onMouseDown={(e) => handleMouseDown(e, 'status_approve')} >Status Approve</th>
+                            <th style={{ width: columnWidths.request_byid}} onMouseDown={(e) => handleMouseDown(e, 'request_byid')} >Request By</th>
+                            <th >Request Role</th>
+                            <th style={{ width: columnWidths.to_status_approve}} onMouseDown={(e) => handleMouseDown(e, 'to_status_approve')} >Status Approved</th>
+                            <th  style={{ width: columnWidths.approve_byid}} onMouseDown={(e) => handleMouseDown(e, 'approve_byid')} >Approved By</th>
+                            <th >Approved Role</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -133,8 +163,8 @@ const NewsApproveBy = ({ currentTable }) => {
                                         'No image available'
                                     )}
                                 </td>
-                                <td className='intable_box_table'>{news.header || ''}</td>
-                                <td className='intable_box_table'>
+                                <td style={{ width: columnWidths.header }} onMouseDown={(e) => handleMouseDown(e, 'header')} className='intable_box_table'>{news.header || ''}</td>
+                                <td style={{ width: columnWidths.status_approve}} onMouseDown={(e) => handleMouseDown(e, 'status_approve')} className='intable_box_table'>
                                     {news.status_approve === 'approve' ? (
                                         <>
                                             <FontAwesomeIcon icon={faCheckCircle} className="faCheckCircle" />
@@ -153,7 +183,7 @@ const NewsApproveBy = ({ currentTable }) => {
                                         </>
                                     ) : ''}
                                 </td>
-                                <td className='intable_box_table'>
+                                <td style={{ width: columnWidths.request_byid}} onMouseDown={(e) => handleMouseDown(e, 'request_byid')} className='intable_box_table'>
                                     {news.request_byid && news.request_byname ? (
                                         <div className="profiletable-container">
                                             <img
@@ -168,7 +198,7 @@ const NewsApproveBy = ({ currentTable }) => {
                                     )}
                                 </td>
                                 <td className='intable_box_table'>{news.request_byrole || ''}</td>
-                                <td className='intable_box_table'>
+                                <td style={{ width: columnWidths.to_status_approve}} onMouseDown={(e) => handleMouseDown(e, 'to_status_approve')}  className='intable_box_table'>
                                     {news.to_status_approve === 'approve' ? (
                                         <>
                                             <FontAwesomeIcon icon={faCheckCircle} className="faCheckCircle" />
@@ -187,7 +217,7 @@ const NewsApproveBy = ({ currentTable }) => {
                                         </>
                                     ) : ''}
                                 </td>
-                                <td className='intable_box_table'>
+                                <td style={{ width: columnWidths.approve_byid}} onMouseDown={(e) => handleMouseDown(e, 'approve_byid')} className='intable_box_table'>
                                     {news.approve_byid && news.approve_byname ? (
                                         <div className="profiletable-container">
                                             <img
