@@ -59,3 +59,14 @@ class MeetingResponse(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class UserCalendarResponse(BaseModel):
+
+    celendar_id :int
+    datetime_create :datetime
+    create_byid :int
+    header :str
+    description :str
+    start_datetime_meet :datetime
+    end_datetime_meet :datetime

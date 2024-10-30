@@ -373,8 +373,8 @@
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    
     width: 100%;
+    width: auto !important;
   }
   .react-calendar__tile--active {
     background: #006edc;
@@ -541,8 +541,13 @@
   }
   
   .delete-button {
-    margin-left: auto; /* ให้ปุ่ม delete อยู่ขวาสุด */
     background-color: red;
     border-radius: 5px;
+  }
+  .update-button {
+    margin-left: auto; /* ให้ปุ่ม delete อยู่ขวาสุด */
+    background-color: rgb(255, 183, 0);
+    border-radius: 5px;
+    margin-right: 10px;
   }
   

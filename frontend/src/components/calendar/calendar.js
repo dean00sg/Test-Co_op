@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsers, faCalendarAlt,faTrash  } from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faCalendarAlt,faTrash,faStickyNote,faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import UserCalendar from './ีusercalendar';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
@@ -17,6 +18,7 @@ const CalendarComponent = () => {
   const [userDetails, setUserDetails] = useState({});
   const [attendees, setAttendees] = useState({});
   const [showAttendees, setShowAttendees] = useState(false);
+  const [calendarEventsOnSelectedDate, setCalendarEventsOnSelectedDate] = useState([]); 
 
   useEffect(() => {
     fetchUserProfile();
@@ -46,29 +48,46 @@ const CalendarComponent = () => {
 
   const fetchUserEvents = async (userId) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/Meeting/meetings/user/${userId}`);
-      if (response.ok) {
-        const events = await response.json();
-        setUserEvents(events);
-        setLoading(false);
+      const events = [];
 
-        const userDetailsMap = {};
-        for (const event of events) {
-          const userDetail = await fetchUserById(event.create_byid);
-          if (userDetail) {
-            userDetailsMap[event.create_byid] = userDetail;
-          }
-          await fetchAttendeesForEvent(event.meet_id, event.to_user_id); // Fetch attendee details
-        }
-        setUserDetails(userDetailsMap);
-        filterEventsByDate(selectedDate);
-        await fetchFilesForEvents(events);
+      // Fetch meetings
+      const meetingsResponse = await fetch(`${API_BASE_URL}/Meeting/meetings/user/${userId}`);
+      if (meetingsResponse.ok) {
+        const meetings = await meetingsResponse.json();
+        const markedMeetings = meetings.map(event => ({ ...event, source: 'meetings' }));
+        events.push(...markedMeetings);
       } else {
-        setError('Failed to fetch events');
-        setLoading(false);
+        setError('');
       }
+
+      // Fetch user calendar events, if it exists
+      const calendarResponse = await fetch(`${API_BASE_URL}/UserCalendar/user/${userId}`);
+      if (calendarResponse.ok) {
+        const calendarEvents = await calendarResponse.json();
+        const markedCalendarEvents = calendarEvents.map(event => ({ ...event, source: 'calendar' }));
+        events.push(...markedCalendarEvents);
+      } else {
+        console.error('Failed to fetch calendar events, but continuing with meetings only.');
+      }
+
+      setUserEvents(events);
+      setLoading(false);
+
+      // Fetch user details and attendees for meetings only
+      const userDetailsMap = {};
+      for (const event of events.filter(event => event.source === 'meetings')) {
+        const userDetail = await fetchUserById(event.create_byid);
+        if (userDetail) {
+          userDetailsMap[event.create_byid] = userDetail;
+        }
+        await fetchAttendeesForEvent(event.meet_id, event.to_user_id);
+      }
+
+      setUserDetails(userDetailsMap);
+      filterEventsByDate(selectedDate);
+      await fetchFilesForEvents(events.filter(event => event.source === 'meetings'));
     } catch (err) {
-      setError('An error occurred while fetching events');
+      setError('');
       setLoading(false);
     }
   };
@@ -144,6 +163,7 @@ const CalendarComponent = () => {
     setSelectedDate(date);
     filterEventsByDate(date);
   };
+
   const deleteEvent = async (meetId) => {
     try {
       const token = localStorage.getItem('token');
@@ -164,11 +184,16 @@ const CalendarComponent = () => {
   };
 
   const filterEventsByDate = (date) => {
-    const filteredEvents = userEvents.filter((event) => {
+    const meetingsEvents = userEvents.filter((event) => {
       const eventDate = new Date(event.start_datetime_meet);
-      return eventDate.toDateString() === date.toDateString();
+      return event.source === 'meetings' && eventDate.toDateString() === date.toDateString();
     });
-    setEventsOnSelectedDate(filteredEvents);
+    const calendarEvents = userEvents.filter((event) => {
+      const eventDate = new Date(event.start_datetime_meet);
+      return event.source === 'calendar' && eventDate.toDateString() === date.toDateString();
+    });
+    setEventsOnSelectedDate(meetingsEvents);
+    setCalendarEventsOnSelectedDate(calendarEvents);
   };
 
   const tileContent = ({ date }) => {
@@ -205,7 +230,7 @@ const CalendarComponent = () => {
         value={selectedDate}
         tileContent={tileContent}
       />
-      {eventsOnSelectedDate.length > 0 && (
+      {eventsOnSelectedDate.length > 0 ? (
         <div className='form-card'>
           <div className="card-header">
             <button onClick={toggleView} className="toggle-view-button">
@@ -245,11 +270,11 @@ const CalendarComponent = () => {
                   <>
                     <p className="event-date">{formatDateTime(event.start_datetime_meet)}</p> 
                     <h3>{event.header}</h3>
-                    <p><strong>Description:</strong> {event.description}</p>
-                    <p><strong>Room:</strong> {event.room}</p>
-                    <p><strong>Start:</strong> {formatDateTime(event.start_datetime_meet)}</p>
-                    <p><strong>End:</strong> {formatDateTime(event.end_datetime_meet)}</p>
-                    <p><strong>Remark:</strong> {event.remark}</p>
+                    <p><strong>Description :</strong> {event.description}</p>
+                    <p><strong>Room :</strong> {event.room}</p>
+                    <p><strong>Start :</strong> {formatDateTime(event.start_datetime_meet)}</p>
+                    <p><strong>End :</strong> {formatDateTime(event.end_datetime_meet)}</p>
+                    <p><strong>Remark :</strong> {event.remark}</p>
                     {filesForEvents[event.meet_id] && (
                       <div className="files-container">
                         <h4>Files:</h4>
@@ -281,9 +306,41 @@ const CalendarComponent = () => {
             ))}
           </ul>
         </div>
+      ) : (
+        // Only render UserCalendar if there are no eventsOnSelectedDate
+        calendarEventsOnSelectedDate.length === 0 && <UserCalendar />
+      )}
+      {calendarEventsOnSelectedDate.length > 0 && (
+        <div className="form-card" style={{ backgroundColor: 'rgb(107, 165, 206)', color: 'white' }}>
+          <div className="card-header">
+           <h2 style={{ display: 'flex', alignItems: 'center', marginRight: '8px',color: 'white' }}>
+            <FontAwesomeIcon icon={faStickyNote} style={{ marginRight: '8px' }} />
+            User Note
+          </h2>
+            <button  className="update-button">
+              <FontAwesomeIcon icon={faPenToSquare } /> Update
+            </button>
+              <button className="delete-button" >
+                <FontAwesomeIcon icon={faTrash} /> Delete
+              </button>
+          </div>
+          <ul>
+            {calendarEventsOnSelectedDate.map((event) => (
+              <li key={event.meet_id} className="event-item">
+                {/* UserCalendar-specific event details */}
+                <p className="event-date" style={{ backgroundColor: 'white', color: '#006edc' }}>{formatDateTime(event.start_datetime_meet)}</p> 
+                  <h3>{event.header}</h3>
+                  <p><strong>Description :</strong> {event.description}</p>
+                  <p><strong>Start :</strong> {formatDateTime(event.start_datetime_meet)}</p>
+                  <p><strong>End :</strong> {formatDateTime(event.end_datetime_meet)}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );
+  
   
 };
 

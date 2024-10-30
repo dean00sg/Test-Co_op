@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import '../request_news/statusnews.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,7 +6,7 @@ import { faStickyNote } from '@fortawesome/free-solid-svg-icons';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
-const UserCalendar = ({ selectedEvent }) => {
+const UserCalendar = () => {
     const [formData, setFormData] = useState({
         header: '',
         description: '',
@@ -16,18 +16,6 @@ const UserCalendar = ({ selectedEvent }) => {
     const [responseMessage, setResponseMessage] = useState('');
     const [error, setError] = useState('');
     const token = localStorage.getItem('token');
-
-    // Populate formData if selectedEvent changes
-    useEffect(() => {
-        if (selectedEvent) {
-            setFormData({
-                header: selectedEvent.header,
-                description: selectedEvent.description,
-                start_datetime_meet: selectedEvent.start_datetime_meet,
-                end_datetime_meet: selectedEvent.end_datetime_meet,
-            });
-        }
-    }, [selectedEvent]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

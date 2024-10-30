@@ -5,6 +5,7 @@ from .developer import router as developer_router
 from .news import router as news_router
 from .slidetext_show import router as slidetext_router
 from .notifacation import router as meet_router
+from .usercalendar import router as usercalendar_router
 
 
 def init_router(app: FastAPI):
@@ -14,6 +15,7 @@ def init_router(app: FastAPI):
     app.include_router(news_router, prefix="/news")
     app.include_router(slidetext_router, prefix="/slideText")
     app.include_router(meet_router, prefix="/Meeting")
+    app.include_router(usercalendar_router, prefix="/UserCalendar")
 
 
 
