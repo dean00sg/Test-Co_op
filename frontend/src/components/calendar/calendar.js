@@ -18,7 +18,15 @@ const CalendarComponent = () => {
   const [userDetails, setUserDetails] = useState({});
   const [attendees, setAttendees] = useState({});
   const [showAttendees, setShowAttendees] = useState(false);
-  const [calendarEventsOnSelectedDate, setCalendarEventsOnSelectedDate] = useState([]); 
+  const [calendarEventsOnSelectedDate, setCalendarEventsOnSelectedDate] = useState([]);
+  
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    header: '',
+    description: '',
+    start_datetime_meet: '',
+    end_datetime_meet: ''
+  });
 
   useEffect(() => {
     fetchUserProfile();
@@ -221,6 +229,34 @@ const CalendarComponent = () => {
     setShowAttendees((prev) => !prev);
   };
 
+
+  const handleEditClick = (event) => {
+    setFormData({
+      header: event.header,
+      description: event.description,
+      start_datetime_meet: event.start_datetime_meet,
+      end_datetime_meet: event.end_datetime_meet,
+    });
+    setIsEditing(true);
+  };
+  // Function to handle form changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  // Function to handle Update form submission
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    // Implement the logic for updating the event here
+    setIsEditing(false);
+  };
+
+  // Function to handle Cancel button in the form
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+  };
+
   return (
     <div className="notification-panel">
       {loading && <p>Loading...</p>}
@@ -310,34 +346,93 @@ const CalendarComponent = () => {
         // Only render UserCalendar if there are no eventsOnSelectedDate
         calendarEventsOnSelectedDate.length === 0 && <UserCalendar />
       )}
-      {calendarEventsOnSelectedDate.length > 0 && (
-        <div className="form-card" style={{ backgroundColor: 'rgb(107, 165, 206)', color: 'white' }}>
-          <div className="card-header">
-           <h2 style={{ display: 'flex', alignItems: 'center', marginRight: '8px',color: 'white' }}>
-            <FontAwesomeIcon icon={faStickyNote} style={{ marginRight: '8px' }} />
-            User Note
-          </h2>
-            <button  className="update-button">
-              <FontAwesomeIcon icon={faPenToSquare } /> Update
-            </button>
-              <button className="delete-button" >
+     {calendarEventsOnSelectedDate.length > 0 && (
+        calendarEventsOnSelectedDate.map((event) => (
+          <div key={event.meet_id} className="form-card" style={{ backgroundColor: 'rgb(107, 165, 206)', color: 'white' }}>
+            <div className="card-header">
+              <h2 style={{ display: 'flex', alignItems: 'center', marginRight: '8px', color: 'white' }}>
+                <FontAwesomeIcon icon={faStickyNote} style={{ marginRight: '8px' }} />
+                User Note
+              </h2>
+              <button onClick={() => handleEditClick(event)} className="update-button">
+                <FontAwesomeIcon icon={faPenToSquare} /> Update
+              </button>
+              <button className="delete-button" onClick={() => deleteEvent(event.meet_id)}>
                 <FontAwesomeIcon icon={faTrash} /> Delete
               </button>
-          </div>
-          <ul>
-            {calendarEventsOnSelectedDate.map((event) => (
-              <li key={event.meet_id} className="event-item">
-                {/* UserCalendar-specific event details */}
-                <p className="event-date" style={{ backgroundColor: 'white', color: '#006edc' }}>{formatDateTime(event.start_datetime_meet)}</p> 
+            </div>
+
+            {!isEditing ? (
+              <ul>
+                <li key={event.meet_id} className="event-item">
+                  <p className="event-date" style={{ backgroundColor: 'white', color: '#006edc' }}>
+                    {formatDateTime(event.start_datetime_meet)}
+                  </p>
                   <h3>{event.header}</h3>
                   <p><strong>Description :</strong> {event.description}</p>
                   <p><strong>Start :</strong> {formatDateTime(event.start_datetime_meet)}</p>
                   <p><strong>End :</strong> {formatDateTime(event.end_datetime_meet)}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+                </li>
+              </ul>
+            ) : (
+              <div className="form-card" style={{ color: '#006edc' }}>
+                <h2>
+                  <FontAwesomeIcon icon={faStickyNote} style={{ marginRight: '8px' }} />
+                  Note
+                </h2>
+                <form onSubmit={handleUpdate} className="news-form">
+                  <div className="form-row">
+                    <label>Header:</label>
+                    <input
+                      type="text"
+                      name="header"
+                      onChange={handleChange}
+                      value={formData.header}
+                      required
+                    />
+                  </div>
+                  <div className="formdetail-row">
+                    <label>Description:</label>
+                    <textarea
+                      name="description"
+                      onChange={handleChange}
+                      value={formData.description}
+                      placeholder="Enter details here..."
+                      required
+                    />
+                  </div>
+                  <div className="form-row">
+                    <label>Start Date/Time:</label>
+                    <input
+                      type="datetime-local"
+                      name="start_datetime_meet"
+                      onChange={handleChange}
+                      value={formData.start_datetime_meet}
+                      required
+                    />
+                  </div>
+                  <div className="form-row">
+                    <label>End Date/Time:</label>
+                    <input
+                      type="datetime-local"
+                      name="end_datetime_meet"
+                      onChange={handleChange}
+                      value={formData.end_datetime_meet}
+                      required
+                    />
+                  </div>
+                  <div className="form-actions">
+                    <button type="submit" className="update-button">Update</button>
+                    <button type="button" className="cancel-button" onClick={handleCancelEdit}>Cancel</button>
+                  </div>
+                </form>
+                {error && <p className="error-message">{error}</p>}
+              </div>
+            )}
+          </div>
+        ))
       )}
+
     </div>
   );
   
