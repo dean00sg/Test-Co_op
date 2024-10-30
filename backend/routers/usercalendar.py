@@ -82,3 +82,32 @@ def delete_meeting(celendar_id: int, session: Session = Depends(get_session), us
     # Delete the meeting
     session.delete(usercalendar)
     session.commit()
+
+
+
+@router.put("/meetings/{celendar_id}", response_model=UserCalendarResponse)
+async def update_meeting(
+    celendar_id: int,
+    header: str = Form(...),
+    description: str = Form(...),
+    start_datetime_meet: datetime = Form(...),
+    end_datetime_meet: datetime = Form(...),
+    session: Session = Depends(get_session),
+    username: str = Depends(get_current_user)
+):
+    usercalendar = session.query(UserCalendar).filter(UserCalendar.celendar_id == celendar_id).first()
+
+    if not usercalendar:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Meeting not found")
+
+    # Update meeting details
+    usercalendar.header = header
+    usercalendar.description = description
+    usercalendar.start_datetime_meet = start_datetime_meet
+    usercalendar.end_datetime_meet = end_datetime_meet
+    usercalendar.datetime_update = datetime.now().replace(microsecond=0)  # Assuming you want to track when the meeting was updated
+
+    session.commit()
+    session.refresh(usercalendar)
+
+    return usercalendar

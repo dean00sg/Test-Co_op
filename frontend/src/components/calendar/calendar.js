@@ -20,6 +20,7 @@ const CalendarComponent = () => {
   const [showAttendees, setShowAttendees] = useState(false);
   const [calendarEventsOnSelectedDate, setCalendarEventsOnSelectedDate] = useState([]);
   
+  const [events, setEvents] = useState(calendarEventsOnSelectedDate);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     header: '',
@@ -27,6 +28,7 @@ const CalendarComponent = () => {
     start_datetime_meet: '',
     end_datetime_meet: ''
   });
+
 
   useEffect(() => {
     fetchUserProfile();
@@ -191,6 +193,34 @@ const CalendarComponent = () => {
     }
   };
 
+
+  const deleteUserNoteEvent = async (celendarId) => {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_BASE_URL}/UserCalendar/meetings/${celendarId}`, {
+            headers: { 'Authorization': `Bearer ${token}` },
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            alert('Event deleted successfully!');
+            // อัปเดตสถานะโดยการกรองเหตุการณ์ที่ถูกลบออก
+            setEvents((prevEvents) => prevEvents.filter(event => event.celendar_id !== celendarId));
+
+            // ถ้าการ์ดกำลังอยู่ในโหมดแก้ไข ให้ปิดโหมดแก้ไข
+            setIsEditing(false);
+        } else {
+            alert('Failed to delete event.');
+        }
+    } catch (error) {
+        console.error('Error deleting event:', error);
+        setError('An error occurred while deleting the event.');
+    }
+  };
+
+  
+  
+
   const filterEventsByDate = (date) => {
     const meetingsEvents = userEvents.filter((event) => {
       const eventDate = new Date(event.start_datetime_meet);
@@ -230,6 +260,39 @@ const CalendarComponent = () => {
   };
 
 
+
+  const handleUpdate = async (celendarId) => {
+    try {
+        const token = localStorage.getItem('token');
+        const formDataObj = new FormData();
+        Object.keys(formData).forEach(key => {
+            formDataObj.append(key, formData[key]);
+        });
+
+        // ส่งข้อมูลการอัปเดตไปยัง API
+        const response = await axios.put(`${API_BASE_URL}/UserCalendar/meetings/${celendarId}`, formDataObj, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data', // สำหรับ FormData
+            },
+        });
+
+        // อัปเดตสถานะด้วยข้อมูลใหม่ที่ได้จากการตอบกลับ
+        setCalendarEventsOnSelectedDate(prevEvents =>
+            prevEvents.map(event => 
+                event.celendar_id === celendarId ? response.data : event
+            )
+        );
+
+        setIsEditing(false); // ออกจากโหมดการแก้ไข
+    } catch (error) {
+        console.error('Error updating event:', error);
+        setError('Failed to update the event.'); // แสดงข้อความผิดพลาดถ้าเกิดข้อผิดพลาด
+    }
+};
+
+  
+
   const handleEditClick = (event) => {
     setFormData({
       header: event.header,
@@ -245,12 +308,6 @@ const CalendarComponent = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Function to handle Update form submission
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    // Implement the logic for updating the event here
-    setIsEditing(false);
-  };
 
   // Function to handle Cancel button in the form
   const handleCancelEdit = () => {
@@ -346,25 +403,28 @@ const CalendarComponent = () => {
         // Only render UserCalendar if there are no eventsOnSelectedDate
         calendarEventsOnSelectedDate.length === 0 && <UserCalendar />
       )}
-     {calendarEventsOnSelectedDate.length > 0 && (
-        calendarEventsOnSelectedDate.map((event) => (
-          <div key={event.meet_id} className="form-card" style={{ backgroundColor: 'rgb(107, 165, 206)', color: 'white' }}>
+        {calendarEventsOnSelectedDate.map((event) => (
+          <div key={event.celendar_id} className="form-card" style={{ backgroundColor: 'rgb(107, 165, 206)', color: 'white' }}>
             <div className="card-header">
               <h2 style={{ display: 'flex', alignItems: 'center', marginRight: '8px', color: 'white' }}>
                 <FontAwesomeIcon icon={faStickyNote} style={{ marginRight: '8px' }} />
                 User Note
               </h2>
-              <button onClick={() => handleEditClick(event)} className="update-button">
-                <FontAwesomeIcon icon={faPenToSquare} /> Update
-              </button>
-              <button className="delete-button" onClick={() => deleteEvent(event.meet_id)}>
-                <FontAwesomeIcon icon={faTrash} /> Delete
-              </button>
+              {!isEditing && (
+                <>
+                  <button onClick={() => handleEditClick(event)} className="update-button">
+                    <FontAwesomeIcon icon={faPenToSquare} /> Update
+                  </button>
+                  <button className="delete-button" onClick={() => deleteUserNoteEvent(event.celendar_id)}>
+                    <FontAwesomeIcon icon={faTrash} /> Delete
+                  </button>
+                </>
+              )}
             </div>
 
             {!isEditing ? (
               <ul>
-                <li key={event.meet_id} className="event-item">
+                <li className="event-item">
                   <p className="event-date" style={{ backgroundColor: 'white', color: '#006edc' }}>
                     {formatDateTime(event.start_datetime_meet)}
                   </p>
@@ -378,9 +438,9 @@ const CalendarComponent = () => {
               <div className="form-card" style={{ color: '#006edc' }}>
                 <h2>
                   <FontAwesomeIcon icon={faStickyNote} style={{ marginRight: '8px' }} />
-                  Note
+                  Edit Note
                 </h2>
-                <form onSubmit={handleUpdate} className="news-form">
+                <form onSubmit={(e) => { e.preventDefault(); handleUpdate(event.celendar_id); }} className="news-form">
                   <div className="form-row">
                     <label>Header:</label>
                     <input
@@ -430,10 +490,9 @@ const CalendarComponent = () => {
               </div>
             )}
           </div>
-        ))
-      )}
+        ))}
 
-    </div>
+      </div>
   );
   
   
