@@ -10,6 +10,7 @@ const UserCalendar = () => {
     const [formData, setFormData] = useState({
         header: '',
         description: '',
+        color:'',
         start_datetime_meet: '',
         end_datetime_meet: ''
     });
@@ -70,6 +71,17 @@ const UserCalendar = () => {
                             required
                         />
                     </div>
+
+                    <div className="form-row">
+                        <label>Color:</label>
+                        <input
+                            type="color"
+                            name="color"
+                            onChange={handleChange}
+                            value={formData.color}
+                        />
+                    </div>
+
                     <div className="form-row">
                         <label>Start Date/Time:</label>
                         <input
@@ -91,7 +103,7 @@ const UserCalendar = () => {
                         />
                     </div>
                     <div className="button-group">
-                        <button type="submit">Submit</button>
+                        <button type="submit">Add</button>
                     </div>
                 </form>
                 {responseMessage && <p className="success-message">{responseMessage}</p>}

@@ -30,6 +30,7 @@ class UserCalendar(Base):
     create_byid = Column(Integer, nullable=False)
     header =  Column(String, nullable=False)
     description = Column(String, nullable=False)
+    color=Column(String, nullable=False)
     start_datetime_meet =Column(DateTime, default=lambda: datetime.now().replace(microsecond=0)) 
     end_datetime_meet = Column(DateTime, default=lambda: datetime.now().replace(microsecond=0)) 
 
@@ -68,5 +69,6 @@ class UserCalendarResponse(BaseModel):
     create_byid :int
     header :str
     description :str
+    color:str
     start_datetime_meet :datetime
     end_datetime_meet :datetime

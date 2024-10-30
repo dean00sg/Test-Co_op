@@ -19,6 +19,7 @@ from fastapi import Form
 async def create_meeting(
     header: str = Form(...),
     description: str = Form(...),
+    color : str = Form(...),
     start_datetime_meet: datetime = Form(...),
     end_datetime_meet: datetime = Form(...),
     session: Session = Depends(get_session),
@@ -35,6 +36,7 @@ async def create_meeting(
         datetime_create=datetime.now().replace(microsecond=0),
         header=header,
         description=description,
+        color=color,
         start_datetime_meet=start_datetime_meet,
         end_datetime_meet=end_datetime_meet,
         create_byid=user_profile.user_id
@@ -90,6 +92,7 @@ async def update_meeting(
     celendar_id: int,
     header: str = Form(...),
     description: str = Form(...),
+    color: str = Form(...),
     start_datetime_meet: datetime = Form(...),
     end_datetime_meet: datetime = Form(...),
     session: Session = Depends(get_session),
@@ -103,6 +106,7 @@ async def update_meeting(
     # Update meeting details
     usercalendar.header = header
     usercalendar.description = description
+    usercalendar.color = color
     usercalendar.start_datetime_meet = start_datetime_meet
     usercalendar.end_datetime_meet = end_datetime_meet
     usercalendar.datetime_update = datetime.now().replace(microsecond=0)  # Assuming you want to track when the meeting was updated

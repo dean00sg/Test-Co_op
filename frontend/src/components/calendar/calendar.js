@@ -25,6 +25,7 @@ const CalendarComponent = () => {
   const [formData, setFormData] = useState({
     header: '',
     description: '',
+    color:'',
     start_datetime_meet: '',
     end_datetime_meet: ''
   });
@@ -295,6 +296,7 @@ const CalendarComponent = () => {
     setFormData({
       header: event.header,
       description: event.description,
+      color:event.color,
       start_datetime_meet: event.start_datetime_meet,
       end_datetime_meet: event.end_datetime_meet,
     });
@@ -402,7 +404,7 @@ const CalendarComponent = () => {
         calendarEventsOnSelectedDate.length === 0 && <UserCalendar />
       )}
         {calendarEventsOnSelectedDate.map((event) => (
-          <div key={event.celendar_id} className="form-card" style={{ backgroundColor: 'rgb(107, 165, 206)', color: 'white' }}>
+          <div key={event.celendar_id} className="form-card" style={{ backgroundColor: event.color , color: 'white' }}>
             <div className="card-header">
               <h2 style={{ display: 'flex', alignItems: 'center', marginRight: '8px', color: 'white' }}>
                 <FontAwesomeIcon icon={faStickyNote} style={{ marginRight: '8px' }} />
@@ -438,7 +440,7 @@ const CalendarComponent = () => {
                   <FontAwesomeIcon icon={faStickyNote} style={{ marginRight: '8px' }} />
                   Edit Note
                 </h2>
-                <form onSubmit={(e) => { e.preventDefault(); handleUpdate(event.celendar_id); }} className="news-form">
+                <form onSubmit={(e) => { e.preventDefault(); handleUpdate(event.celendar_id); }} className="news-form" >
                   <div className="form-row">
                     <label>Header:</label>
                     <input
@@ -459,6 +461,18 @@ const CalendarComponent = () => {
                       required
                     />
                   </div>
+
+
+                  <div className="form-row">
+                        <label>Color:</label>
+                        <input
+                            type="color"
+                            name="color"
+                            onChange={handleChange}
+                            value={formData.color}
+                        />
+                    </div>
+                    
                   <div className="form-row">
                     <label>Start Date/Time:</label>
                     <input
