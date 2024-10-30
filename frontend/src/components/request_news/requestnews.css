@@ -33,7 +33,7 @@
 }
   
 label {
-    margin-right: auto; /* Align label to the left */
+    /* margin-right: auto; */
     font-weight: bold;
     min-width: 150px; /* Minimum width to prevent overlap */
 }

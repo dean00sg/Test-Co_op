@@ -29,7 +29,6 @@ const CalendarComponent = () => {
     end_datetime_meet: ''
   });
 
-
   useEffect(() => {
     fetchUserProfile();
   }, []);
@@ -193,31 +192,30 @@ const CalendarComponent = () => {
     }
   };
 
-
+  
   const deleteUserNoteEvent = async (celendarId) => {
     try {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${API_BASE_URL}/UserCalendar/meetings/${celendarId}`, {
-            headers: { 'Authorization': `Bearer ${token}` },
-            method: 'DELETE',
-        });
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/UserCalendar/meetings/${celendarId}`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+        method: 'DELETE',
+      });
 
-        if (response.ok) {
-            alert('Event deleted successfully!');
-            // อัปเดตสถานะโดยการกรองเหตุการณ์ที่ถูกลบออก
-            setEvents((prevEvents) => prevEvents.filter(event => event.celendar_id !== celendarId));
-
-            // ถ้าการ์ดกำลังอยู่ในโหมดแก้ไข ให้ปิดโหมดแก้ไข
-            setIsEditing(false);
-        } else {
-            alert('Failed to delete event.');
-        }
+      if (response.ok) {
+        alert('Event deleted successfully!');
+        // Update the state by filtering out the deleted event
+        setEvents((prevEvents) => prevEvents.filter(event => event.celendar_id !== celendarId));
+        // Close the edit view if it was open
+        setIsEditing(false);
+      } else {
+        alert('Failed to delete event.');
+      }
     } catch (error) {
-        console.error('Error deleting event:', error);
-        setError('An error occurred while deleting the event.');
+      console.error('Error deleting event:', error);
+      setError('An error occurred while deleting the event.');
     }
   };
-
+  
   
   
 
