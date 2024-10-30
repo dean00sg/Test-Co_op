@@ -78,7 +78,7 @@ const UserCalendar = () => {
                             type="color"
                             name="color"
                             onChange={handleChange}
-                            value={formData.color}
+                            value={formData.color || '#ADD8E6'} // Default to light blue if no color is set
                         />
                     </div>
 
@@ -99,7 +99,7 @@ const UserCalendar = () => {
                             name="end_datetime_meet"
                             onChange={handleChange}
                             value={formData.end_datetime_meet}
-                            required
+                           
                         />
                     </div>
                     <div className="button-group">

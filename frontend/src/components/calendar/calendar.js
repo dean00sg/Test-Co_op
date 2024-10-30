@@ -4,8 +4,11 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers, faCalendarAlt,faTrash,faStickyNote,faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import UserCalendar from './ีusercalendar';
+import { faMeeting } from '@fortawesome/free-solid-svg-icons';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
+
+
 
 const CalendarComponent = () => {
   const [userData, setUserData] = useState(null);
@@ -22,6 +25,7 @@ const CalendarComponent = () => {
   
   const [events, setEvents] = useState(calendarEventsOnSelectedDate);
   const [isEditing, setIsEditing] = useState(false);
+  const [isDateSelected, setIsDateSelected] = useState(false);
   const [formData, setFormData] = useState({
     header: '',
     description: '',
@@ -172,6 +176,7 @@ const CalendarComponent = () => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
     filterEventsByDate(date);
+    setIsDateSelected(true);
   };
 
   const deleteEvent = async (meetId) => {
@@ -233,13 +238,38 @@ const CalendarComponent = () => {
     setCalendarEventsOnSelectedDate(calendarEvents);
   };
 
+
+
   const tileContent = ({ date }) => {
     const dateString = date.toDateString();
     const eventsOnDate = userEvents.filter(event =>
       new Date(event.start_datetime_meet).toDateString() === dateString
     );
-    return eventsOnDate.length > 0 ? <span className="event-marker">•</span> : null;
+  
+    if (eventsOnDate.length > 0) {
+      const bgColor = eventsOnDate[0].color;
+  
+      return (
+        <div
+          style={{
+            backgroundColor: bgColor ? bgColor : 'transparent', // Set background only if color is defined
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          {bgColor ? null : <FontAwesomeIcon icon={faUsers} color='#37AEE2' />} {/* Display meeting icon if no color */}
+        </div>
+      );
+    }
+    return null;
   };
+  
+
+
+
 
   const formatDateTime = (dateTime) => {
     if (!dateTime) return '';
@@ -298,14 +328,15 @@ const CalendarComponent = () => {
       description: event.description,
       color:event.color,
       start_datetime_meet: event.start_datetime_meet,
-      end_datetime_meet: event.end_datetime_meet,
+      end_datetime_meet: event.end_datetime_meet || '',
     });
     setIsEditing(true);
   };
   // Function to handle form changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    const newValue = value === '' ? '' : value;
+    setFormData((prevData) => ({ ...prevData, [name]: newValue }));
   };
 
 
@@ -313,6 +344,10 @@ const CalendarComponent = () => {
   const handleCancelEdit = () => {
     setIsEditing(false);
   };
+
+
+
+
 
   return (
     <div className="notification-panel">
@@ -401,14 +436,14 @@ const CalendarComponent = () => {
         </div>
       ) : (
         // Only render UserCalendar if there are no eventsOnSelectedDate
-        calendarEventsOnSelectedDate.length === 0 && <UserCalendar />
+        isDateSelected && calendarEventsOnSelectedDate.length === 0 && <UserCalendar />
       )}
         {calendarEventsOnSelectedDate.map((event) => (
           <div key={event.celendar_id} className="form-card" style={{ backgroundColor: event.color , color: 'white' }}>
             <div className="card-header">
               <h2 style={{ display: 'flex', alignItems: 'center', marginRight: '8px', color: 'white' }}>
                 <FontAwesomeIcon icon={faStickyNote} style={{ marginRight: '8px' }} />
-                User Note
+                My Note
               </h2>
               {!isEditing && (
                 <>
@@ -472,7 +507,7 @@ const CalendarComponent = () => {
                             value={formData.color}
                         />
                     </div>
-                    
+
                   <div className="form-row">
                     <label>Start Date/Time:</label>
                     <input
@@ -486,13 +521,12 @@ const CalendarComponent = () => {
                   <div className="form-row">
                     <label>End Date/Time:</label>
                     <input
-                      type="datetime-local"
-                      name="end_datetime_meet"
-                      onChange={handleChange}
-                      value={formData.end_datetime_meet}
-                      required
+                        type="datetime-local"
+                        name="end_datetime_meet"
+                        onChange={handleChange}
+                        value={formData.end_datetime_meet || ''} // แสดงเป็น '' ถ้าเป็น null
                     />
-                  </div>
+                </div>
                   <div className="form-actions">
                     <button type="submit" className="update-button">Update</button>
                     <button type="button" className="cancel-button" onClick={handleCancelEdit}>Cancel</button>

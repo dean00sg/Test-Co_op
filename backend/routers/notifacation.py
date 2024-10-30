@@ -31,6 +31,8 @@ async def create_meeting(
     # อ่านข้อมูลจากไฟล์
     file_data = await file_insert.read() if file_insert else None
     user_profile = session.query(UserProfile).filter(UserProfile.email == username).first()
+    combined_to_user_id = f"{user_profile.user_id},{to_user_id}"
+
 
     if not user_profile:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
@@ -44,7 +46,7 @@ async def create_meeting(
         file=file_data,
         start_datetime_meet=start_datetime_meet,
         end_datetime_meet=end_datetime_meet,
-        to_user_id=to_user_id,
+        to_user_id=combined_to_user_id,
         remark=remark,
         create_byid=user_profile.user_id
     )

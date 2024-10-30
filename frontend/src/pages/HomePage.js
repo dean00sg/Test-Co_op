@@ -17,7 +17,7 @@ const HomePage = () => {
           <h11>Requesting</h11>
           <MenuGrid />
           <div className="form-card">
-            <h11>Checkinf Info</h11>
+            <h11>Checking Info</h11>
             <Checking />
         </div>
         </div>

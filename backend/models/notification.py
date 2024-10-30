@@ -30,9 +30,9 @@ class UserCalendar(Base):
     create_byid = Column(Integer, nullable=False)
     header =  Column(String, nullable=False)
     description = Column(String, nullable=False)
-    color=Column(String, nullable=False)
+    color=Column(String, nullable=True)
     start_datetime_meet =Column(DateTime, default=lambda: datetime.now().replace(microsecond=0)) 
-    end_datetime_meet = Column(DateTime, default=lambda: datetime.now().replace(microsecond=0)) 
+    end_datetime_meet = Column(DateTime,nullable=True ) 
 
 
 
@@ -71,4 +71,7 @@ class UserCalendarResponse(BaseModel):
     description :str
     color:str
     start_datetime_meet :datetime
-    end_datetime_meet :datetime
+    end_datetime_meet: Optional[datetime] = None 
+
+    class Config:
+        orm_mode = True
