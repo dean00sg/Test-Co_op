@@ -13,7 +13,6 @@ from deps import get_session
 router = APIRouter(tags=["Meeting"])
 
 
-from fastapi import Form
 
 @router.post("/meetings/", response_model=MeetingResponse)
 async def create_meeting(
