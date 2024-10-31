@@ -377,7 +377,6 @@
     width: auto !important;
   }
   .react-calendar__tile--active {
-    background: #006edc;
     color: white;
 }
   

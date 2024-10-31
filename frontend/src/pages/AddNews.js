@@ -4,7 +4,7 @@ import '../styles/styles_page/CheckInfoUser.css';
 import RequestNews from '../components/request_news/RequestNews';
 import UserInfo from '../components/checkIn_fo_user/UserInfo';
 import StatusNews from '../components/request_news/CheckStatusNews';
-import { NewsProvider } from '../components/request_news/NewsContext';
+import { NewsProvider } from '../components/request_news/NewsProvider';
 import LogNews from '../components/request_news/LogNews';
 
 

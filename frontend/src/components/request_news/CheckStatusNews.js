@@ -4,7 +4,7 @@ import '../request_news/styles/statusnews.css';
 import LogNews from './LogNews';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faHourglassHalf } from '@fortawesome/free-solid-svg-icons';
-import { useNews } from './NewsContext';
+import { useNews } from './NewsProvider';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNews } from './NewsContext';
+import { useNews } from './NewsProvider';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faFilePen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';

@@ -3,7 +3,7 @@ import axios from 'axios';
 import './styles/requestnews.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useNews } from './NewsContext';
+import { useNews } from './NewsProvider';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
