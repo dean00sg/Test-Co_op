@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faHourglassHalf, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
-import '../request_news/statusnews.css';
+import '../request_news/styles/statusnews.css';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
 

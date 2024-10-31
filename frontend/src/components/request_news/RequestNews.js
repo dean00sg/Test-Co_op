@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './requestnews.css';
+import './styles/requestnews.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { useNews } from './NewsContext';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
@@ -13,7 +14,6 @@ const RequestNews = () => {
     image_news: null,
     link: ''
   });
-  const [newsList, setNewsList] = useState([]);
   const [filteredNews, setFilteredNews] = useState([]);
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
@@ -21,6 +21,7 @@ const RequestNews = () => {
   const [images, setImages] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [editNewsId, setEditNewsId] = useState(null);
+  const { newsList, fetchAllNews } = useNews(); // Destructure newsList and fetchAllNews from context
   const token = localStorage.getItem('token');
 
   const handleChange = (e) => {
@@ -37,51 +38,29 @@ const RequestNews = () => {
     form.append('header', formData.header);
     form.append('detail', formData.detail);
     form.append('link', formData.link);
-    if (formData.image_news) {
-      form.append('image_news', formData.image_news);
-    }
+    if (formData.image_news) form.append('image_news', formData.image_news);
 
     try {
       if (isEditing) {
-        // Update news if editing
         await axios.put(`${API_BASE_URL}/news/news/${editNewsId}`, form, {
           headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data', // Use multipart/form-data for file uploads
+            'Content-Type': 'multipart/form-data',
           },
         });
-        setSuccessMessage('News updated successfully!');
         setIsEditing(false);
         setEditNewsId(null);
       } else {
-        // Create new news
         await axios.post(`${API_BASE_URL}/news/news`, form, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
         });
-        setSuccessMessage('News submitted successfully!');
       }
-      setError(null);
-      setFormData({ header: '', detail: '', image_news: null, link: '' });
-      fetchAllNews();
+      fetchAllNews(); // Refresh news list after submit
     } catch (error) {
-      setError(error.response?.data.detail || 'Failed to submit news. Please try again.');
-      setSuccessMessage(null);
-    }
-  };
-
-  const fetchAllNews = async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/news/news`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      setNewsList(response.data);
-    } catch (error) {
-      setError('Failed to fetch news.');
+      console.error('Error submitting news:', error);
     }
   };
 
@@ -152,7 +131,6 @@ const RequestNews = () => {
   };
 
   useEffect(() => {
-    fetchAllNews();
     fetchUserProfile();
   }, []);
 
@@ -253,8 +231,6 @@ const RequestNews = () => {
                                 onClick={() => handleDelete(news.news_id)} 
                             />
                         </div>
-                 
-
                     </td>
                   </tr>
                 ))}

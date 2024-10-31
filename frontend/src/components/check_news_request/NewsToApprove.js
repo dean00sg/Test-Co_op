@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../request_news/statusnews.css';
+import '../request_news/styles/statusnews.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faHourglassHalf, faTrashAlt, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import NewsApproveBy from './CheckApproveBy';

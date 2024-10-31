@@ -1,64 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNews } from './NewsContext';
 import axios from 'axios';
-import './statusnews.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilePen, faPenToSquare, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faFilePen, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
-
-const LogNews = () => {
-    const [formData, setFormData] = useState({
-        header: '',
-        detail: '',
-        image_news: null,
-        link: ''
-    });
-    const [newsList, setNewsList] = useState([]);
-    const [filteredNews, setFilteredNews] = useState([]);
-    const [user, setUser] = useState(null);
-    const [error, setError] = useState(null);
-    const [successMessage, setSuccessMessage] = useState(null);
+const LogNews = ({ onUpdate }) => {
+    const { logNewsList, user } = useNews();
     const [images, setImages] = useState({});
-    const [loading, setLoading] = useState(true);
+    const [filteredNews, setFilteredNews] = useState([]);
     const token = localStorage.getItem('token');
 
+    useEffect(() => {
+        if (user && logNewsList.length > 0) {
+            const userNews = logNewsList
+                .filter((news) => news.user_id === user.user_id)
+                .sort((a, b) => b.id - a.id) // Sort from highest to lowest id
+                .slice(0, 15); // Select the latest 15 entries
 
-    const fetchAllNews = async () => {
-        try {
-            const response = await axios.get(`${API_BASE_URL}/news/log_news`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            setNewsList(response.data);
-        } catch (error) {
-            console.error(error);
-            setError('Failed to fetch news.');
-        } finally {
-            setLoading(false);
-        }
-    };
+            setFilteredNews(userNews);
 
-    const fetchUserProfile = async () => {
-        try {
-            const response = await axios.get(`${API_BASE_URL}/profile/profile`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+            userNews.forEach((news) => {
+                fetchImageForNews(news.id);
             });
-            setUser(response.data);
-        } catch (error) {
-            console.error(error);
-            setError('Failed to fetch user profile.');
         }
-    };
+    }, [user, logNewsList]);
 
     const fetchImageForNews = async (id) => {
         try {
             const response = await axios.get(`${API_BASE_URL}/news/Log_tonews_image/{news_id}?log_id=${id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
                 responseType: 'blob',
             });
             const imageURL = URL.createObjectURL(response.data);
@@ -67,33 +38,6 @@ const LogNews = () => {
             console.error(`Failed to fetch image for news_id: ${id}`, error);
         }
     };
-
-    useEffect(() => {
-        fetchUserProfile();
-        fetchAllNews();
-    }, []);
-
-    useEffect(() => {
-        if (user && newsList.length > 0) {
-            const userNews = newsList.filter((news) => news.user_id === user.user_id);
-            const latestNews = userNews.slice(-15); // Get the latest 15 news
-            setFilteredNews(latestNews);
-            latestNews.forEach((news) => {
-                fetchImageForNews(news.id); // Use `news.id` instead of `news.news_id`
-            });
-        }
-    }, [user, newsList]);
-
-    useEffect(() => {
-        return () => {
-            // Cleanup to revoke object URLs (if applicable)
-            Object.values(images).forEach(url => URL.revokeObjectURL(url));
-        };
-    }, [images]);
-
-    if (loading) {
-        return <p>Loading...</p>;
-    }
 
     return (
         <div className="form-container">
@@ -110,7 +54,7 @@ const LogNews = () => {
                         </thead>
                         <tbody>
                             {filteredNews.map((news) => (
-                                <tr key={news.id}> {/* Use `news.id` instead of `news.news_id` */}
+                                <tr key={news.id}>
                                     <td className={`intable_box ${news.action_name === 'delete' ? 'deleted' : ''}`}>
                                         {news.action_name === 'update' ? (
                                             <FontAwesomeIcon icon={faPenToSquare} className="faPenToSquare" />
