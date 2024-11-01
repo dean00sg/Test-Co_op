@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import Header from '../components/header/Header-In';
+import React, { useState } from 'react';
+import Header from '../components/header/Header-In'; // Import Header
 import '../styles/styles_page/CheckInfoUser.css';
-import UserInfo from '../components/checkIn_fo_user/UserInfo';
-import 'react-calendar/dist/Calendar.css';
-import Calendar from '../components/calendar/calendar';
-import FormMeeting from '../components/calendar/form_meeting';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsers, faCalendarAlt,faTrash,faStickyNote,faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import CreateMeeting from '../components/booking_room.js/firstpage_meeting'; // Ensure proper path
+import AllBooking from '../components/booking_room.js/all_booking'; // Ensure proper path
 
-const API_BASE_URL = 'http://127.0.0.1:8000';
+const Meetingpage = () => {
+  const [currentTable, setCurrentTable] = useState('formmeeting'); // Initialize state for currentTable
 
-const CreateMeeting = () => {
-  
   return (
     <>
       <Header />
       <div className="app">
-        <div className="leftpage-section">
-          <Calendar/> {/* Use the renamed component here */}
-        </div>
-        <div className="rightpage-section">
-          <UserInfo />
-          <h>
-            {/* <FontAwesomeIcon icon={faUsers} style={{ marginRight: '8px' }} /> */}
-               Form Create Meeting
-          </h>
-          <FormMeeting />
+        <div className="fullpage">
+          <div className="table-switch">
+            <h2 className="pages">Pages:</h2> {/* Use h2 instead of h */}
+            <div>
+              <button onClick={() => setCurrentTable('formmeeting')}>Form Meeting</button>
+              <button onClick={() => setCurrentTable('booking')}>All News Page</button>
+            </div>
+          </div>
+          <div className="form-fixcard">
+            {currentTable === 'formmeeting' ? ( // Render CreateMeeting when currentTable is 'formmeeting'
+              <CreateMeeting />
+            ) : currentTable === 'booking' ? ( // Render AllBooking when currentTable is 'booking'
+              <AllBooking />
+            ) : null}
+          </div>
         </div>
       </div>
     </>
   );
 };
 
-export default CreateMeeting;
+export default Meetingpage;

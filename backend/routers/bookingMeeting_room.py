@@ -85,7 +85,10 @@ async def create_bookingroom(
     return response
 
 
-
+@router.get("/booking", response_model=List[BookingMeetingResponse])
+def get_all_booking(session: Session = Depends(get_session)):
+    booking_list = session.query(BookingRoomMeeting).all()
+    return booking_list
 
 
 @router.put("/member_confirm", response_model=BookingMeetingResponse)
